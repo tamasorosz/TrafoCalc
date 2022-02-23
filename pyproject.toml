@@ -40,8 +40,9 @@ authors = [
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "3.9"
 typer = "*"
+scipy = "^1.8.0"
 
 [tool.poetry.dev-dependencies]
 black = "*"
@@ -56,6 +57,9 @@ pylint = "*"
 pytest = "*"
 pytest-randomly = "*"
 typed-ast = "*"
+digital-twin-distiller = "*"
+artap="2020.8.28.1452"
+agrossuite ="^2020.6.25.3540"
 
 [tool.pylint.FORMAT]
 max-line-length = 127
