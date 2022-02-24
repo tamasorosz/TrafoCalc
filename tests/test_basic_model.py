@@ -1,12 +1,11 @@
 from unittest import TestCase
-from src.basic_model import create_rectangle, create_winding
-from agrossuite import agros
+from src.basic_model import Model
 
 
 class TestGeoCreation(TestCase):
 
     def test_rectangle(self):
-        geo = self.init_agros()
+        model = Model()
 
         x0 = 0
         y0 = 0
@@ -14,9 +13,12 @@ class TestGeoCreation(TestCase):
         height = 100  # mm
         boundary = {"magnetic": "A = 0"}
 
-        center = create_rectangle(geo, x0, y0, width, height, boundary)
+        center = model.create_rectangle(x0, y0, width, height, boundary)
 
         self.assertEqual(center, (50, 50))
 
     def test_create_windings(self):
-        self.init_agros()
+
+        model = Model()
+
+        model.create_winding(10,10,20,100,'lv',0.7, 3.0)

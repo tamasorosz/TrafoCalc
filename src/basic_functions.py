@@ -228,3 +228,34 @@ def calculate_turn_num(win_voltage, turn_voltage):
     """
 
     return round(win_voltage / turn_voltage * 1e3, 1)
+
+
+def homogenous_insulation_ff(ff):
+    """
+    If we assumes that the horizontal ff = vertical ff, the
+    function give back the insulation horizontal filling factor
+    """
+
+    return (1. - ff) ** 0.5
+
+
+def opt_win_eddy_loss(v_k, k):
+    """
+    This function approximates the optimal eddy loss in the assumed optimal winding system.
+    From the insulation, and winding width parameters.
+
+    Source:
+    Elektrotechnika, Újházy Géza, 1969/10-11,
+    Erőátviteli Transzformátorok tekercsrendszerének a méretezése
+
+    """
+
+    return v_k / (3. * v_k + 2. * k)
+
+
+def sum_winding_loss(dc_loss, eddy_loss):
+    """
+    This function give back the sum of the estimated eddy and dc loss in the
+    winding.
+    """
+    return dc_loss * (1. + eddy_loss)

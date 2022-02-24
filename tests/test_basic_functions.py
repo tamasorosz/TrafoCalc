@@ -1,7 +1,7 @@
 from unittest import TestCase
 from src.basic_functions import winding_mass, winding_dc_loss, core_loss_unit, core_mass, window_width, turn_voltage, \
     short_circuit_impedance, inner_winding_radius, outer_winding_radius, winding_power, calc_inner_width, \
-    calculate_turn_num
+    calculate_turn_num, homogenous_insulation_ff, opt_win_eddy_loss, sum_winding_loss
 
 
 class TestFunctions(TestCase):
@@ -129,3 +129,24 @@ class TestFunctions(TestCase):
         turn_voltage = 100.
 
         assert calculate_turn_num(win_voltage, turn_voltage) == 1000.
+
+    def test_homogenous_insulation_ff(self):
+        assert round(homogenous_insulation_ff(0.5), 3) == 0.707
+
+    def test_opt_win_eddy_loss(self):
+        ff = 0.5  # [-]
+        t = 37.  # [mm]
+
+        assert round(opt_win_eddy_loss(t * homogenous_insulation_ff(ff), t), 2) == 0.17
+
+    def test_sum_winding_loss(self):
+        # Karsai et al Nagytranszformátorok-Hu example page 86.
+        m = 3.
+        r_m = 437. / 2.  # [mm]
+        ff = 0.5  # [-]
+        h = 1202.  # [mm]
+        t = 37.  # [mm]
+        j = 3.02  # [A/mm2]
+
+        assert round(sum_winding_loss(winding_dc_loss(winding_mass(m, r_m, t, h, ff), j),
+                                      opt_win_eddy_loss(t * homogenous_insulation_ff(ff), t)), 3) == 21.077

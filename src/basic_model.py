@@ -68,7 +68,7 @@ class Model:
 
         return x0 + width / 2. * 1e3, y0 + height / 2. * 1e3  # gives back the center of the rectangle in mm-s
 
-    def create_winding(mag, geo, x0, y0, width, height, name, filling_f, j):
+    def create_winding(self, x0, y0, width, height, name, filling_f, j):
         """
         @param geo: geometry object
         @param x0: x coordinate of the bottom - left node
@@ -80,18 +80,18 @@ class Model:
         @param j: current density in A/mm2
         """
 
-        x_label, y_label = create_rectangle(geo, x0, y0, width, height)
+        x_label, y_label = self.create_rectangle(x0, y0, width, height)
         # print(x0, y0, width, height)
-        mag.add_material(name, {"magnetic_permeability": 1,
-                                "magnetic_conductivity": 57 * 1e6 * filling_f,
-                                "magnetic_remanence": 0,
-                                "magnetic_remanence_angle": 0,
-                                "magnetic_velocity_x": 0,
-                                "magnetic_velocity_y": 0,
-                                "magnetic_velocity_angular": 0,
-                                "magnetic_current_density_external_real": j * 1e6 * filling_f})  # j in A/m2
+        self.magnetic.add_material(name, {"magnetic_permeability": 1,
+                                          "magnetic_conductivity": 57 * 1e6 * filling_f,
+                                          "magnetic_remanence": 0,
+                                          "magnetic_remanence_angle": 0,
+                                          "magnetic_velocity_x": 0,
+                                          "magnetic_velocity_y": 0,
+                                          "magnetic_velocity_angular": 0,
+                                          "magnetic_current_density_external_real": j * 1e6 * filling_f})  # j in A/m2
 
         # creates a label for the material definition
-        geo.add_label(x_label, y_label, materials={"magnetic": "{0}".format(name)})
+        self.geo.add_label(x_label, y_label, materials={"magnetic": "{0}".format(name)})
 
         return
