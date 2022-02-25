@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src.basic_functions import winding_mass, winding_dc_loss, core_loss_unit, core_mass, window_width, turn_voltage, \
+from src.transformer_calculatoins import winding_mass, winding_dc_loss, core_loss_unit, core_mass, window_width, turn_voltage, \
     short_circuit_impedance, inner_winding_radius, outer_winding_radius, winding_power, calc_inner_width, \
     calculate_turn_num, homogenous_insulation_ff, opt_win_eddy_loss, sum_winding_loss
 

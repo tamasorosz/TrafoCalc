@@ -1,4 +1,3 @@
-from collections import namedtuple
 from scipy.constants import mu_0, pi
 
 """ This module contains the basic calculations for a two winding transformer design and optimization."""
@@ -13,20 +12,6 @@ C_WIN_MIN = 10.  # minimal width for the windings
 # constants
 RHO_CU = 0.0216  # 0.0216        # ohm * mm2 / m
 RHO_COPPER = 8960.0  # kg/m3
-# --------------------------------------------------------------------------------------------------------------------
-# Transformer design parameters
-# a namedtuple for storing independent parameters, which determines a two-winding design
-independent_variables = namedtuple('individual', ['r_c', 'b_c', 'j_in', 'j_ou', 'h_in', 'm_gap'])
-
-winding_params = {'inner_radius': 0, 'mean_radius': 0, 'outer_radius': 0, 'thickness': 0, 'height': 0, 'mass': 0,
-                  'dc_loss': 0, 'ac_loss': 0, 'current_density': 0}
-core_params = {'diameter': 0, 'core_loss': 0, 'turn_voltage': 0, 'core_mass': 0, 'window_height': 0}
-
-general_params = {'sci': 0, 'turn_voltage': 0, 'window_width': 0, 'ph_pow': 0, 'load_loss': 0, 'core_mass': 0,
-                  'feasible': False}
-
-# dictionary for storing the details of the calculated design
-design_parameters = {'general': general_params, 'core': core_params, 'lv': winding_params, 'hv': winding_params}
 
 
 def winding_mass(m, r_m, t, h, ff):
@@ -259,3 +244,14 @@ def sum_winding_loss(dc_loss, eddy_loss):
     winding.
     """
     return dc_loss * (1. + eddy_loss)
+
+
+def phase_current(sb, ub, con_fact):
+    """
+
+    :param sb: nominal power [MVA]
+    :param ub: line voltage
+    :param con_fact: connection factor --- 1 for delta --- sqrt(3) for star connection --- sqrt(2)/2. for zig-zag
+    :return:
+    """
+    return sb * 1e3 / ub / 3. ** 0.5 / con_fact

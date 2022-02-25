@@ -1,0 +1,32 @@
+{
+  "description": "\"6300 kVA Transformer from Karsai, Nagytranszformátorok book",
+  "nominal_power": 6300,
+  "frequency": 50,
+  "phase_number": 3,
+  "req_sci": 7.34,
+  "sci_tolerance": 5.0,
+  "main_insulation": 26.7,
+  "core_gap": 14.0,
+  "end_ins": 150.0,
+  "ph_distance": 40.0,
+  "core_filling": 83.8
+  "lv": {
+    "line_voltage": 22.0,
+    "connection": "y",
+    "filling_factor": 53.5
+  },
+  "hv": {
+    "line_voltage": 33.0,
+    "connection": "y",
+    "filling_factor": 56.0
+  },
+  "alpha": 0.97,
+  "independent_variables": {
+    "r_c": 184,
+    "b_c": 1.568,
+    "j_in": 3.02,
+    "j_ou": 3.0,
+    "h_in": 979.0,
+    "m_gap": 26.7
+  }
+}

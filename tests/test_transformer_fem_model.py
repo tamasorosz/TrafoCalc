@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src.basic_model import Model
+from src.transformer_fem_model import Model
 
 
 class TestGeoCreation(TestCase):
