@@ -1,5 +1,5 @@
 from src.models import design_parameters
-from src.transformer_calculatoins import *
+from src.transformer_calculations import *
 
 
 class TransformerModel:

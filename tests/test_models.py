@@ -1,22 +1,48 @@
 from unittest import TestCase
-from src.models import WindingModel
+from src.models import WindingDesign, WindingParams, TransformerRequirements, IndependentVariables, TransformerDesign
+from pathlib import Path
 
 
 class TestWindingModel(TestCase):
 
     def test_calc(self):
-        winding = WindingModel(r_in=230, h_in=1100, t_in=35, con='y', ul=22.0, j=2.6, ff=60.0)
+        winding = WindingParams(connection='y', line_voltage=22.0)
+
         winding.calculate_phase_quantities(nominal_power=6300.)
         self.assertAlmostEqual(winding.ph_current, 95.57, 2)
         self.assertAlmostEqual(winding.ph_voltage, 12.716, 2)
 
     def test_calc_properties(self):
-        winding = WindingModel(r_in=230, h_in=1100, t_in=35, con='y', ul=22.0, j=3.02, ff=53.5)
-        winding.calc_properties(ph_num=3.)
+        winding = WindingDesign(winding_height=1100, inner_radius=230, thickness=35, filling_factor=53.5,
+                                current_density=3.02)
 
-        self.assertAlmostEqual(winding.mean_radius, 247.5,2)
+        winding.calc_properties(ph_num=3.0)
+
+        self.assertAlmostEqual(winding.mean_radius, 247.5, 2)
         self.assertAlmostEqual(winding.outer_radius, 265, 2)
         self.assertAlmostEqual(winding.mass, 855.225, 2)
         self.assertAlmostEqual(winding.dc_loss, 18.876, 2)
         self.assertAlmostEqual(winding.ac_loss, 0.17, 2)
 
+
+class TestTransformerToJSON(TestCase):
+
+    def test_transformer_to_json(self):
+        req_params = TransformerRequirements(power=6300, freq=50,
+                                             sci_req=7.34, drop_tol=5.0,
+                                             hv=WindingParams(connection='y', line_voltage=33.0, filling_factor=56.0),
+                                             lv=WindingParams(connection='y', line_voltage=22.0, filling_factor=53.5),
+                                             min_main_gap=20.0,
+                                             min_core_gap=14.0, ei=150.0, phase_distance=40.0, alpha=0.97,
+                                             core_fillingf=83.8)
+
+        ind_params = IndependentVariables(rc=184, bc=1.568, j_in=3.02, j_ou=3.0, h_in=979.0, m_gap=26.7)
+        transformer = TransformerDesign(
+            description="6300 kVA Transformer from Karsai, Large Power Transformers  book (Hun)",
+            required=req_params, design_params=ind_params)
+
+        json_string = transformer.to_json()
+
+        path = Path().cwd().parent.joinpath('data').joinpath('6300_kVA_example.json')
+        with open(path, 'w') as outfile:
+            outfile.write(json_string)
