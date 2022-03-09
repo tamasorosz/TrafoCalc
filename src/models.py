@@ -1,6 +1,5 @@
 from src.transformer_calculations import phase_current, winding_mass, winding_dc_loss, opt_win_eddy_loss, \
     homogenous_insulation_ff, window_width
-from collections import namedtuple
 from dataclasses import dataclass, asdict, field
 from dataclasses_json import dataclass_json
 
@@ -22,7 +21,7 @@ class WindingParams:
     # required parameters
     connection: str  # it can be 'y' or delta
     line_voltage: float  # the line voltage in the winding [kV]
-    filling_factor:float= field(default=0.0)  # the expected copper filling of the given winding
+    filling_factor: float = field(default=0.0)  # the expected copper filling of the given winding
     # calculated parameters
     ph_current = 0.0
     ph_voltage = 0.0
@@ -96,11 +95,11 @@ class TransformerRequirements:
 @dataclass_json
 @dataclass
 class MaterialCosts:
-    ll_cost = 0.  # load loss cost of the given design
-    nll_cost = 0,  # no load loss cost of the given design
-    lv_cost = 0.  # cost of 1kg copper in the lv winding
-    hv_cost = 0.  # cost of 1kg copper in the hv winding
-    core_cost = 0.  # cost of the magnetic steel
+    ll_cost: float = field(default=0.)  # load loss cost of the given design
+    nll_cost: float = field(default=0.)  # no load loss cost of the given design
+    lv_cost: float = field(default=0.)  # cost of 1kg copper in the lv winding
+    hv_cost: float = field(default=0.)  # cost of 1kg copper in the hv winding
+    core_cost: float = field(default=0.)  # cost of the magnetic steel
 
 
 @dataclass_json
@@ -109,5 +108,5 @@ class TransformerDesign:
     """This class contains the requiered parameters and the optimal values of the transformer design."""
     description: str
     required: TransformerRequirements
-    costs = MaterialCosts()
+    costs: MaterialCosts
     design_params: IndependentVariables

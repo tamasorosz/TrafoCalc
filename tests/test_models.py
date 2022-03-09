@@ -1,5 +1,6 @@
 from unittest import TestCase
-from src.models import WindingDesign, WindingParams, TransformerRequirements, IndependentVariables, TransformerDesign
+from src.models import WindingDesign, WindingParams, TransformerRequirements, IndependentVariables, TransformerDesign, \
+    MaterialCosts
 from pathlib import Path
 
 
@@ -28,6 +29,7 @@ class TestWindingModel(TestCase):
 class TestTransformerToJSON(TestCase):
 
     def test_transformer_to_json(self):
+        cost = MaterialCosts()
         req_params = TransformerRequirements(power=6300, freq=50,
                                              sci_req=7.34, drop_tol=5.0,
                                              hv=WindingParams(connection='y', line_voltage=33.0, filling_factor=56.0),
@@ -39,7 +41,9 @@ class TestTransformerToJSON(TestCase):
         ind_params = IndependentVariables(rc=184, bc=1.568, j_in=3.02, j_ou=3.0, h_in=979.0, m_gap=26.7)
         transformer = TransformerDesign(
             description="6300 kVA Transformer from Karsai, Large Power Transformers  book (Hun)",
-            required=req_params, design_params=ind_params)
+            required=req_params, design_params=ind_params, costs=cost)
+
+        print(transformer)
 
         json_string = transformer.to_json()
 
@@ -54,7 +58,6 @@ class TestTransformerToJSON(TestCase):
 
         with open(path) as json_file:
             data = json.load(json_file)
-        print(data)
         transformer = TransformerDesign.from_dict(data)
 
         self.assertIn("6300", transformer.description)
