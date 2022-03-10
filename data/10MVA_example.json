@@ -8,7 +8,7 @@
     "hv": {
       "connection": "y",
       "line_voltage": 33.0,
-      "filling_factor": 56.0
+      "filling_factor": 60.0
     },
     "lv": {
       "connection": "y",
@@ -16,21 +16,25 @@
       "filling_factor": 70.0
     },
     "min_main_gap": 20.0,
-    "min_core_gap": 14.0,
-    "ei": 150.0,
-    "phase_distance": 40.0,
+    "min_core_gap": 38.0,
+    "ei": 80.0,
+    "phase_distance": 50.0,
     "alpha": 0.97,
-    "core_fillingf": 83.8
+    "core_fillingf": 88.0
   },
   "design_params": {
-    "rc": 184,
-    "bc": 1.568,
-    "j_in": 3.02,
-    "j_ou": 3.0,
-    "h_in": 979.0,
-    "m_gap": 26.7
+    "rc": 210,
+    "bc": 1.6,
+    "j_in": 2.0,
+    "j_ou": 2.0,
+    "h_in": 1100.0,
+    "m_gap": 50.0
   },
   "costs": {
-    "ll_cost": 100
+    "ll_cost": 0.0,
+    "nll_cost": 0.0,
+    "lv_cost": 0.0,
+    "hv_cost": 0.0,
+    "core_cost": 0.0
   }
 }

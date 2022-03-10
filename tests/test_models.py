@@ -64,3 +64,14 @@ class TestTransformerToJSON(TestCase):
         self.assertEqual(6300, transformer.required.power)
         self.assertEqual(50, transformer.required.freq)
         self.assertEqual(184, transformer.design_params.rc)
+
+    def test_10_mva_transformer_data_from_json(self):
+        path = Path().cwd().parent.joinpath('data').joinpath('10MVA_example.json')
+
+        import json
+
+        with open(path) as json_file:
+            data = json.load(json_file)
+        transformer = TransformerDesign.from_dict(data)
+
+        self.assertIn("10", transformer.description)
