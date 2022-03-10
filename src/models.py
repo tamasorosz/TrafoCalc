@@ -1,6 +1,6 @@
 from src.transformer_calculations import phase_current, winding_mass, winding_dc_loss, opt_win_eddy_loss, \
     homogenous_insulation_ff, window_width
-from dataclasses import dataclass, asdict, field
+from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
 
@@ -49,11 +49,11 @@ class WindingParams:
 @dataclass_json
 @dataclass
 class WindingDesign:
-    inner_radius: float
-    thickness: float
-    winding_height: float
-    filling_factor: float
-    current_density: float
+    inner_radius: float = field(default=0.)
+    thickness: float = field(default=0.)
+    winding_height: float = field(default=0.)
+    filling_factor: float = field(default=0.)
+    current_density: float = field(default=0.)
     # calculated parameters
     mass = 0.0
     dc_loss = 0.0
@@ -115,15 +115,12 @@ class TransformerDesign:
 @dataclass_json
 @dataclass
 class MainResults:
-    turn_voltage: float
-    wh: float
-    feasible: float
-    core_loss: float
-    load_loss: float
-    copper_mass: float
-    core_mass: float
-    sci: float
-    window_width: float
-
-    # r_in = 0.
-    # r_ou = 0.
+    wh: float = field(default=0.)
+    feasible: bool = field(default=0.)
+    core_loss: float = field(default=0.)
+    load_loss: float = field(default=0.)
+    copper_mass: float = field(default=0.)
+    sci: float = field(default=0.)
+    window_width: float = field(default=0.)
+    core_mass: float = field(default=0.)
+    turn_voltage: float = field(default=0.)

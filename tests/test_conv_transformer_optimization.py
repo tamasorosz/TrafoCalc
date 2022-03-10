@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src.conv_transformer_optimization import TransformerModel
+from src.trafo_opt_conventional import TransformerModel
 from src.models import transformer, independent_variables
 
 """6300 kVA Transformer from Karsai, Nagytranszformátorok """

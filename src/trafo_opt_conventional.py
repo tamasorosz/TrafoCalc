@@ -1,15 +1,36 @@
-from src.models import design_parameters
+from src.models import TransformerDesign, MainResults, WindingDesign, WindingParams
 from src.transformer_calculations import *
 
+from dataclasses import dataclass, field
+from dataclasses_json import dataclass_json
 
-class TransformerModel:
-
-    def __init__(self, independent_params, transformer_data: dict):
-        self.indep = independent_params
-        self.transformer_data = transformer_data
-        self.transformer_design = design_parameters
+C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
 
 
+@dataclass_json
+@dataclass
+class TwoWindingModel:
+    input: TransformerDesign
+    hv_winding: WindingDesign  # derived winding parameters and data
+    lv_winding: WindingDesign
+    results: MainResults
+
+    def calculate(self):
+        # 1) phase power, assumes a 3 phased 3 legged transformer core
+        ph_voltage = self.input.required.power / 3.  # [kVA]
+
+        # 2) turn voltage
+        self.results.turn_voltage = turn_voltage(self.input.design_params.bc, self.input.design_params.rc,
+                                                 self.input.required.core_fillingf / 100., self.input.required.freq)
+
+        # 3/ winding thickness - inner
+        self.lv_winding.thickness
+        dep.t_in = calc_inner_width(dep.ph_pow, ind.h_in, para.ff_in, ind.j_in, dep.turn_voltage)
+
+        # check the 'strength' of the coil if it's smaller than a technological limit, the solution is infeasible
+        if dep.t_in < C_WIN_MIN:
+            dep.feasible = INFEASIBLE
+            return copy(dep)
 
 
 def calc_dependent_variables(ind, para):
@@ -20,15 +41,6 @@ def calc_dependent_variables(ind, para):
     :param param: the required parameters or the different limits from the standards, technology ...
     :return: a dictionary with the dependent key-design variables
     """
-    dep = Dependent_Params()
-
-    # calculating derived parameters
-
-    ## 1/ phase power
-    #dep.ph_pow = para.power / para.ph_num
-
-    # 2/ turn voltage
-    dep.turn_voltage = turn_voltage(ind.b_c, ind.r_c, para.ff_c, para.freq)
 
     # 3/ winding thickness - inner
     dep.t_in = calc_inner_width(dep.ph_pow, ind.h_in, para.ff_in, ind.j_in, dep.turn_voltage)
@@ -99,4 +111,3 @@ def calc_dependent_variables(ind, para):
     dep.wh = ind.h_in + para.ei
 
     return copy(dep)
-
