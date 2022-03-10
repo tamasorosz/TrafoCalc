@@ -110,3 +110,20 @@ class TransformerDesign:
     required: TransformerRequirements
     costs: MaterialCosts
     design_params: IndependentVariables
+
+
+@dataclass_json
+@dataclass
+class MainResults:
+    turn_voltage: float
+    wh: float
+    feasible: float
+    core_loss: float
+    load_loss: float
+    copper_mass: float
+    core_mass: float
+    sci: float
+    window_width: float
+
+    # r_in = 0.
+    # r_ou = 0.
