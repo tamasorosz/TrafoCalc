@@ -1,5 +1,5 @@
 from src.transformer_calculations import phase_current, winding_mass, winding_dc_loss, opt_win_eddy_loss, \
-    homogenous_insulation_ff, window_width
+    homogenous_insulation_ff, calc_inner_width
 from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
@@ -46,6 +46,10 @@ class WindingParams:
         self.ph_voltage = self.line_voltage / connection_factor
 
 
+C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
+INFEASIBLE = -1
+
+
 @dataclass_json
 @dataclass
 class WindingDesign:
@@ -59,8 +63,21 @@ class WindingDesign:
     dc_loss = 0.0
     ac_loss = 0.0
 
-    def calc_properties(self, ph_num):
-        # geometry
+    def set_properties(self, rad, ff, cd):
+        self.filling_factor = ff
+        self.current_density = cd
+        self.inner_radius = rad
+
+    def calc_properties(self, ph_num, ph_pow, turn_voltage):
+        self.thickness = calc_inner_width(ph_pow, self.winding_height, self.filling_factor, self.current_density,
+                                          turn_voltage)
+
+        # check the 'strength' of the coil if it's smaller than a technological limit, the solution is infeasible
+        if self.thickness < C_WIN_MIN:
+            self.thickness = INFEASIBLE
+            return False
+
+            # geometry
         self.mean_radius = self.inner_radius + self.thickness / 2.
         self.outer_radius = self.inner_radius + self.thickness
 
@@ -70,6 +87,8 @@ class WindingDesign:
         self.dc_loss = winding_dc_loss(self.mass, self.current_density)
         self.ac_loss = opt_win_eddy_loss(self.thickness * homogenous_insulation_ff(self.filling_factor / 100.),
                                          self.thickness)
+
+        return True
 
 
 @dataclass_json

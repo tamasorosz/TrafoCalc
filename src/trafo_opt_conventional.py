@@ -4,7 +4,6 @@ from src.transformer_calculations import *
 from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
-C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
 
 
 @dataclass_json
@@ -24,7 +23,6 @@ class TwoWindingModel:
                                                  self.input.required.core_fillingf / 100., self.input.required.freq)
 
         # 3/ winding thickness - inner
-        self.lv_winding.thickness
         dep.t_in = calc_inner_width(dep.ph_pow, ind.h_in, para.ff_in, ind.j_in, dep.turn_voltage)
 
         # check the 'strength' of the coil if it's smaller than a technological limit, the solution is infeasible
