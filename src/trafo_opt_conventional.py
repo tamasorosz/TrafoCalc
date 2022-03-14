@@ -4,6 +4,7 @@ from dataclasses_json import dataclass_json
 
 from src.models import TransformerDesign, MainResults, WindingDesign
 from src.transformer_calculations import *
+from src.transformer_fem_model import FemModel
 
 C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
 INFEASIBLE = -1
@@ -93,3 +94,37 @@ class TwoWindingModel:
                                                          self.hv_winding.mass, self.input.costs.hv_cost,
                                                          self.results.load_loss, self.input.costs.ll_cost,
                                                          self.results.core_loss, self.input.costs.nll_cost)
+
+        self.results.feasible = True
+
+    def fem_simulation(self):
+        if self.results.feasible != True:
+            raise ValueError('Invalid Transformer Geometry')
+            return
+
+        # initializing the model
+        simulation = FemModel()
+
+        # creating the core window and the two windings
+        simulation.create_rectangle(self.input.design_params.rc, 0, self.results.window_width,
+                                    self.results.wh,
+                                    {"magnetic": "A = 0"})
+
+        # label for the air/oil region in the transformer
+        simulation.geo.add_label((self.input.design_params.rc + 10)*1e-3, 10*1e-3,
+                                 materials={"magnetic": "Air"})
+
+        #windings
+        # simulation.create_winding(self.lv_winding.inner_radius, self.input.required.ei / 2.,
+        #                           self.lv_winding.thickness, self.lv_winding.winding_height,
+        #                           "lv", self.lv_winding.filling_factor / 100.,
+        #                           self.lv_winding.current_density * 2. ** 0.5)
+        # #
+        # simulation.create_winding(self.hv_winding.inner_radius, self.input.required.ei / 2.,
+        #                           self.hv_winding.thickness, self.hv_winding.winding_height,
+        #                           "hv", self.hv_winding.filling_factor / 100.,
+        #                           -self.hv_winding.current_density * 2. ** 0.5)
+
+        computation = simulation.problem.computation()
+        computation.solve()
+        solution = computation.solution("magnetic")

@@ -1,11 +1,11 @@
 from unittest import TestCase
-from src.transformer_fem_model import Model
+from src.transformer_fem_model import FemModel
 
 
 class TestGeoCreation(TestCase):
 
     def test_rectangle(self):
-        model = Model()
+        model = FemModel()
 
         x0 = 0
         y0 = 0
@@ -19,6 +19,6 @@ class TestGeoCreation(TestCase):
 
     def test_create_windings(self):
 
-        model = Model()
+        model = FemModel()
 
         model.create_winding(10,10,20,100,'lv',0.7, 3.0)
