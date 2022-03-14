@@ -1,8 +1,9 @@
-from src.models import TransformerDesign, MainResults, WindingDesign, WindingParams
-from src.transformer_calculations import *
-
 from dataclasses import dataclass, field
+
 from dataclasses_json import dataclass_json
+
+from src.models import TransformerDesign, MainResults, WindingDesign
+from src.transformer_calculations import *
 
 C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
 INFEASIBLE = -1
@@ -86,3 +87,9 @@ class TwoWindingModel:
                                                    self.input.design_params.h_in, self.results.window_width, r_in,
                                                    t_in, r_ou,
                                                    t_ou, self.input.design_params.m_gap)
+
+        self.results.capitalized_cost = capitalized_cost(self.results.core_mass, self.input.costs.core_cost,
+                                                         self.lv_winding.mass, self.input.costs.lv_cost,
+                                                         self.hv_winding.mass, self.input.costs.hv_cost,
+                                                         self.results.load_loss, self.input.costs.ll_cost,
+                                                         self.results.core_loss, self.input.costs.nll_cost)

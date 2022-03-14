@@ -255,3 +255,16 @@ def phase_current(sb, ub, con_fact):
     :return:
     """
     return sb * 1e3 / ub / 3. ** 0.5 / con_fact
+
+
+def capitalized_cost(c_mass, c_material_price,
+                     w_mass_in, w_c_in,
+                     w_mass_ou, w_c_out,
+                     ll, ll_cost,
+                     nll, nll_cost):
+    """
+    Objective function
+    Simple capitalized cost calculation, only the active part with filling factors
+    """
+
+    return c_mass * c_material_price + w_mass_in * w_c_in + w_mass_ou * w_c_out + ll * ll_cost + nll * nll_cost

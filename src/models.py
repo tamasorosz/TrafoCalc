@@ -130,3 +130,4 @@ class MainResults:
     window_width: float = field(default=0.)
     core_mass: float = field(default=0.)
     turn_voltage: float = field(default=0.)
+    capitalized_cost: float = field(default=0.)
