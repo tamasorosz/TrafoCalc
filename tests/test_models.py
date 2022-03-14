@@ -1,7 +1,7 @@
 from unittest import TestCase
 from src.models import WindingDesign, WindingParams, TransformerRequirements, IndependentVariables, TransformerDesign, \
     MaterialCosts
-from pathlib import Path
+from importlib_resources import files
 
 
 class TestWindingModel(TestCase):
@@ -47,12 +47,13 @@ class TestTransformerToJSON(TestCase):
 
         json_string = transformer.to_json()
 
-        path = Path().cwd().parent.joinpath('data').joinpath('6300_kVA_example.json')
+        path = files("data").joinpath("6300_kVA_example.json")
+
         with open(path, 'w') as outfile:
             outfile.write(json_string)
 
     def test_transformer_from_json(self):
-        path = Path().cwd().parent.joinpath('data').joinpath('6300_kVA_example.json')
+        path = files("data").joinpath("6300_kVA_example.json")
 
         import json
 
@@ -66,7 +67,7 @@ class TestTransformerToJSON(TestCase):
         self.assertEqual(184, transformer.design_params.rc)
 
     def test_10_mva_transformer_data_from_json(self):
-        path = Path().cwd().parent.joinpath('data').joinpath('10MVA_example.json')
+        path = files("data").joinpath("10MVA_example.json")
 
         import json
 
