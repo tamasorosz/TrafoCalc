@@ -53,11 +53,13 @@ class TwoWindingModel:
 
         # calculating the detailed parameters of the winding
         self.lv_winding = WindingDesign(inner_radius=r_in, thickness=t_in, winding_height=self.input.design_params.h_in,
-                                        current_density=self.input.design_params.j_in, filling_factor=self.input.required.lv.filling_factor)
+                                        current_density=self.input.design_params.j_in,
+                                        filling_factor=self.input.required.lv.filling_factor)
         self.lv_winding.calc_properties()
 
         self.hv_winding = WindingDesign(inner_radius=r_ou, thickness=t_ou, winding_height=h_ou,
-                                        current_density=self.input.design_params.j_ou, filling_factor=self.input.required.hv.filling_factor )
+                                        current_density=self.input.design_params.j_ou,
+                                        filling_factor=self.input.required.hv.filling_factor)
 
         self.hv_winding.calc_properties()
 
@@ -76,3 +78,11 @@ class TwoWindingModel:
                                                 CORE_BF)
 
         self.results.load_loss = self.lv_winding.ac_loss + self.lv_winding.dc_loss + self.hv_winding.ac_loss + self.hv_winding.dc_loss
+
+        # short circuit impedance calculation with analytical formulas
+        self.results.sci = short_circuit_impedance(self.input.required.power, 3.,
+                                                   self.input.required.freq, self.input.required.alpha,
+                                                   self.results.turn_voltage,
+                                                   self.input.design_params.h_in, self.results.window_width, r_in,
+                                                   t_in, r_ou,
+                                                   t_ou, self.input.design_params.m_gap)
