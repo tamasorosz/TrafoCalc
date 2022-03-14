@@ -1,5 +1,5 @@
 from src.transformer_calculations import phase_current, winding_mass, winding_dc_loss, opt_win_eddy_loss, \
-    homogenous_insulation_ff, calc_inner_width
+    homogenous_insulation_ff, calc_inner_width, inner_winding_radius
 from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
@@ -54,29 +54,28 @@ INFEASIBLE = -1
 @dataclass
 class WindingDesign:
     inner_radius: float = field(default=0.)
-    thickness: float = field(default=0.)
-    winding_height: float = field(default=0.)
-    filling_factor: float = field(default=0.)
-    current_density: float = field(default=0.)
+    thickness: float = field(default=0.)  # input - design variable
+    winding_height: float = field(default=0.)  # input - design variable
+    filling_factor: float = field(default=0.)  # input - engineers guess from the constructoins variable
+    current_density: float = field(default=0.)  # input - design variable
     # calculated parameters
-    mass = 0.0
-    dc_loss = 0.0
-    ac_loss = 0.0
+    mass: float = field(default=0.)
+    dc_loss: float = field(default=0.)
+    ac_loss: float = field(default=0.)
 
-    def calc_properties(self, ph_num, ph_pow, turn_voltage):
-        self.thickness = calc_inner_width(ph_pow, self.winding_height, self.filling_factor, self.current_density,
-                                          turn_voltage)
+    def set_base_data(self, t_in, r_in, ff, h, j_):
+        self.inner_radius = r_in
+        self.thickness = t_in
+        self.filling_factor = ff
+        self.winding_height = h
+        self.current_density = j_
 
-        # check the 'strength' of the coil if it's smaller than a technological limit, the solution is infeasible
-        if self.thickness < C_WIN_MIN:
-            self.thickness = INFEASIBLE
-            return False
-
-            # geometry
+    def calc_properties(self):
+        # geometry
         self.mean_radius = self.inner_radius + self.thickness / 2.
         self.outer_radius = self.inner_radius + self.thickness
 
-        self.mass = winding_mass(ph_num, self.mean_radius, self.thickness, self.winding_height,
+        self.mass = winding_mass(3, self.mean_radius, self.thickness, self.winding_height,
                                  self.filling_factor / 100.)
 
         self.dc_loss = winding_dc_loss(self.mass, self.current_density)
@@ -84,6 +83,16 @@ class WindingDesign:
                                          self.thickness)
 
         return True
+
+
+@dataclass_json
+@dataclass
+class MaterialCosts:
+    ll_cost: float = field(default=0.)  # load loss cost of the given design
+    nll_cost: float = field(default=0.)  # no load loss cost of the given design
+    lv_cost: float = field(default=0.)  # cost of 1kg copper in the lv winding
+    hv_cost: float = field(default=0.)  # cost of 1kg copper in the hv winding
+    core_cost: float = field(default=0.)  # cost of the magnetic steel
 
 
 @dataclass_json
@@ -104,16 +113,6 @@ class TransformerRequirements:
     phase_distance: float  # the minimum thickness of the phase distance between the windings
     alpha: float  # the ratio of the HV/LV windings
     core_fillingf: float  # % value of the steel sheets in the stacked core
-
-
-@dataclass_json
-@dataclass
-class MaterialCosts:
-    ll_cost: float = field(default=0.)  # load loss cost of the given design
-    nll_cost: float = field(default=0.)  # no load loss cost of the given design
-    lv_cost: float = field(default=0.)  # cost of 1kg copper in the lv winding
-    hv_cost: float = field(default=0.)  # cost of 1kg copper in the hv winding
-    core_cost: float = field(default=0.)  # cost of the magnetic steel
 
 
 @dataclass_json

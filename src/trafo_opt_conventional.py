@@ -4,105 +4,73 @@ from src.transformer_calculations import *
 from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
+C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
+INFEASIBLE = -1
+CORE_BF = 1.2  # building factor of the core
+
 
 @dataclass_json
 @dataclass
 class TwoWindingModel:
     input: TransformerDesign
+    results: MainResults
+    # winding models
     hv_winding: WindingDesign  # derived winding parameters and data
     lv_winding: WindingDesign
-    results: MainResults
 
     def calculate(self):
+        """
+        Calculates the main geometrical parameters and invokes the WindingParameter class which calculates the searched
+        parameters -> losses, masses
+        :return: feasible (boolean)
+        """
         # 1) phase power, assumes a 3 phased 3 legged transformer core
-        ph_voltage = self.input.required.power / 3.  # [kVA]
+        ph_power = self.reqs.required.power / 3.  # [kVA]
 
         # 2) turn voltage
         self.results.turn_voltage = turn_voltage(self.input.design_params.bc, self.input.design_params.rc,
                                                  self.input.required.core_fillingf / 100., self.input.required.freq)
 
-        # 3/ innder winding radius
-        r_in = inner_winding_radius(self.input.design_params.r_c, self.input.min_core_gap, dep.t_in)
+        # 3) main parameters for the inner winding
+        t_in = calc_inner_width(ph_power, self.input.design_params.h_in, self.input.required.lv.filling_factor,
+                                self.input.design_params.j_in, self.results.turn_voltage)
 
-        # 3/ winding thickness - inner
-        self.lv_winding
+        r_in = inner_winding_radius(self.input.design_params.r_c, self.input.min_core_gap, t_in)
 
+        # 4/ outer winding parameters
+        h_ou = self.input.design_params.h_in * self.input.required.alpha
+        t_ou = calc_inner_width(ph_power, h_ou, self.input.required.hv.filling_factor, self.input.design_params.j_ou,
+                                self.results.turn_voltage)
 
-def calc_dependent_variables(ind, para):
-    """
-    Calculates the non-magnetic/electrical parameters of the model.
+        # if the resulting thickness of the winding is smaller than the required minimum the solution is not feasible
+        if t_in < C_WIN_MIN or t_ou < C_WIN_MIN:
+            self.results.feasible = INFEASIBLE
+            return
 
-    :param ind: the independent parameters of the model, which defines and 'individual' solution
-    :param param: the required parameters or the different limits from the standards, technology ...
-    :return: a dictionary with the dependent key-design variables
-    """
+        # outer winding radius
+        r_ou = outer_winding_radius(r_in, t_in, self.input.design_params.m_gap, t_ou)
 
-    # 3/ winding thickness - inner
-    dep.t_in = calc_inner_width(dep.ph_pow, ind.h_in, para.ff_in, ind.j_in, dep.turn_voltage)
+        # calculating the detailed parameters of the winding
+        self.lv_winding = WindingDesign(inner_radius=r_in, thickness=t_in, winding_height=self.input.design_params.h_in,
+                                        current_density=self.input.design_params.j_in)
+        self.lv_winding.calc_properties()
 
-    # check the 'strength' of the coil if it's smaller than a technological limit, the solution is infeasible
-    if dep.t_in < C_WIN_MIN:
-        dep.feasible = INFEASIBLE
-        return copy(dep)
+        self.hv_winding = WindingDesign(inner_radius=r_ou, thickness=t_ou, winding_height=self.input.design_params.h_ou,
+                                        current_density=self.input.design_params.j_ou)
 
-    # 4/ winding thickness -- outer winding
-    dep.h_ou = ind.h_in * para.alpha
-    dep.t_ou = calc_inner_width(dep.ph_pow, dep.h_ou, para.ff_ou, ind.j_ou, dep.turn_voltage)
+        self.hv_winding.calc_properties()
 
-    # check the strength of the coil
-    if dep.t_ou < C_WIN_MIN:
-        dep.feasible = INFEASIBLE
-        return copy(dep)
+        # window width and window heights
+        self.results.window_width = window_width(self.input.required.min_core_gap, t_in, t_ou,
+                                                 self.input.design_params.m_gap, 0, 0,
+                                                 self.input.required.phase_distance)
 
-    # 5/ regulating winding thickness
-    dep.h_reg = ind.h_in * para.beta
+        self.results.wh = self.input.design_params.h_in + self.input.required.ei
 
-    if para.reg_range > 1e-6 and para.bin_reg is False:
-        dep.t_reg = calc_t_reg(para.reg_range, ind.h_in, para.beta,
-                               dep.ph_pow, ind.j_reg, para.ff_reg, dep.turn_voltage)
-    else:
-        if para.bin_reg is True:
-            dep.t_reg = 0.
-
-    # 6/ innder winding radius
-    dep.r_in = inner_winding_radius(ind.r_c, para.gap_core, dep.t_in)
-
-    # 7/ outer winding radius
-    dep.r_ou = outer_winding_radius(dep.r_in, dep.t_in, ind.m_gap, dep.t_ou)
-
-    # 8/ regulating winding radius
-    if para.reg_range > 1e-6 and para.bin_reg is False:
-        dep.r_reg = rad_reg_winding_outer(dep.r_ou, dep.t_ou, para.gap, dep.t_reg)
-    else:
-        if para.bin_reg is True:
-            dep.r_reg = 0.
-
-        if para.bin_reg is True:
-            dep.t_reg = dep.t_ou
-            dep.h_ou = dep.h_ou * 1. - para.reg_range
-
-    # 9/ calculating the window width wothout the regulating winding
-    if para.reg_range > 1e-6:
-        gap_r = ind.m_gap
-    else:
-        gap_r = 0.
-
-    dep.s = window_width(para.gap_core, dep.t_in, dep.t_ou, ind.m_gap, dep.t_reg, gap_r,
-                         para.phase_distance)  # TODO: this variable is missing somehow from the previous optimization model
-
-    # 10/ calculating winding masses and losses
-    dep.m_in = winding_mass(para.ph_num, dep.r_in, dep.t_in, ind.h_in, para.ff_in)
-    dep.m_ou = winding_mass(para.ph_num, dep.r_ou, dep.t_ou, dep.h_ou, para.ff_ou)
-
-    if para.reg_range > 1e-6:
-        dep.m_reg = winding_mass(para.ph_num, dep.r_reg, dep.t_reg, dep.h_reg, para.ff_reg)
-    else:
-        dep.m_reg = 0.
-    # 11/ calculating the core mass
-    dep.c_mass = core_mass(ind.r_c, para.ff_c, ind.h_in, para.ei, dep.s, para.phase_distance / 2.)
-    dep.core_loss = core_loss_unit(ind.b_c, dep.c_mass, para.f_bf)
-
-    # 12/ window height
-    dep.wh = ind.h_in + para.ei
-
-    return copy(dep)
+        # core parameters
+        self.results.core_mass = core_mass(self.input.design_params.rc, self.input.required.core_fillingf,
+                                           self.input.design_params.h_in,
+                                           self.input.required.ei, self.results.window_width,
+                                           self.input.required.phase_distance / 2.)
+        self.results.core_loss = core_loss_unit(self.input.design_params.bc, self.results.core_mass,
+                                                self.input.required, CORE_BF)
