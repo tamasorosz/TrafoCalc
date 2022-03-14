@@ -63,11 +63,6 @@ class WindingDesign:
     dc_loss = 0.0
     ac_loss = 0.0
 
-    def set_properties(self, rad, ff, cd):
-        self.filling_factor = ff
-        self.current_density = cd
-        self.inner_radius = rad
-
     def calc_properties(self, ph_num, ph_pow, turn_voltage):
         self.thickness = calc_inner_width(ph_pow, self.winding_height, self.filling_factor, self.current_density,
                                           turn_voltage)

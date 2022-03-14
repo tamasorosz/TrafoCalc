@@ -5,7 +5,6 @@ from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
 
-
 @dataclass_json
 @dataclass
 class TwoWindingModel:
@@ -22,13 +21,11 @@ class TwoWindingModel:
         self.results.turn_voltage = turn_voltage(self.input.design_params.bc, self.input.design_params.rc,
                                                  self.input.required.core_fillingf / 100., self.input.required.freq)
 
-        # 3/ winding thickness - inner
-        dep.t_in = calc_inner_width(dep.ph_pow, ind.h_in, para.ff_in, ind.j_in, dep.turn_voltage)
+        # 3/ innder winding radius
+        r_in = inner_winding_radius(self.input.design_params.r_c, self.input.min_core_gap, dep.t_in)
 
-        # check the 'strength' of the coil if it's smaller than a technological limit, the solution is infeasible
-        if dep.t_in < C_WIN_MIN:
-            dep.feasible = INFEASIBLE
-            return copy(dep)
+        # 3/ winding thickness - inner
+        self.lv_winding
 
 
 def calc_dependent_variables(ind, para):
