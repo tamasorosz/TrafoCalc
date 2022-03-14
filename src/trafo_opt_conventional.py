@@ -111,10 +111,10 @@ class TwoWindingModel:
                                     {"magnetic": "A = 0"})
 
         # label for the air/oil region in the transformer
-        simulation.geo.add_label((self.input.design_params.rc + 10)*1e-3, 10*1e-3,
+        simulation.geo.add_label((self.input.design_params.rc + 10) * 1e-3, 10 * 1e-3,
                                  materials={"magnetic": "Air"})
 
-        #windings
+        # windings
         simulation.create_winding(self.lv_winding.inner_radius, self.input.required.ei / 2.,
                                   self.lv_winding.thickness, self.lv_winding.winding_height,
                                   "lv", self.lv_winding.filling_factor / 100.,
@@ -128,3 +128,19 @@ class TwoWindingModel:
         computation = simulation.problem.computation()
         computation.solve()
         solution = computation.solution("magnetic")
+
+        # calculate the base quantites for the LV winding
+        self.input.required.lv.calculate_phase_quantities(self.input.required.power)
+
+        # the base quantites referred to the low voltage winding
+        u_b = self.input.required.lv.line_voltage  # voltage --- kV
+        s_b = self.input.required.power / 1000.  # nominal power  --- MVA
+        z_b = u_b ** 2. / s_b  # base impedance
+        i_b = self.input.required.power / u_b / 1.73
+
+        omega = 2. * pi * self.input.required.freq
+        print(self.input.required.lv.ph_current)
+        L = 2 * solution.volume_integrals()['Wm'] / i_b ** 2.
+        Z = omega * L / z_b * 100.
+
+        print('FEM-based short circuit impedance:', Z)
