@@ -16,17 +16,17 @@
       "filling_factor": 70.0
     },
     "min_main_gap": 20.0,
-    "min_core_gap": 38.0,
+    "min_core_gap": 20.0,
     "ei": 80.0,
     "phase_distance": 50.0,
     "alpha": 0.97,
-    "core_fillingf": 88.0
+    "core_fillingf": 89.5
   },
   "design_params": {
     "rc": 210,
-    "bc": 1.6,
-    "j_in": 2.0,
-    "j_ou": 2.0,
+    "bc": 1.7,
+    "j_in": 2.64,
+    "j_ou": 2.53,
     "h_in": 1100.0,
     "m_gap": 50.0
   },

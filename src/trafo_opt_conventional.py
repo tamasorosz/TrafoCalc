@@ -63,8 +63,7 @@ class TwoWindingModel:
 
         # window width and window heights
         self.results.window_width = window_width(self.input.required.min_core_gap, t_in, t_ou,
-                                                 self.input.design_params.m_gap, 0,
-                                                 self.input.required.phase_distance)
+                                                 self.input.design_params.m_gap, 0, 0)
 
         self.results.wh = self.input.design_params.h_in + self.input.required.ei
 
