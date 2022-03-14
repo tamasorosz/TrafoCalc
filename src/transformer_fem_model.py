@@ -31,8 +31,6 @@ class FemModel:
                                     "magnetic_current_density_external_real": 0,
                                     "magnetic_total_current_prescribed": 0, "magnetic_total_current_real": 0})
 
-
-
     def create_rectangle(self, x0, y0, width, height, boundary: dict = None):
         """
         A rectangle class to define the windings and the working window of the transformer.
@@ -68,7 +66,7 @@ class FemModel:
             self.geo.add_edge(x0 + width, y0 + height, x0, y0 + height)
             self.geo.add_edge(x0, y0 + height, x0, y0)
 
-        return x0 + width / 2. * 1e3, y0 + height / 2. * 1e3  # gives back the center of the rectangle in mm-s
+        return x0 + width / 2., y0 + height / 2.  # gives back the center of the rectangle in [m]-s
 
     def create_winding(self, x0, y0, width, height, name, filling_f, j):
         """

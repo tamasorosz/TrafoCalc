@@ -115,15 +115,15 @@ class TwoWindingModel:
                                  materials={"magnetic": "Air"})
 
         #windings
-        # simulation.create_winding(self.lv_winding.inner_radius, self.input.required.ei / 2.,
-        #                           self.lv_winding.thickness, self.lv_winding.winding_height,
-        #                           "lv", self.lv_winding.filling_factor / 100.,
-        #                           self.lv_winding.current_density * 2. ** 0.5)
+        simulation.create_winding(self.lv_winding.inner_radius, self.input.required.ei / 2.,
+                                  self.lv_winding.thickness, self.lv_winding.winding_height,
+                                  "lv", self.lv_winding.filling_factor / 100.,
+                                  self.lv_winding.current_density * 2. ** 0.5)
         # #
-        # simulation.create_winding(self.hv_winding.inner_radius, self.input.required.ei / 2.,
-        #                           self.hv_winding.thickness, self.hv_winding.winding_height,
-        #                           "hv", self.hv_winding.filling_factor / 100.,
-        #                           -self.hv_winding.current_density * 2. ** 0.5)
+        simulation.create_winding(self.hv_winding.inner_radius, self.input.required.ei / 2.,
+                                  self.hv_winding.thickness, self.hv_winding.winding_height,
+                                  "hv", self.hv_winding.filling_factor / 100.,
+                                  -self.hv_winding.current_density * 2. ** 0.5)
 
         computation = simulation.problem.computation()
         computation.solve()
