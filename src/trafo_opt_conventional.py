@@ -32,14 +32,15 @@ class TwoWindingModel:
                                                  self.input.required.core_fillingf / 100., self.input.required.freq)
 
         # 3) main parameters for the inner winding
-        t_in = calc_inner_width(ph_power, self.input.design_params.h_in, self.input.required.lv.filling_factor,
+        t_in = calc_inner_width(ph_power, self.input.design_params.h_in, self.input.required.lv.filling_factor / 100.,
                                 self.input.design_params.j_in, self.results.turn_voltage)
 
         r_in = inner_winding_radius(self.input.design_params.rc, self.input.required.min_core_gap, t_in)
 
         # 4/ outer winding parameters
         h_ou = self.input.design_params.h_in * self.input.required.alpha
-        t_ou = calc_inner_width(ph_power, h_ou, self.input.required.hv.filling_factor, self.input.design_params.j_ou,
+        t_ou = calc_inner_width(ph_power, h_ou, self.input.required.hv.filling_factor / 100.,
+                                self.input.design_params.j_ou,
                                 self.results.turn_voltage)
 
         # if the resulting thickness of the winding is smaller than the required minimum the solution is not feasible
@@ -55,22 +56,22 @@ class TwoWindingModel:
                                         current_density=self.input.design_params.j_in)
         self.lv_winding.calc_properties()
 
-        self.hv_winding = WindingDesign(inner_radius=r_ou, thickness=t_ou, winding_height=self.input.design_params.h_ou,
+        self.hv_winding = WindingDesign(inner_radius=r_ou, thickness=t_ou, winding_height=h_ou,
                                         current_density=self.input.design_params.j_ou)
 
         self.hv_winding.calc_properties()
 
         # window width and window heights
         self.results.window_width = window_width(self.input.required.min_core_gap, t_in, t_ou,
-                                                 self.input.design_params.m_gap, 0, 0,
+                                                 self.input.design_params.m_gap, 0,
                                                  self.input.required.phase_distance)
 
         self.results.wh = self.input.design_params.h_in + self.input.required.ei
 
         # core parameters
-        self.results.core_mass = core_mass(self.input.design_params.rc, self.input.required.core_fillingf,
+        self.results.core_mass = core_mass(self.input.design_params.rc, self.input.required.core_fillingf / 100.,
                                            self.input.design_params.h_in,
                                            self.input.required.ei, self.results.window_width,
                                            self.input.required.phase_distance / 2.)
         self.results.core_loss = core_loss_unit(self.input.design_params.bc, self.results.core_mass,
-                                                self.input.required, CORE_BF)
+                                                CORE_BF)

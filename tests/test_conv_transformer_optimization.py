@@ -19,4 +19,6 @@ class TestConvTransformerModel(TestCase):
 
         trafo_model = TwoWindingModel(input=transformer)
         trafo_model.calculate()
+
+        self.assertAlmostEqual(trafo_model.results.turn_voltage, 31.0, 1)
         print(trafo_model)
