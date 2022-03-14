@@ -13,10 +13,10 @@ CORE_BF = 1.2  # building factor of the core
 @dataclass
 class TwoWindingModel:
     input: TransformerDesign
-    results: MainResults
+    results: MainResults = field(default=MainResults)
     # winding models
-    hv_winding: WindingDesign  # derived winding parameters and data
-    lv_winding: WindingDesign
+    hv_winding: WindingDesign = field(default=None)  # derived winding parameters and data
+    lv_winding: WindingDesign = field(default=None)
 
     def calculate(self):
         """
@@ -25,7 +25,7 @@ class TwoWindingModel:
         :return: feasible (boolean)
         """
         # 1) phase power, assumes a 3 phased 3 legged transformer core
-        ph_power = self.reqs.required.power / 3.  # [kVA]
+        ph_power = self.input.required.power / 3.  # [kVA]
 
         # 2) turn voltage
         self.results.turn_voltage = turn_voltage(self.input.design_params.bc, self.input.design_params.rc,
@@ -35,7 +35,7 @@ class TwoWindingModel:
         t_in = calc_inner_width(ph_power, self.input.design_params.h_in, self.input.required.lv.filling_factor,
                                 self.input.design_params.j_in, self.results.turn_voltage)
 
-        r_in = inner_winding_radius(self.input.design_params.r_c, self.input.min_core_gap, t_in)
+        r_in = inner_winding_radius(self.input.design_params.rc, self.input.required.min_core_gap, t_in)
 
         # 4/ outer winding parameters
         h_ou = self.input.design_params.h_in * self.input.required.alpha
