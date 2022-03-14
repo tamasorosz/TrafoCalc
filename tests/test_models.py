@@ -17,7 +17,7 @@ class TestWindingModel(TestCase):
         winding = WindingDesign(winding_height=1100, inner_radius=230, thickness=35, filling_factor=53.5,
                                 current_density=3.02)
 
-        winding.calc_properties(ph_num=3.0)
+        winding.calc_properties()
 
         self.assertAlmostEqual(winding.mean_radius, 247.5, 2)
         self.assertAlmostEqual(winding.outer_radius, 265, 2)
