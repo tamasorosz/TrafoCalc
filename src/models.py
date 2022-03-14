@@ -63,13 +63,6 @@ class WindingDesign:
     dc_loss: float = field(default=0.)
     ac_loss: float = field(default=0.)
 
-    def set_base_data(self, t_in, r_in, ff, h, j_):
-        self.inner_radius = r_in
-        self.thickness = t_in
-        self.filling_factor = ff
-        self.winding_height = h
-        self.current_density = j_
-
     def calc_properties(self):
         # geometry
         self.mean_radius = self.inner_radius + self.thickness / 2.

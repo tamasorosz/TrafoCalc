@@ -20,13 +20,13 @@
     "ei": 80.0,
     "phase_distance": 50.0,
     "alpha": 0.97,
-    "core_fillingf": 89.5
+    "core_fillingf": 88.5
   },
   "design_params": {
     "rc": 210,
     "bc": 1.7,
-    "j_in": 2.64,
-    "j_ou": 2.53,
+    "j_in": 2.65,
+    "j_ou": 2.57,
     "h_in": 1100.0,
     "m_gap": 50.0
   },
