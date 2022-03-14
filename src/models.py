@@ -131,3 +131,4 @@ class MainResults:
     core_mass: float = field(default=0.)
     turn_voltage: float = field(default=0.)
     capitalized_cost: float = field(default=0.)
+    fem_based_sci:float = field(default=0.)

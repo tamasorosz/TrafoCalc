@@ -141,6 +141,6 @@ class TwoWindingModel:
         omega = 2. * pi * self.input.required.freq
         print(self.input.required.lv.ph_current)
         L = 2 * solution.volume_integrals()['Wm'] / i_b ** 2.
-        Z = omega * L / z_b * 100.
+        self.results.fem_based_sci = omega * L / z_b * 100.  # the short-circuit impedance in [%] values
 
         print('FEM-based short circuit impedance:', Z)
