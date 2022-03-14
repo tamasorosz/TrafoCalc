@@ -143,4 +143,15 @@ class TwoWindingModel:
         L = 2 * solution.volume_integrals()['Wm'] / i_b ** 2.
         self.results.fem_based_sci = omega * L / z_b * 100.  # the short-circuit impedance in [%] values
 
-        print('FEM-based short circuit impedance:', Z)
+        # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
+
+        for i in range(int(self.input.required.ei / 2.), int(self.hv_winding.winding_height + self.input.required.ei / 2.), 10):
+            point = solution.local_values(self.hv_winding.inner_radius*1e-3, i*1e-3)
+            self.results.fem_bax = max(abs(point["Brz"]),self.results.fem_bax)
+
+        # iterates over the top of the hv winding
+        for i in range(int(self.hv_winding.inner_radius), int(self.hv_winding.inner_radius + self.hv_winding.thickness), 3):
+            point = solution.local_values(i*1e-3, (self.hv_winding.winding_height + self.input.required.ei / 2.)*1e-3)
+            self.results.fem_brad =max(abs(point["Brr"]), self.results.fem_brad)
+
+        print(self.results.fem_bax,self.results.fem_brad)
