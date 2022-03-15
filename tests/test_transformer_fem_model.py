@@ -15,7 +15,7 @@ class TestGeoCreation(TestCase):
 
         center = model.create_rectangle(x0, y0, width, height, boundary)
 
-        self.assertEqual(center, (50, 50))
+        self.assertEqual(center, (50*1e-3, 50*1e-3))
 
     def test_create_windings(self):
 

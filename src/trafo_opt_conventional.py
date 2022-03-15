@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
 from src.models import TransformerDesign, MainResults, WindingDesign
-from src.transformer_calculations import *
+from src.base_functions import *
 from src.transformer_fem_model import FemModel
 
 C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
@@ -98,6 +98,7 @@ class TwoWindingModel:
         self.results.feasible = True
 
     def fem_simulation(self):
+
         if self.results.feasible != True:
             raise ValueError('Invalid Transformer Geometry')
             return
@@ -139,12 +140,10 @@ class TwoWindingModel:
         i_b = self.input.required.power / u_b / 1.73
 
         omega = 2. * pi * self.input.required.freq
-        print(self.input.required.lv.ph_current)
         L = 2 * solution.volume_integrals()['Wm'] / i_b ** 2.
         self.results.fem_based_sci = omega * L / z_b * 100.  # the short-circuit impedance in [%] values
 
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
-
         for i in range(int(self.input.required.ei / 2.), int(self.hv_winding.winding_height + self.input.required.ei / 2.), 10):
             point = solution.local_values(self.hv_winding.inner_radius*1e-3, i*1e-3)
             self.results.fem_bax = max(abs(point["Brz"]),self.results.fem_bax)

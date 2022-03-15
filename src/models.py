@@ -1,4 +1,4 @@
-from src.transformer_calculations import phase_current, winding_mass, winding_dc_loss, opt_win_eddy_loss, \
+from src.base_functions import phase_current, winding_mass, winding_dc_loss, opt_win_eddy_loss, \
     homogenous_insulation_ff, calc_inner_width, inner_winding_radius
 from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
