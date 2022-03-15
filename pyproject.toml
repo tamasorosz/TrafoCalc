@@ -63,6 +63,7 @@ agrossuite = "^2020.6.25.3540"
 max-line-length = 127
 
 [tool.pylint.MASTER]
+fail-under = 0.85
 disable = [
     "bad-continuation",
     "duplicate-code",

@@ -7,7 +7,7 @@ from scipy.constants import mu_0, pi
 #             - https://www.transform.ru/sst/$articles.en/ae000002.pdf
 
 
-def calc_b_parallel(N, I, h, g=1):
+def calc_b_parallel(N: float, I: float, h: float, g: float = 1):
     """
     Approximates the peak value of the magnetic flux density at the middle of the coil system.
 
