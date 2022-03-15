@@ -20,10 +20,11 @@ class TwoWindingModel:
     hv_winding: WindingDesign = field(default=None)  # derived winding parameters and data
     lv_winding: WindingDesign = field(default=None)
 
-    def calculate(self):
+    def calculate(self, is_sc = False):
         """
         Calculates the main geometrical parameters and invokes the WindingParameter class which calculates the searched
         parameters -> losses, masses
+        :param is_sc: True if superconducting transformer considered
         :return: feasible (boolean)
         """
         # 1) phase power, assumes a 3 phased 3 legged transformer core
@@ -144,13 +145,16 @@ class TwoWindingModel:
         self.results.fem_based_sci = omega * L / z_b * 100.  # the short-circuit impedance in [%] values
 
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
-        for i in range(int(self.input.required.ei / 2.), int(self.hv_winding.winding_height + self.input.required.ei / 2.), 10):
-            point = solution.local_values(self.hv_winding.inner_radius*1e-3, i*1e-3)
-            self.results.fem_bax = max(abs(point["Brz"]),self.results.fem_bax)
+        for i in range(int(self.input.required.ei / 2.),
+                       int(self.hv_winding.winding_height + self.input.required.ei / 2.), 10):
+            point = solution.local_values(self.hv_winding.inner_radius * 1e-3, i * 1e-3)
+            self.results.fem_bax = max(abs(point["Brz"]), self.results.fem_bax)
 
         # iterates over the top of the hv winding
-        for i in range(int(self.hv_winding.inner_radius), int(self.hv_winding.inner_radius + self.hv_winding.thickness), 3):
-            point = solution.local_values(i*1e-3, (self.hv_winding.winding_height + self.input.required.ei / 2.)*1e-3)
-            self.results.fem_brad =max(abs(point["Brr"]), self.results.fem_brad)
+        for i in range(int(self.hv_winding.inner_radius), int(self.hv_winding.inner_radius + self.hv_winding.thickness),
+                       3):
+            point = solution.local_values(i * 1e-3,
+                                          (self.hv_winding.winding_height + self.input.required.ei / 2.) * 1e-3)
+            self.results.fem_brad = max(abs(point["Brr"]), self.results.fem_brad)
 
-        print(self.results.fem_bax,self.results.fem_brad)
+        print(self.results.fem_bax, self.results.fem_brad)

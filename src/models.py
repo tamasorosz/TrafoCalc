@@ -1,5 +1,5 @@
 from src.base_functions import phase_current, winding_mass, winding_dc_loss, opt_win_eddy_loss, \
-    homogenous_insulation_ff, calc_inner_width, inner_winding_radius
+    homogenous_insulation_ff
 from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
@@ -131,6 +131,6 @@ class MainResults:
     core_mass: float = field(default=0.)
     turn_voltage: float = field(default=0.)
     capitalized_cost: float = field(default=0.)
-    fem_based_sci:float = field(default=0.)
-    fem_bax:float = field(default=0.)
-    fem_brad:float = field(default=0.)
+    fem_based_sci: float = field(default=0.)
+    fem_bax: float = field(default=0.)
+    fem_brad: float = field(default=0.)

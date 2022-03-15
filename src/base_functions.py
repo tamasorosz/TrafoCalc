@@ -5,6 +5,7 @@ C_RHO = 8.9 * 1e-6  # kg/mm3
 C_RHO_CU = 2.42  # resistivity constant in 75 C
 C_RHO_FE = 7.65 * 1e-6  # kg/mm3
 C_MU_0 = 4. * pi * 10 ** -7.  # Vs/Am
+C_RHO_BSSCO = 6.4 * 1e-6  # kg/mm3  source: shorturl.at/rGIN7 -- sigmaaldrich.com
 
 INFEASIBLE = -1
 C_WIN_MIN = 10.  # minimal width for the windings

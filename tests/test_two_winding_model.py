@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src.trafo_opt_conventional import TwoWindingModel, TransformerDesign
+from src.two_winding_model import TwoWindingModel, TransformerDesign
 from importlib_resources import files
 
 """10 MVA Transformer from Karsai, Nagytranszformátorok """
@@ -39,5 +39,21 @@ class TestConvTransformerModel(TestCase):
         self.assertAlmostEqual(trafo_model.results.capitalized_cost, 0, 0)
         print(trafo_model)
 
+        # FEM calculation
+        trafo_model.fem_simulation()
+
+    def test_sc_transformer(self):
+        path = files("data").joinpath("1250kVA_sc_transformer.json")
+
+        import json
+
+        with open(path) as json_file:
+            data = json.load(json_file)
+
+        transformer = TransformerDesign.from_dict(data)
+
+        trafo_model = TwoWindingModel(input=transformer)
+        trafo_model.calculate()
+        print(trafo_model)
         # FEM calculation
         trafo_model.fem_simulation()

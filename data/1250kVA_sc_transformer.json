@@ -1,0 +1,40 @@
+{
+  "description": "1250kVA - Winding Design and Electromagnetic Analysis for a 1250 kVA HTS Transformer - doi.10.1109/TASC.2014.2345349",
+  "required": {
+    "power": 1250,
+    "freq": 50,
+    "sci_req": 5.8,
+    "drop_tol": 5.0,
+    "hv": {
+      "connection": "y",
+      "line_voltage": 10.5,
+      "filling_factor": 100.0
+    },
+    "lv": {
+      "connection": "y",
+      "line_voltage": 0.4,
+      "filling_factor": 100.0
+    },
+    "min_main_gap": 34.5,
+    "min_core_gap": 50.0,
+    "ei": 461.0,
+    "phase_distance": 50.0,
+    "alpha": 0.965,
+    "core_fillingf": 89.0
+  },
+  "design_params": {
+    "rc": 155,
+    "bc": 1.5,
+    "j_in": 4.051,
+    "j_ou": 6.47,
+    "h_in": 355.0,
+    "m_gap": 34.5
+  },
+  "costs": {
+    "ll_cost": 0.0,
+    "nll_cost": 0.0,
+    "lv_cost": 0.0,
+    "hv_cost": 0.0,
+    "core_cost": 0.0
+  }
+}
