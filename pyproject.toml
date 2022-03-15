@@ -36,7 +36,7 @@ authors = [
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
-python = "3.9"
+python = "3.9.*"
 typer = "*"
 scipy = "^1.8.0"
 marshmallow-dataclass = "^8.5.3"
