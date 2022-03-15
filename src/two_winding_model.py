@@ -46,12 +46,6 @@ class TwoWindingModel:
                                 self.input.design_params.j_ou,
                                 self.results.turn_voltage)
 
-        # if the resulting thickness of the winding is smaller than the required minimum the solution is not feasible
-        if t_in < C_WIN_MIN or t_ou < C_WIN_MIN:
-            self.results.feasible = INFEASIBLE
-            raise ValueError("The winding thickness is too narrow.")
-            return
-
         # outer winding radius
         r_ou = outer_winding_radius(r_in, t_in, self.input.design_params.m_gap, t_ou)
 
@@ -67,6 +61,13 @@ class TwoWindingModel:
         if is_sc:
             pass
         else:
+            # if the resulting thickness of the winding is smaller than the required minimum the
+            # solution is not feasible
+            if t_in < C_WIN_MIN or t_ou < C_WIN_MIN:
+                self.results.feasible = INFEASIBLE
+                raise ValueError("The winding thickness is too narrow.")
+                return
+
             self.lv_winding.calc_properties()
             self.hv_winding.calc_properties()
 
