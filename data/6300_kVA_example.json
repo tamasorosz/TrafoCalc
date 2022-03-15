@@ -1,1 +1,32 @@
-{"description": "6300 kVA Transformer from Karsai, Large Power Transformers  book (Hun)", "required": {"power": 6300, "freq": 50, "sci_req": 7.34, "drop_tol": 5.0, "hv": {"connection": "y", "line_voltage": 33.0, "filling_factor": 56.0}, "lv": {"connection": "y", "line_voltage": 22.0, "filling_factor": 53.5}, "min_main_gap": 20.0, "min_core_gap": 14.0, "ei": 150.0, "phase_distance": 40.0, "alpha": 0.97, "core_fillingf": 83.8}, "costs": {"ll_cost": 0.0, "nll_cost": 0.0, "lv_cost": 0.0, "hv_cost": 0.0, "core_cost": 0.0}, "design_params": {"rc": 184, "bc": 1.568, "j_in": 3.02, "j_ou": 3.0, "h_in": 979.0, "m_gap": 26.7}}
+{
+  "description": "6300 kVA Transformer from Karsai, Large Power Transformers  book (Hun)",
+  "required": {
+    "power": 6300,
+    "freq": 50,
+    "sci_req": 7.34,
+    "drop_tol": 5.0,
+    "hv": { "connection": "y", "line_voltage": 33.0, "filling_factor": 56.0 },
+    "lv": { "connection": "y", "line_voltage": 22.0, "filling_factor": 53.5 },
+    "min_main_gap": 20.0,
+    "min_core_gap": 14.0,
+    "ei": 150.0,
+    "phase_distance": 40.0,
+    "alpha": 0.97,
+    "core_fillingf": 83.8
+  },
+  "costs": {
+    "ll_cost": 0.0,
+    "nll_cost": 0.0,
+    "lv_cost": 0.0,
+    "hv_cost": 0.0,
+    "core_cost": 0.0
+  },
+  "design_params": {
+    "rc": 184,
+    "bc": 1.568,
+    "j_in": 3.02,
+    "j_ou": 3.0,
+    "h_in": 979.0,
+    "m_gap": 26.7
+  }
+}

@@ -1,12 +1,13 @@
 from unittest import TestCase
-from src.two_winding_model import TwoWindingModel, TransformerDesign
+
 from importlib_resources import files
+
+from src.two_winding_model import TransformerDesign, TwoWindingModel
 
 """10 MVA Transformer from Karsai, Nagytranszformátorok """
 
 
 class TestConvTransformerModel(TestCase):
-
     def test_transformer_from_json(self):
         path = files("data").joinpath("10MVA_example.json")
 
@@ -29,12 +30,12 @@ class TestConvTransformerModel(TestCase):
         self.assertAlmostEqual(trafo_model.results.window_width, 199, 0)
         self.assertAlmostEqual(trafo_model.results.core_mass, 7301.5, 0)
 
-        #losses
+        # losses
         self.assertAlmostEqual(trafo_model.results.core_loss, 7.7, 1)
-        self.assertAlmostEqual(trafo_model.hv_winding.mass, 1688.5,0)
+        self.assertAlmostEqual(trafo_model.hv_winding.mass, 1688.5, 0)
 
         self.assertAlmostEqual(trafo_model.results.load_loss, 47.9, 0)
-        self.assertAlmostEqual(trafo_model.results.sci*100, 7.5, 1)
+        self.assertAlmostEqual(trafo_model.results.sci * 100, 7.5, 1)
 
         self.assertAlmostEqual(trafo_model.results.capitalized_cost, 0, 0)
         print(trafo_model)

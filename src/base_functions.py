@@ -4,11 +4,11 @@ from scipy.constants import mu_0, pi
 C_RHO = 8.9 * 1e-6  # kg/mm3
 C_RHO_CU = 2.42  # resistivity constant in 75 C
 C_RHO_FE = 7.65 * 1e-6  # kg/mm3
-C_MU_0 = 4. * pi * 10 ** -7.  # Vs/Am
+C_MU_0 = 4.0 * pi * 10**-7.0  # Vs/Am
 C_RHO_BSSCO = 6.4 * 1e-6  # kg/mm3  source: shorturl.at/rGIN7 -- sigmaaldrich.com
 
 INFEASIBLE = -1
-C_WIN_MIN = 10.  # minimal width for the windings
+C_WIN_MIN = 10.0  # minimal width for the windings
 
 # constants
 RHO_CU = 0.0216  # 0.0216        # ohm * mm2 / m
@@ -28,7 +28,7 @@ def winding_mass(m, r_m, t, h, ff):
 
     """
 
-    return m * r_m * 2. * pi * t * h * ff * C_RHO
+    return m * r_m * 2.0 * pi * t * h * ff * C_RHO
 
 
 def winding_dc_loss(mass, j):
@@ -39,7 +39,7 @@ def winding_dc_loss(mass, j):
     - j in [A/mm2] is the current density.
     """
 
-    dc_loss = C_RHO_CU * mass * j ** 2.
+    dc_loss = C_RHO_CU * mass * j**2.0
 
     return dc_loss * 1e-3
 
@@ -62,7 +62,7 @@ def core_loss_unit(ind, m_c, f_bf):
 
     """
 
-    a = 1. * 0.0417580576
+    a = 1.0 * 0.0417580576
     b = 3.1
     c = 1.73506161432 * 0.0417580576
     d = 1.50521940274 * 0.0417580576
@@ -70,7 +70,7 @@ def core_loss_unit(ind, m_c, f_bf):
     f = 0.377614241733 * 0.0417580576
     g = 0.13103679517 * 0.0417580576
 
-    return m_c * f_bf * (a + c * ind + d * ind ** b + e * ind ** 3. + f * ind ** 4. + g * ind ** 5.) * 10 ** (-3.)
+    return m_c * f_bf * (a + c * ind + d * ind**b + e * ind**3.0 + f * ind**4.0 + g * ind**5.0) * 10 ** (-3.0)
 
 
 def core_mass(r_c, ff_c, h, ei, s, m):
@@ -98,7 +98,7 @@ def core_mass(r_c, ff_c, h, ei, s, m):
     """
     gamma = 1.025
 
-    a = r_c ** 2. * pi * ff_c * C_RHO_FE
+    a = r_c**2.0 * pi * ff_c * C_RHO_FE
 
     m_corner = a * (6.0 * r_c * gamma + 6.0 * r_c)
     m_column = a * 3 * (h + ei)
@@ -129,13 +129,12 @@ def turn_voltage(ind, r_c, ff_c, freq):
     This function calculates the turn voltage from the core area, the frequency and the flux density in the core.
     [V]
     """
-    area = r_c ** 2. * pi * ff_c
+    area = r_c**2.0 * pi * ff_c
 
     return ind * area * 4.44 * 1e-6 * freq
 
 
-def short_circuit_impedance(b_pow, p_num, freq, alpha, turn_v, h, s,
-                            r_in, t_in, r_ou, t_ou, g):
+def short_circuit_impedance(b_pow, p_num, freq, alpha, turn_v, h, s, r_in, t_in, r_ou, t_ou, g):
     """
     Short-circuit impedance calculation
 
@@ -151,10 +150,10 @@ def short_circuit_impedance(b_pow, p_num, freq, alpha, turn_v, h, s,
     """
 
     p_pow = b_pow / p_num
-    imp_con = 4. * pi ** 2. * mu_0 * freq * p_pow / turn_v ** 2. / (h * (1 + alpha) / 2. + 0.32 * s)
-    a = r_in * t_in / 3.
-    b = r_ou * t_ou / 3.
-    c = (r_in + t_in / 2. + g / 2.) * g
+    imp_con = 4.0 * pi**2.0 * mu_0 * freq * p_pow / turn_v**2.0 / (h * (1 + alpha) / 2.0 + 0.32 * s)
+    a = r_in * t_in / 3.0
+    b = r_ou * t_ou / 3.0
+    c = (r_in + t_in / 2.0 + g / 2.0) * g
 
     return imp_con * (a + b + c)
 
@@ -168,7 +167,7 @@ def inner_winding_radius(r_c, g_core, t_in):
     Core || Inner Main || Regulating || Outer Main
 
     """
-    return r_c + g_core + t_in / 2.
+    return r_c + g_core + t_in / 2.0
 
 
 def outer_winding_radius(r_in, t_in, g, t_out):
@@ -179,7 +178,7 @@ def outer_winding_radius(r_in, t_in, g, t_out):
     Core || Inner Main || Outer Main || Regulating
 
     """
-    return r_in + t_in / 2. + g + t_out / 2.
+    return r_in + t_in / 2.0 + g + t_out / 2.0
 
 
 def winding_power(width, height, ff_w, j_, u_t):
@@ -222,7 +221,7 @@ def homogenous_insulation_ff(ff):
     function give back the insulation horizontal filling factor
     """
 
-    return (1. - ff) ** 0.5
+    return (1.0 - ff) ** 0.5
 
 
 def opt_win_eddy_loss(v_k, k):
@@ -236,7 +235,7 @@ def opt_win_eddy_loss(v_k, k):
 
     """
 
-    return v_k / (3. * v_k + 2. * k)
+    return v_k / (3.0 * v_k + 2.0 * k)
 
 
 def sum_winding_loss(dc_loss, eddy_loss):
@@ -244,7 +243,7 @@ def sum_winding_loss(dc_loss, eddy_loss):
     This function give back the sum of the estimated eddy and dc loss in the
     winding.
     """
-    return dc_loss * (1. + eddy_loss)
+    return dc_loss * (1.0 + eddy_loss)
 
 
 def phase_current(sb, ub, con_fact):
@@ -255,14 +254,10 @@ def phase_current(sb, ub, con_fact):
     :param con_fact: connection factor --- 1 for delta --- sqrt(3) for star connection --- sqrt(2)/2. for zig-zag
     :return:
     """
-    return sb * 1e3 / ub / 3. ** 0.5 / con_fact
+    return sb * 1e3 / ub / 3.0**0.5 / con_fact
 
 
-def capitalized_cost(c_mass, c_material_price,
-                     w_mass_in, w_c_in,
-                     w_mass_ou, w_c_out,
-                     ll, ll_cost,
-                     nll, nll_cost):
+def capitalized_cost(c_mass, c_material_price, w_mass_in, w_c_in, w_mass_ou, w_c_out, ll, ll_cost, nll, nll_cost):
     """
     Objective function
     Simple capitalized cost calculation, only the active part with filling factors

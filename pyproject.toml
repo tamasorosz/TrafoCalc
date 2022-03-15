@@ -27,7 +27,7 @@ show_error_codes = true
 strict = true
 
 [tool.poetry]
-name =  "Transformer-calculations-with-the-2-winding-model"
+name = "Transformer-calculations-with-the-2-winding-model"
 version = "0.1.0"
 description = "Two-winding transformer-based optimization of conventional and superconductor-based transformers."
 authors = [

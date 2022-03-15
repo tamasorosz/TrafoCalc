@@ -1,7 +1,8 @@
-from src.base_functions import phase_current, winding_mass, winding_dc_loss, opt_win_eddy_loss, \
-    homogenous_insulation_ff
 from dataclasses import dataclass, field
+
 from dataclasses_json import dataclass_json
+
+from src.base_functions import homogenous_insulation_ff, opt_win_eddy_loss, phase_current, winding_dc_loss, winding_mass
 
 
 @dataclass_json
@@ -33,14 +34,14 @@ class WindingParams:
         :return:
         """
         # in this simple code the connection can be only 'y' or 'd'
-        if str(self.connection).lower() == 'y':
+        if str(self.connection).lower() == "y":
             connection_factor = 1.73
 
-        elif str(self.connection).lower() == 'd':
+        elif str(self.connection).lower() == "d":
             connection_factor = 1.0
 
         else:
-            raise ValueError('invalid connection type')
+            raise ValueError("invalid connection type")
 
         self.ph_current = phase_current(nominal_power * 1e-3, self.line_voltage, connection_factor)
         self.ph_voltage = self.line_voltage / connection_factor
@@ -53,27 +54,27 @@ INFEASIBLE = -1
 @dataclass_json
 @dataclass
 class WindingDesign:
-    inner_radius: float = field(default=0.)
-    thickness: float = field(default=0.)  # input - design variable
-    winding_height: float = field(default=0.)  # input - design variable
-    filling_factor: float = field(default=0.)  # input - engineers guess from the constructoins variable
-    current_density: float = field(default=0.)  # input - design variable
+    inner_radius: float = field(default=0.0)
+    thickness: float = field(default=0.0)  # input - design variable
+    winding_height: float = field(default=0.0)  # input - design variable
+    filling_factor: float = field(default=0.0)  # input - engineers guess from the constructoins variable
+    current_density: float = field(default=0.0)  # input - design variable
     # calculated parameters
-    mass: float = field(default=0.)
-    dc_loss: float = field(default=0.)
-    ac_loss: float = field(default=0.)
+    mass: float = field(default=0.0)
+    dc_loss: float = field(default=0.0)
+    ac_loss: float = field(default=0.0)
 
     def calc_properties(self):
         # geometry
-        self.mean_radius = self.inner_radius + self.thickness / 2.
+        self.mean_radius = self.inner_radius + self.thickness / 2.0
         self.outer_radius = self.inner_radius + self.thickness
 
-        self.mass = winding_mass(3, self.mean_radius, self.thickness, self.winding_height,
-                                 self.filling_factor / 100.)
+        self.mass = winding_mass(3, self.mean_radius, self.thickness, self.winding_height, self.filling_factor / 100.0)
 
         self.dc_loss = winding_dc_loss(self.mass, self.current_density)
-        self.ac_loss = opt_win_eddy_loss(self.thickness * homogenous_insulation_ff(self.filling_factor / 100.),
-                                         self.thickness)
+        self.ac_loss = opt_win_eddy_loss(
+            self.thickness * homogenous_insulation_ff(self.filling_factor / 100.0), self.thickness
+        )
 
         return True
 
@@ -81,11 +82,11 @@ class WindingDesign:
 @dataclass_json
 @dataclass
 class MaterialCosts:
-    ll_cost: float = field(default=0.)  # load loss cost of the given design
-    nll_cost: float = field(default=0.)  # no load loss cost of the given design
-    lv_cost: float = field(default=0.)  # cost of 1kg copper in the lv winding
-    hv_cost: float = field(default=0.)  # cost of 1kg copper in the hv winding
-    core_cost: float = field(default=0.)  # cost of the magnetic steel
+    ll_cost: float = field(default=0.0)  # load loss cost of the given design
+    nll_cost: float = field(default=0.0)  # no load loss cost of the given design
+    lv_cost: float = field(default=0.0)  # cost of 1kg copper in the lv winding
+    hv_cost: float = field(default=0.0)  # cost of 1kg copper in the hv winding
+    core_cost: float = field(default=0.0)  # cost of the magnetic steel
 
 
 @dataclass_json
@@ -94,6 +95,7 @@ class TransformerRequirements:
     """
     Required parameters for a 3 phase transformer design and technological parameters.
     """
+
     power: float  # nominal power in MVA
     freq: float  # network frequency in Hz
     sci_req: float  # the % value of the required short circuit impedance
@@ -112,6 +114,7 @@ class TransformerRequirements:
 @dataclass
 class TransformerDesign:
     """This class contains the requiered parameters and the optimal values of the transformer design."""
+
     description: str
     required: TransformerRequirements
     costs: MaterialCosts
@@ -121,16 +124,16 @@ class TransformerDesign:
 @dataclass_json
 @dataclass
 class MainResults:
-    wh: float = field(default=0.)
-    feasible: bool = field(default=0.)
-    core_loss: float = field(default=0.)
-    load_loss: float = field(default=0.)
-    copper_mass: float = field(default=0.)
-    sci: float = field(default=0.)
-    window_width: float = field(default=0.)
-    core_mass: float = field(default=0.)
-    turn_voltage: float = field(default=0.)
-    capitalized_cost: float = field(default=0.)
-    fem_based_sci: float = field(default=0.)
-    fem_bax: float = field(default=0.)
-    fem_brad: float = field(default=0.)
+    wh: float = field(default=0.0)
+    feasible: bool = field(default=0.0)
+    core_loss: float = field(default=0.0)
+    load_loss: float = field(default=0.0)
+    copper_mass: float = field(default=0.0)
+    sci: float = field(default=0.0)
+    window_width: float = field(default=0.0)
+    core_mass: float = field(default=0.0)
+    turn_voltage: float = field(default=0.0)
+    capitalized_cost: float = field(default=0.0)
+    fem_based_sci: float = field(default=0.0)
+    fem_bax: float = field(default=0.0)
+    fem_brad: float = field(default=0.0)

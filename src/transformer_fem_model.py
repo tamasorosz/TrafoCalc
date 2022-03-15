@@ -23,13 +23,21 @@ class FemModel:
         self.magnetic.add_boundary("A = 0", "magnetic_potential", {"magnetic_potential_real": 0})
 
         # materials
-        self.magnetic.add_material("Air",
-                                   {"magnetic_permeability": 1, "magnetic_conductivity": 0, "magnetic_remanence": 0,
-                                    "magnetic_remanence_angle": 0,
-                                    "magnetic_velocity_x": 0, "magnetic_velocity_y": 0,
-                                    "magnetic_velocity_angular": 0,
-                                    "magnetic_current_density_external_real": 0,
-                                    "magnetic_total_current_prescribed": 0, "magnetic_total_current_real": 0})
+        self.magnetic.add_material(
+            "Air",
+            {
+                "magnetic_permeability": 1,
+                "magnetic_conductivity": 0,
+                "magnetic_remanence": 0,
+                "magnetic_remanence_angle": 0,
+                "magnetic_velocity_x": 0,
+                "magnetic_velocity_y": 0,
+                "magnetic_velocity_angular": 0,
+                "magnetic_current_density_external_real": 0,
+                "magnetic_total_current_prescribed": 0,
+                "magnetic_total_current_real": 0,
+            },
+        )
 
     def create_rectangle(self, x0, y0, width, height, boundary: dict = None):
         """
@@ -66,7 +74,7 @@ class FemModel:
             self.geo.add_edge(x0 + width, y0 + height, x0, y0 + height)
             self.geo.add_edge(x0, y0 + height, x0, y0)
 
-        return x0 + width / 2., y0 + height / 2.  # gives back the center of the rectangle in [m]-s
+        return x0 + width / 2.0, y0 + height / 2.0  # gives back the center of the rectangle in [m]-s
 
     def create_winding(self, x0, y0, width, height, name, filling_f, j):
         """
@@ -82,14 +90,19 @@ class FemModel:
 
         x_label, y_label = self.create_rectangle(x0, y0, width, height)
         # print(x0, y0, width, height)
-        self.magnetic.add_material(name, {"magnetic_permeability": 1,
-                                          "magnetic_conductivity": 57 * 1e6 * filling_f,
-                                          "magnetic_remanence": 0,
-                                          "magnetic_remanence_angle": 0,
-                                          "magnetic_velocity_x": 0,
-                                          "magnetic_velocity_y": 0,
-                                          "magnetic_velocity_angular": 0,
-                                          "magnetic_current_density_external_real": j * 1e6 * filling_f})  # j in A/m2
+        self.magnetic.add_material(
+            name,
+            {
+                "magnetic_permeability": 1,
+                "magnetic_conductivity": 57 * 1e6 * filling_f,
+                "magnetic_remanence": 0,
+                "magnetic_remanence_angle": 0,
+                "magnetic_velocity_x": 0,
+                "magnetic_velocity_y": 0,
+                "magnetic_velocity_angular": 0,
+                "magnetic_current_density_external_real": j * 1e6 * filling_f,
+            },
+        )  # j in A/m2
 
         # creates a label for the material definition
         self.geo.add_label(x_label, y_label, materials={"magnetic": "{0}".format(name)})
