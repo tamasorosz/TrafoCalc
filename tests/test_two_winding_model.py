@@ -53,7 +53,7 @@ class TestConvTransformerModel(TestCase):
         transformer = TransformerDesign.from_dict(data)
 
         trafo_model = TwoWindingModel(input=transformer)
-        trafo_model.calculate()
+        trafo_model.calculate(is_sc=True)
         print(trafo_model)
         # FEM calculation
         trafo_model.fem_simulation()
