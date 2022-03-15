@@ -27,14 +27,13 @@ show_error_codes = true
 strict = true
 
 [tool.poetry]
-name = "template-python-hello-world"
+name =  "Transformer-calculations-with-the-2-winding-model"
 version = "0.1.0"
-description = "A minimal template for Python development"
+description = "Two-winding transformer-based optimization of conventional and superconductor-based transformers."
 authors = [
     "Tamás Orosz <orosz.tamas@yahoo.com>",
-
 ]
-license = "MIT"
+license = "Apache-2.0"
 
 [tool.poetry.dependencies]
 python = "3.9"
@@ -57,9 +56,8 @@ pylint = "*"
 pytest = "*"
 pytest-randomly = "*"
 typed-ast = "*"
-digital-twin-distiller = "*"
-artap="2020.8.28.1452"
-agrossuite ="^2020.6.25.3540"
+artap = "2020.8.28.1452"
+agrossuite = "^2020.6.25.3540"
 
 [tool.pylint.FORMAT]
 max-line-length = 127
