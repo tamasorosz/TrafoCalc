@@ -20,7 +20,7 @@ class TwoWindingModel:
     hv_winding: WindingDesign = field(default=None)  # derived winding parameters and data
     lv_winding: WindingDesign = field(default=None)
 
-    def calculate(self, is_sc = False):
+    def calculate(self, is_sc=False):
         """
         Calculates the main geometrical parameters and invokes the WindingParameter class which calculates the searched
         parameters -> losses, masses
@@ -49,22 +49,26 @@ class TwoWindingModel:
         # if the resulting thickness of the winding is smaller than the required minimum the solution is not feasible
         if t_in < C_WIN_MIN or t_ou < C_WIN_MIN:
             self.results.feasible = INFEASIBLE
+            raise ValueError("The winding thickness is too narrow.")
             return
 
         # outer winding radius
         r_ou = outer_winding_radius(r_in, t_in, self.input.design_params.m_gap, t_ou)
 
         # calculating the detailed parameters of the winding
-        self.lv_winding = WindingDesign(inner_radius=r_in, thickness=t_in, winding_height=self.input.design_params.h_in,
+        self.lv_winding = WindingDesign(inner_radius=r_in, thickness=t_in,
+                                        winding_height=self.input.design_params.h_in,
                                         current_density=self.input.design_params.j_in,
                                         filling_factor=self.input.required.lv.filling_factor)
-        self.lv_winding.calc_properties()
-
         self.hv_winding = WindingDesign(inner_radius=r_ou, thickness=t_ou, winding_height=h_ou,
                                         current_density=self.input.design_params.j_ou,
                                         filling_factor=self.input.required.hv.filling_factor)
 
-        self.hv_winding.calc_properties()
+        if is_sc:
+            pass
+        else:
+            self.lv_winding.calc_properties()
+            self.hv_winding.calc_properties()
 
         # window width and window heights
         self.results.window_width = window_width(self.input.required.min_core_gap, t_in, t_ou,
@@ -99,7 +103,6 @@ class TwoWindingModel:
         self.results.feasible = True
 
     def fem_simulation(self):
-
         if self.results.feasible != True:
             raise ValueError('Invalid Transformer Geometry')
             return
