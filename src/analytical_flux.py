@@ -9,7 +9,7 @@ from scipy.constants import mu_0, pi
  References: - https://iopscience.iop.org/article/10.1088/1742-6596/97/1/012318/pdf
                equation (3)
              - https://www.transform.ru/sst/$articles.en/ae000002.pdf
-""""
+"""
 
 
 def calc_b_parallel(N: float, I: float, h: float, g: float = 1):
