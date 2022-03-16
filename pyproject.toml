@@ -36,7 +36,7 @@ authors = [
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
-python = "3.9.*"
+python = "3.9"
 typer = "*"
 scipy = "^1.8.0"
 marshmallow-dataclass = "^8.5.3"
@@ -58,7 +58,7 @@ pytest = "*"
 pytest-randomly = "*"
 typed-ast = "*"
 artap = "2020.8.28.1452"
-agrossuite = "^2020.6.25.3540"
+agrossuite = "~2020.9.15.64726"
 
 [tool.pylint.FORMAT]
 max-line-length = 127
