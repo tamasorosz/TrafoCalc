@@ -57,7 +57,7 @@ pylint = "*"
 pytest = "*"
 pytest-randomly = "*"
 typed-ast = "*"
-artap = "2020.8.28.1452"
+artap = "2022.1.1.1759"
 agrossuite = "^2020.6.25.3540"
 
 [tool.pylint.FORMAT]
