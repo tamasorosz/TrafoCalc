@@ -43,6 +43,8 @@ class TestConvTransformerModel(TestCase):
         # FEM calculation
         trafo_model.fem_simulation()
 
+        del trafo_model
+
     def test_sc_transformer(self):
         path = files("data").joinpath("1250kVA_sc_transformer.json")
 
@@ -58,3 +60,5 @@ class TestConvTransformerModel(TestCase):
         print(trafo_model)
         # FEM calculation
         trafo_model.fem_simulation()
+
+        del trafo_model
