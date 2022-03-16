@@ -2,9 +2,14 @@ from math import exp, log
 
 from scipy.constants import mu_0, pi
 
-# References: - https://iopscience.iop.org/article/10.1088/1742-6596/97/1/012318/pdf
-#               equation (3)
-#             - https://www.transform.ru/sst/$articles.en/ae000002.pdf
+"""
+ This file contains analytical flux density calculatoins to estimate the maximum value for the axial and the radial 
+ losses of the different windings.
+ 
+ References: - https://iopscience.iop.org/article/10.1088/1742-6596/97/1/012318/pdf
+               equation (3)
+             - https://www.transform.ru/sst/$articles.en/ae000002.pdf
+""""
 
 
 def calc_b_parallel(N: float, I: float, h: float, g: float = 1):
@@ -18,7 +23,7 @@ def calc_b_parallel(N: float, I: float, h: float, g: float = 1):
     :return:
     """
 
-    return 2.0**0.5 * I * N * mu_0 / (g * h)
+    return 2.0 ** 0.5 * I * N * mu_0 / (g * h)
 
 
 def calc_b_perpendicular(N, I, h, w, g=1):
@@ -32,7 +37,7 @@ def calc_b_perpendicular(N, I, h, w, g=1):
     :param g: number of groups of balanced ampere-turns
     :return:
     """
-    return mu_0 * N * I / (2.0**0.5 * pi * g * h) * log(2.0 * h / w)
+    return mu_0 * N * I / (2.0 ** 0.5 * pi * g * h) * log(2.0 * h / w)
 
 
 def rogowski(t_lv, t_hv, gap, ls):
