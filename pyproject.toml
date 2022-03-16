@@ -59,6 +59,7 @@ pytest-randomly = "*"
 typed-ast = "*"
 artap = "2020.8.28.1452"
 agrossuite = "^2020.6.25.3540"
+
 [tool.pylint.FORMAT]
 max-line-length = 127
 
