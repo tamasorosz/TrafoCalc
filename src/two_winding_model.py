@@ -1,3 +1,4 @@
+import typing
 from dataclasses import dataclass, field
 from math import pi
 
@@ -16,10 +17,10 @@ CORE_BF = 1.2  # building factor of the core
 @dataclass
 class TwoWindingModel:
     input: TransformerDesign
-    results: MainResults = field(default=MainResults)
+    results: MainResults = field(default=MainResults())
     # winding models
-    hv_winding: WindingDesign = field(default=None)  # derived winding parameters and data
-    lv_winding: WindingDesign = field(default=None)
+    hv_winding: typing.Any = field(default=None)
+    lv_winding: typing.Any = field(default=None)
 
     def calculate(self, is_sc=False):
         """

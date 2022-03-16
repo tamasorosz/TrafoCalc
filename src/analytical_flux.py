@@ -24,7 +24,7 @@ def calc_b_parallel(N: float, I: float, h: float, g: float = 1) -> typing.Any:
     :return:
     """
 
-    return 2.0 ** 0.5 * I * N * mu_0 / (g * h)
+    return 2.0**0.5 * I * N * mu_0 / (g * h)
 
 
 def calc_b_perpendicular(N: float, I: float, h: float, w: float, g: float = 1) -> typing.Any:
@@ -38,7 +38,7 @@ def calc_b_perpendicular(N: float, I: float, h: float, w: float, g: float = 1) -
     :param g: number of groups of balanced ampere-turns
     :return: the maximum value of the perpendicular magnetic field at the winding ends
     """
-    return mu_0 * N * I / (2.0 ** 0.5 * pi * g * h) * log(2.0 * h / w)
+    return mu_0 * N * I / (2.0**0.5 * pi * g * h) * log(2.0 * h / w)
 
 
 def rogowski(t_lv: float, t_hv: float, gap: float, ls: float) -> typing.Any:

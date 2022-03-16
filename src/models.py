@@ -125,7 +125,7 @@ class TransformerDesign:
 @dataclass
 class MainResults:
     wh: float = field(default=0.0)
-    feasible: bool = field(default=0.0)
+    feasible: bool = field(default=False)
     core_loss: float = field(default=0.0)
     load_loss: float = field(default=0.0)
     copper_mass: float = field(default=0.0)

@@ -24,7 +24,8 @@ profile = "black"
 
 [tool.mypy]
 show_error_codes = true
-strict = true
+strict = false
+ignore_missing_imports = true
 
 [tool.poetry]
 name = "Transformer-calculations-with-the-2-winding-model"
