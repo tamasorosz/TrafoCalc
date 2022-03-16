@@ -39,7 +39,7 @@ class FemModel:
             },
         )
 
-    def create_rectangle(self, x0, y0, width, height, boundary: dict = None):
+    def create_rectangle(self, x0: float, y0: float, width: float, height: float, boundary: dict = None):
         """
         A rectangle class to define the windings and the working window of the transformer.
 
@@ -76,7 +76,7 @@ class FemModel:
 
         return x0 + width / 2.0, y0 + height / 2.0  # gives back the center of the rectangle in [m]-s
 
-    def create_winding(self, x0, y0, width, height, name, filling_f, j):
+    def create_winding(self, x0: float, y0: float, width: float, height: float, name: str, filling_f: float, j: float):
         """
         @param geo: geometry object
         @param x0: x coordinate of the bottom - left node

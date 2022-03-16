@@ -1,3 +1,5 @@
+import typing
+
 from scipy.constants import mu_0, pi
 
 """ This module contains the basic calculations for a two winding transformer design and optimization."""
@@ -15,7 +17,7 @@ RHO_CU = 0.0216  # 0.0216        # ohm * mm2 / m
 RHO_COPPER = 8960.0  # kg/m3
 
 
-def winding_mass(m, r_m, t, h, ff):
+def winding_mass(m: float, r_m: float, t: float, h: float, ff: float) -> typing.Any:
     """
     Winding mass in m phase.
 
@@ -31,7 +33,7 @@ def winding_mass(m, r_m, t, h, ff):
     return m * r_m * 2.0 * pi * t * h * ff * C_RHO
 
 
-def winding_dc_loss(mass, j):
+def winding_dc_loss(mass: float, j: float) -> typing.Any:
     """
     This function is estimate the loss of the winding from the geometry of
     the winding and the copper filling factor.
@@ -44,7 +46,7 @@ def winding_dc_loss(mass, j):
     return dc_loss * 1e-3
 
 
-def core_loss_unit(ind, m_c, f_bf):
+def core_loss_unit(ind: float, m_c: float, f_bf: float) -> typing.Any:
     """
     This function calculates the core loss in kW/ at the given induction
     based on mediumloss
@@ -73,7 +75,7 @@ def core_loss_unit(ind, m_c, f_bf):
     return m_c * f_bf * (a + c * ind + d * ind**b + e * ind**3.0 + f * ind**4.0 + g * ind**5.0) * 10 ** (-3.0)
 
 
-def core_mass(r_c, ff_c, h, ei, s, m):
+def core_mass(r_c: float, ff_c: float, h: float, ei: float, s: float, m: float) -> typing.Any:
     """
     This function estimates the mass of a 3 legged transformer core.
 
@@ -107,7 +109,7 @@ def core_mass(r_c, ff_c, h, ei, s, m):
     return m_column + m_yoke + m_corner
 
 
-def window_width(g_core, t_in, t_out, g, t_r, g_r):
+def window_width(g_core: float, t_in: float, t_out: float, g: float, t_r: float, g_r: float) -> float:
     """
     is the calculated winding width if there
 
@@ -124,7 +126,7 @@ def window_width(g_core, t_in, t_out, g, t_r, g_r):
     return g_core + t_in + t_out + g + t_r + g_r + g
 
 
-def turn_voltage(ind, r_c, ff_c, freq):
+def turn_voltage(ind: float, r_c: float, ff_c: float, freq: float) -> typing.Any:
     """
     This function calculates the turn voltage from the core area, the frequency and the flux density in the core.
     [V]
@@ -134,7 +136,20 @@ def turn_voltage(ind, r_c, ff_c, freq):
     return ind * area * 4.44 * 1e-6 * freq
 
 
-def short_circuit_impedance(b_pow, p_num, freq, alpha, turn_v, h, s, r_in, t_in, r_ou, t_ou, g):
+def short_circuit_impedance(
+    b_pow: float,
+    p_num: float,
+    freq: float,
+    alpha: float,
+    turn_v: float,
+    h: float,
+    s: float,
+    r_in: float,
+    t_in: float,
+    r_ou: float,
+    t_ou: float,
+    g: float,
+) -> typing.Any:
     """
     Short-circuit impedance calculation
 
@@ -158,7 +173,7 @@ def short_circuit_impedance(b_pow, p_num, freq, alpha, turn_v, h, s, r_in, t_in,
     return imp_con * (a + b + c)
 
 
-def inner_winding_radius(r_c, g_core, t_in):
+def inner_winding_radius(r_c: float, g_core: float, t_in: float) -> float:
     """
     Calculates the inner winding radius in the following cases:
 
@@ -170,7 +185,7 @@ def inner_winding_radius(r_c, g_core, t_in):
     return r_c + g_core + t_in / 2.0
 
 
-def outer_winding_radius(r_in, t_in, g, t_out):
+def outer_winding_radius(r_in: float, t_in: float, g: float, t_out: float) -> float:
     """
     Calculates the inner winding radius in the following cases:
 
@@ -181,7 +196,7 @@ def outer_winding_radius(r_in, t_in, g, t_out):
     return r_in + t_in / 2.0 + g + t_out / 2.0
 
 
-def winding_power(width, height, ff_w, j_, u_t):
+def winding_power(width: float, height: float, ff_w: float, j_: float, u_t: float) -> float:
     """
     Calculates the power of the winding
 
@@ -193,7 +208,7 @@ def winding_power(width, height, ff_w, j_, u_t):
     return width * height * u_t * ff_w * j_ * 1e-3  # kVA
 
 
-def calc_inner_width(s_p, h_, ff_w, j_, u_t):
+def calc_inner_width(s_p: float, h_: float, ff_w: float, j_: float, u_t: float) -> float:
     """
     Calculates the inner width from the height and the power
 
@@ -206,16 +221,16 @@ def calc_inner_width(s_p, h_, ff_w, j_, u_t):
     return s_p / h_ / ff_w / j_ / u_t * 1e3  # mm
 
 
-def calculate_turn_num(win_voltage, turn_voltage):
+def calculate_turn_num(win_voltage: float, turn_vol: float) -> float:
     """
     win_voltage in [kV]
     turn_voltage in [V]
     """
 
-    return round(win_voltage / turn_voltage * 1e3, 1)
+    return round(win_voltage / turn_vol * 1e3, 1)
 
 
-def homogenous_insulation_ff(ff):
+def homogenous_insulation_ff(ff: float) -> typing.Any:
     """
     If we assumes that the horizontal ff = vertical ff, the
     function give back the insulation horizontal filling factor
@@ -224,7 +239,7 @@ def homogenous_insulation_ff(ff):
     return (1.0 - ff) ** 0.5
 
 
-def opt_win_eddy_loss(v_k, k):
+def opt_win_eddy_loss(v_k: float, k: float) -> float:
     """
     This function approximates the optimal eddy loss in the assumed optimal winding system.
     From the insulation, and winding width parameters.
@@ -238,7 +253,7 @@ def opt_win_eddy_loss(v_k, k):
     return v_k / (3.0 * v_k + 2.0 * k)
 
 
-def sum_winding_loss(dc_loss, eddy_loss):
+def sum_winding_loss(dc_loss: float, eddy_loss: float) -> float:
     """
     This function give back the sum of the estimated eddy and dc loss in the
     winding.
@@ -246,7 +261,7 @@ def sum_winding_loss(dc_loss, eddy_loss):
     return dc_loss * (1.0 + eddy_loss)
 
 
-def phase_current(sb, ub, con_fact):
+def phase_current(sb: float, ub: float, con_fact: float) -> typing.Any:
     """
 
     :param sb: nominal power [MVA]
@@ -257,7 +272,18 @@ def phase_current(sb, ub, con_fact):
     return sb * 1e3 / ub / 3.0**0.5 / con_fact
 
 
-def capitalized_cost(c_mass, c_material_price, w_mass_in, w_c_in, w_mass_ou, w_c_out, ll, ll_cost, nll, nll_cost):
+def capitalized_cost(
+    c_mass: float,
+    c_material_price: float,
+    w_mass_in: float,
+    w_c_in: float,
+    w_mass_ou: float,
+    w_c_out: float,
+    ll: float,
+    ll_cost: float,
+    nll: float,
+    nll_cost: float,
+) -> float:
     """
     Objective function
     Simple capitalized cost calculation, only the active part with filling factors
