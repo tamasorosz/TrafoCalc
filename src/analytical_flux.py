@@ -1,3 +1,4 @@
+import typing
 from math import exp, log
 
 from scipy.constants import mu_0, pi
@@ -12,7 +13,7 @@ from scipy.constants import mu_0, pi
 """
 
 
-def calc_b_parallel(N: float, I: float, h: float, g: float = 1):
+def calc_b_parallel(N: float, I: float, h: float, g: float = 1) -> typing.Any:
     """
     Approximates the peak value of the magnetic flux density at the middle of the coil system.
 
@@ -26,7 +27,7 @@ def calc_b_parallel(N: float, I: float, h: float, g: float = 1):
     return 2.0 ** 0.5 * I * N * mu_0 / (g * h)
 
 
-def calc_b_perpendicular(N, I, h, w, g=1):
+def calc_b_perpendicular(N: float, I: float, h: float, w: float, g: float = 1) -> typing.Any:
     """
     Approximates the maximum value of the radial flux at the winding ends.
 
@@ -35,12 +36,20 @@ def calc_b_perpendicular(N, I, h, w, g=1):
     :param h: the length of the coil (m)
     :param w: w is the width of the tape (mm)
     :param g: number of groups of balanced ampere-turns
-    :return:
+    :return: the maximum value of the perpendicular magnetic field at the winding ends
     """
     return mu_0 * N * I / (2.0 ** 0.5 * pi * g * h) * log(2.0 * h / w)
 
 
-def rogowski(t_lv, t_hv, gap, ls):
+def rogowski(t_lv: float, t_hv: float, gap: float, ls: float) -> typing.Any:
+    """
+    Calculates the rogowski factor for a more accurate analytical prediction of the magnetic field.
+    :param t_lv: thickness of the low voltage winding
+    :param t_hv: thickness of the high voltage winding
+    :param gap: main insulation distance between the low voltage and the high voltage windings
+    :param ls: length of the drop channel
+    :return: rogowski factor
+    """
     a = t_hv + t_lv + gap
 
     return 1 - a / pi / ls * (1 - exp(-ls / a))
