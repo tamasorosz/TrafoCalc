@@ -18,7 +18,7 @@
     "min_main_gap": 34.5,
     "min_core_gap": 50.0,
     "ei": 461.0,
-    "phase_distance": 50.0,
+    "phase_distance": 30.0,
     "alpha": 0.965,
     "core_fillingf": 89.0
   },

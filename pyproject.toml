@@ -9,7 +9,7 @@ line-length = 127
 exclude_lines = [
     'if __name__ == "__main__":',
 ]
-fail_under = 100
+fail_under = 85
 
 [tool.coverage.run]
 branch = true

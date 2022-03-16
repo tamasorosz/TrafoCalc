@@ -43,6 +43,8 @@ class TestConvTransformerModel(TestCase):
         # FEM calculation
         trafo_model.fem_simulation()
 
+        self.assertAlmostEqual(trafo_model.results.fem_based_sci, 7.7, 1)
+
         del trafo_model
 
     def test_sc_transformer(self):
@@ -60,5 +62,8 @@ class TestConvTransformerModel(TestCase):
         print(trafo_model)
         # FEM calculation
         trafo_model.fem_simulation()
+
+        self.assertAlmostEqual(trafo_model.results.sci*100, 5.54,0)
+        #self.assertAlmostEqual(trafo_model.results.fem_based_sci, 5.8,2)
 
         del trafo_model
