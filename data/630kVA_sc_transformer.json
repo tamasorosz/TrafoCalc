@@ -1,0 +1,40 @@
+{
+  "description": "630kVA - Winding Design and Electromagnetic Analysis for a 630 kVA HTS Transformer - doi.org/10.1088/0953-2048/20/5/010",
+  "required": {
+    "power": 630,
+    "freq": 50,
+    "sci_req": 2.45,
+    "drop_tol": 5.0,
+    "hv": {
+      "connection": "y",
+      "line_voltage": 0.4,
+      "filling_factor": 100.0
+    },
+    "lv": {
+      "connection": "y",
+      "line_voltage": 10.5,
+      "filling_factor": 100.0
+    },
+    "min_main_gap": 38.5,
+    "min_core_gap": 48.0,
+    "ei": 467.0,
+    "phase_distance": 50.0,
+    "alpha": 1.036,
+    "core_fillingf": 94.8
+  },
+  "design_params": {
+    "rc": 148,
+    "bc": 1.275,
+    "j_in": 3.79,
+    "j_ou": 3.15,
+    "h_in": 342.5,
+    "m_gap": 34.5
+  },
+  "costs": {
+    "ll_cost": 0.0,
+    "nll_cost": 0.0,
+    "lv_cost": 0.0,
+    "hv_cost": 0.0,
+    "core_cost": 0.0
+  }
+}
