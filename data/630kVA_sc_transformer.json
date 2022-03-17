@@ -17,18 +17,18 @@
     },
     "min_main_gap": 38.0,
     "min_core_gap": 46.0,
-    "ei": 67.0,
+    "ei": 467.0,
     "phase_distance": 30.0,
     "alpha": 1.036,
     "core_fillingf": 88.0
   },
   "design_params": {
     "rc": 198,
-    "bc": 0.963,
+    "bc": 1.275,
     "j_in": 3.29,
     "j_ou": 1.88,
     "h_in": 342.5,
-    "m_gap": 34.5
+    "m_gap": 38.5
   },
   "costs": {
     "ll_cost": 0.0,

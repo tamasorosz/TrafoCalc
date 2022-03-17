@@ -89,6 +89,7 @@ if __name__ == "__main__":
     NI_LV = Ns * Is
     NI_HV = Np * Ip
 
+    print(NI_HV, NI_LV, 630000/NI_HV)
     print('current density lv: ', calc_current_density(Np, 342.5, 8, 34.5))
     print('current density hv: ', calc_current_density(Ns, 355.0, 13.5, 902))
 
