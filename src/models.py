@@ -63,6 +63,7 @@ class WindingDesign:
     mass: float = field(default=0.0)
     dc_loss: float = field(default=0.0)
     ac_loss: float = field(default=0.0)
+    outer_radius: float = field(default=0.0)
 
     def calc_properties(self):
         # geometry

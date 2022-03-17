@@ -66,14 +66,14 @@ class TwoWindingModel:
 
         # calculating the detailed parameters of the winding
         self.lv_winding = WindingDesign(
-            inner_radius=r_in,
+            inner_radius=r_in - t_in / 2.,
             thickness=t_in,
             winding_height=self.input.design_params.h_in,
             current_density=self.input.design_params.j_in,
             filling_factor=self.input.required.lv.filling_factor,
         )
         self.hv_winding = WindingDesign(
-            inner_radius=r_ou,
+            inner_radius=r_ou - t_ou / 2.,
             thickness=t_ou,
             winding_height=h_ou,
             current_density=self.input.design_params.j_ou,
@@ -81,7 +81,8 @@ class TwoWindingModel:
         )
 
         if is_sc:
-            pass
+            self.lv_winding.calc_properties()
+            self.hv_winding.calc_properties()
         else:
             # if the resulting thickness of the winding is smaller than the required minimum the
             # solution is not feasible
@@ -112,7 +113,7 @@ class TwoWindingModel:
         self.results.core_loss = core_loss_unit(self.input.design_params.bc, self.results.core_mass, CORE_BF)
 
         self.results.load_loss = (
-            self.lv_winding.ac_loss + self.lv_winding.dc_loss + self.hv_winding.ac_loss + self.hv_winding.dc_loss
+                self.lv_winding.ac_loss + self.lv_winding.dc_loss + self.hv_winding.ac_loss + self.hv_winding.dc_loss
         )
 
         # short circuit impedance calculation with analytical formulas
@@ -170,7 +171,7 @@ class TwoWindingModel:
             self.lv_winding.winding_height,
             "lv",
             self.lv_winding.filling_factor / 100.0,
-            self.lv_winding.current_density * 2.0**0.5,
+            self.lv_winding.current_density * 2.0 ** 0.5,
         )
         # #
         simulation.create_winding(
@@ -180,7 +181,7 @@ class TwoWindingModel:
             self.hv_winding.winding_height,
             "hv",
             self.hv_winding.filling_factor / 100.0,
-            -self.hv_winding.current_density * 2.0**0.5,
+            -self.hv_winding.current_density * 2.0 ** 0.5,
         )
 
         computation = simulation.problem.computation()
@@ -193,23 +194,26 @@ class TwoWindingModel:
         # the base quantites referred to the low voltage winding
         u_b = self.input.required.lv.line_voltage  # voltage --- kV
         s_b = self.input.required.power / 1000.0  # nominal power  --- MVA
-        z_b = u_b**2.0 / s_b  # base impedance
+        z_b = u_b ** 2.0 / s_b  # base impedance
         i_b = self.input.required.power / u_b / 1.73
 
         omega = 2.0 * pi * self.input.required.freq
-        L = 2 * solution.volume_integrals()["Wm"] / i_b**2.0
+        L = 2 * solution.volume_integrals()["Wm"] / i_b ** 2.0
         self.results.fem_based_sci = omega * L / z_b * 100.0  # the short-circuit impedance in [%] values
 
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
         for i in range(
-            int(self.input.required.ei / 2.0), int(self.hv_winding.winding_height + self.input.required.ei / 2.0), 10
+                int(self.input.required.ei / 2.0), int(self.hv_winding.winding_height + self.input.required.ei / 2.0),
+                10
         ):
             point = solution.local_values(self.hv_winding.inner_radius * 1e-3, i * 1e-3)
             self.results.fem_bax = max(abs(point["Brz"]), self.results.fem_bax)
 
         # iterates over the top of the hv winding
-        for i in range(int(self.hv_winding.inner_radius), int(self.hv_winding.inner_radius + self.hv_winding.thickness), 3):
-            point = solution.local_values(i * 1e-3, (self.hv_winding.winding_height + self.input.required.ei / 2.0) * 1e-3)
+        for i in range(int(self.hv_winding.inner_radius), int(self.hv_winding.inner_radius + self.hv_winding.thickness),
+                       3):
+            point = solution.local_values(i * 1e-3,
+                                          (self.hv_winding.winding_height + self.input.required.ei / 2.0) * 1e-3)
             self.results.fem_brad = max(abs(point["Brr"]), self.results.fem_brad)
 
         print(self.results.fem_bax, self.results.fem_brad)

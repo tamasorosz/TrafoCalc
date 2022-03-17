@@ -7,27 +7,27 @@
     "drop_tol": 5.0,
     "hv": {
       "connection": "y",
-      "line_voltage": 10.5,
+      "line_voltage": 0.4,
       "filling_factor": 100.0
     },
     "lv": {
       "connection": "y",
-      "line_voltage": 0.4,
+      "line_voltage": 10.5,
       "filling_factor": 100.0
     },
     "min_main_gap": 34.5,
     "min_core_gap": 50.0,
-    "ei": 461.0,
-    "phase_distance": 30.0,
-    "alpha": 0.965,
-    "core_fillingf": 89.0
+    "ei": 467.0,
+    "phase_distance": 50.0,
+    "alpha": 1.036,
+    "core_fillingf": 94.8
   },
   "design_params": {
     "rc": 155,
     "bc": 1.5,
-    "j_in": 4.051,
-    "j_ou": 6.47,
-    "h_in": 355.0,
+    "j_in": 3.79,
+    "j_ou": 3.15,
+    "h_in": 342.5,
     "m_gap": 34.5
   },
   "costs": {
