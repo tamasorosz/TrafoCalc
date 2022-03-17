@@ -192,7 +192,7 @@ class TwoWindingModel:
         self.input.required.lv.calculate_phase_quantities(self.input.required.power)
 
         # the base quantites referred to the low voltage winding
-        u_b = self.input.required.lv.line_voltage  # voltage --- kV
+        u_b = self.input.required.hv.line_voltage  # voltage --- kV
         s_b = self.input.required.power / 1000.0  # nominal power  --- MVA
         z_b = u_b ** 2.0 / s_b  # base impedance
         i_b = self.input.required.power / u_b / 1.73

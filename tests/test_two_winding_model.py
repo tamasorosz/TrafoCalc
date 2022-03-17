@@ -67,7 +67,7 @@ class TestConvTransformerModel(TestCase):
         self.assertAlmostEqual(trafo_model.lv_winding.outer_radius, 252, 1)
         self.assertAlmostEqual(trafo_model.lv_winding.thickness, 8.0, 0)
         self.assertAlmostEqual(trafo_model.hv_winding.thickness, 13.5, 0)
-        self.assertAlmostEqual(trafo_model.results.sci*100, 4.8,0)
-        self.assertAlmostEqual(trafo_model.results.fem_based_sci, 6.3,1)
+        self.assertAlmostEqual(trafo_model.results.sci*100, 2.45,0)
+        self.assertAlmostEqual(trafo_model.results.fem_based_sci, 2.45,1)
 
         del trafo_model
