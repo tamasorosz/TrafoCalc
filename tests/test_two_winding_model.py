@@ -48,7 +48,7 @@ class TestConvTransformerModel(TestCase):
         del trafo_model
 
     def test_sc_transformer(self):
-        path = files("data").joinpath("1250kVA_sc_transformer.json")
+        path = files("data").joinpath("630kVA_sc_transformer.json")
 
         import json
 
@@ -63,10 +63,10 @@ class TestConvTransformerModel(TestCase):
         # FEM calculation
         trafo_model.fem_simulation()
 
-        self.assertAlmostEqual(trafo_model.lv_winding.inner_radius,205.0, 1)
-        self.assertAlmostEqual(trafo_model.lv_winding.outer_radius,218.5, 1)
-        self.assertAlmostEqual(trafo_model.lv_winding.thickness,13.5, 0)
-        self.assertAlmostEqual(trafo_model.hv_winding.thickness, 16.0, 0)
+        self.assertAlmostEqual(trafo_model.lv_winding.inner_radius, 244.0, 1)
+        self.assertAlmostEqual(trafo_model.lv_winding.outer_radius, 252, 1)
+        self.assertAlmostEqual(trafo_model.lv_winding.thickness, 8.0, 0)
+        self.assertAlmostEqual(trafo_model.hv_winding.thickness, 13.5, 0)
         self.assertAlmostEqual(trafo_model.results.sci*100, 4.8,0)
         self.assertAlmostEqual(trafo_model.results.fem_based_sci, 6.3,1)
 

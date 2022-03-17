@@ -78,19 +78,19 @@ if __name__ == "__main__":
     # Nr of turns 262 - 22 x 10 turns in each pancakes, the pancekes should be parallel connected
 
     # lv winding
-    Ns = 20.0
-    Is = 1804.0
+    Ns = 10.0
+    Is = 1804.0/2.
     hs = 0.3425
 
     Np = 262
-    hp = 0.349
-    Ip = 69.0
+    hp = 0.355
+    Ip = 69.0/2.
 
     NI_LV = Ns * Is
     NI_HV = Np * Ip
 
-    print('current density lv: ', calc_current_density(Np, 342.5, 13.5, 69))
-    print('current density hv: ', calc_current_density(Ns, 355.0, 16, 1804))
+    print('current density lv: ', calc_current_density(Np, 342.5, 8, 34.5))
+    print('current density hv: ', calc_current_density(Ns, 355.0, 13.5, 902))
 
     print("jlv ", NI_LV / (13 * hs * 1e3))
     print("jhv ", NI_HV / (8 * hp * 1e3))

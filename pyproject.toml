@@ -44,6 +44,7 @@ marshmallow-dataclass = "^8.5.3"
 dataclasses-json = "^0.5.6"
 bokeh = "^2.4.2"
 importlib-resources = "^5.4.0"
+jupyter = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 black = "*"
