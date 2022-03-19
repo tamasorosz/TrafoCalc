@@ -29,7 +29,7 @@ class TestWindingModel(TestCase):
         self.assertAlmostEqual(winding.outer_radius, 265, 2)
         self.assertAlmostEqual(winding.mass, 855.225, 2)
         self.assertAlmostEqual(winding.dc_loss, 18.876, 2)
-        self.assertAlmostEqual(winding.ac_loss, 0.17, 2)
+        self.assertAlmostEqual(winding.ac_loss, 3.18, 2)
 
 
 class TestTransformerToJSON(TestCase):

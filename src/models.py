@@ -73,8 +73,9 @@ class WindingDesign:
         self.mass = winding_mass(3, self.mean_radius, self.thickness, self.winding_height, self.filling_factor / 100.0)
 
         self.dc_loss = winding_dc_loss(self.mass, self.current_density)
-        self.ac_loss = opt_win_eddy_loss(
-            self.thickness * homogenous_insulation_ff(self.filling_factor / 100.0), self.thickness
+        self.ac_loss = (
+            opt_win_eddy_loss(self.thickness * homogenous_insulation_ff(self.filling_factor / 100.0), self.thickness)
+            * self.dc_loss
         )
 
         return True

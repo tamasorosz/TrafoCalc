@@ -24,7 +24,7 @@ def calc_b_parallel(N: float, I: float, h: float, g: float = 1) -> typing.Any:
     :return:
     """
 
-    return 2.0 ** 0.5 * I * N * mu_0 / (g * h)
+    return 2.0**0.5 * I * N * mu_0 / (g * h)
 
 
 def calc_b_perpendicular(N: float, I: float, h: float, w: float, g: float = 1) -> typing.Any:
@@ -38,7 +38,7 @@ def calc_b_perpendicular(N: float, I: float, h: float, w: float, g: float = 1) -
     :param g: number of groups of balanced ampere-turns
     :return: the maximum value of the perpendicular magnetic field at the winding ends
     """
-    return mu_0 * N * I / (2.0 ** 0.5 * pi * g * h) * log(2.0 * h / w)
+    return mu_0 * N * I / (2.0**0.5 * pi * g * h) * log(2.0 * h / w)
 
 
 def rogowski(t_lv: float, t_hv: float, gap: float, ls: float) -> typing.Any:
@@ -79,19 +79,19 @@ if __name__ == "__main__":
 
     # lv winding
     Ns = 10.0
-    Is = 1804.0/2.
+    Is = 1804.0 / 2.0
     hs = 0.3425
 
     Np = 262
     hp = 0.355
-    Ip = 69.0/2.
+    Ip = 69.0 / 2.0
 
     NI_LV = Ns * Is
     NI_HV = Np * Ip
 
-    print(NI_HV, NI_LV, 630000/NI_HV)
-    print('current density lv: ', calc_current_density(Np, 342.5, 8, 34.5))
-    print('current density hv: ', calc_current_density(Ns, 355.0, 13.5, 902))
+    print(NI_HV, NI_LV, 630000 / NI_HV)
+    print("current density lv: ", calc_current_density(Np, 342.5, 8, 34.5))
+    print("current density hv: ", calc_current_density(Ns, 355.0, 13.5, 902))
 
     print("jlv ", NI_LV / (13 * hs * 1e3))
     print("jhv ", NI_HV / (8 * hp * 1e3))
