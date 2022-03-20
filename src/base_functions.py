@@ -250,7 +250,7 @@ def opt_win_eddy_loss(v_k: float, k: float) -> float:
 
     """
 
-    return v_k / (3.0 * v_k + 2.0 * k)
+    return v_k / (3.0 * v_k + 2.0 * k)*0.5
 
 
 def sum_winding_loss(dc_loss: float, eddy_loss: float) -> float:

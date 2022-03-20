@@ -101,7 +101,8 @@ class TestFunctions(TestCase):
         s = 170.0
         turn_v = 43.015
 
-        assert round(short_circuit_impedance(b_pow, p_num, freq, alpha, turn_v, h, s, r_in, t_in, r_ou, t_ou, g), 3) == 0.085
+        assert round(short_circuit_impedance(b_pow, p_num, freq, alpha, turn_v, h, s, r_in, t_in, r_ou, t_ou, g),
+                     3) == 0.085
 
     def test_inner_winding_radius(self):
         g_core = 17.0
@@ -150,7 +151,7 @@ class TestFunctions(TestCase):
         ff = 0.5  # [-]
         t = 37.0  # [mm]
 
-        assert round(opt_win_eddy_loss(t * homogenous_insulation_ff(ff), t), 2) == 0.17
+        assert round(opt_win_eddy_loss(t * homogenous_insulation_ff(ff), t), 2) == 0.09
 
     def test_sum_winding_loss(self):
         # Karsai et al Nagytranszformátorok-Hu example page 86.
@@ -162,11 +163,12 @@ class TestFunctions(TestCase):
         j = 3.02  # [A/mm2]
 
         assert (
-            round(
-                sum_winding_loss(
-                    winding_dc_loss(winding_mass(m, r_m, t, h, ff), j), opt_win_eddy_loss(t * homogenous_insulation_ff(ff), t)
-                ),
-                3,
-            )
-            == 21.077
+                round(
+                    sum_winding_loss(
+                        winding_dc_loss(winding_mass(m, r_m, t, h, ff), j),
+                        opt_win_eddy_loss(t * homogenous_insulation_ff(ff), t)
+                    ),
+                    3,
+                )
+                == 19.534
         )

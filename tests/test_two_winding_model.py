@@ -34,7 +34,7 @@ class TestConvTransformerModel(TestCase):
         self.assertAlmostEqual(trafo_model.results.core_loss, 7.7, 1)
         self.assertAlmostEqual(trafo_model.hv_winding.mass, 1585.5, 0)
 
-        self.assertAlmostEqual(trafo_model.results.load_loss, 51.5, 0)
+        self.assertAlmostEqual(trafo_model.results.load_loss, 48.035, 0)
         self.assertAlmostEqual(trafo_model.results.sci * 100, 7.5, 1)
 
         self.assertAlmostEqual(trafo_model.results.capitalized_cost, 0, 0)
