@@ -1,6 +1,6 @@
 # README
 
-## Short-circuit calculation for core-form power transformers
+## Two-Winding Model-based calculations for power transformers
 
 This project contains a 2D axisymmetric, parametric FEM simulation for calculation of the short circuit impedance of a
 power transformer.
