@@ -18,7 +18,7 @@ def parallel_loss(f, C, ac, bpar, bp):
     :return:
     """
     if bpar < bp:
-        P_par = 2 * f * C * ac * bpar**3 / (3 * mu_0 * bp)
+        P_par = 2 * f * C * ac * bpar ** 3 / (3 * mu_0 * bp)
     else:
         P_par = 2 * f * C * ac * bp / (3 * mu_0) * (3.0 * bpar - 2.0 * bp)
     return P_par
@@ -43,7 +43,7 @@ def perp_loss(K, f, w, bc, bperp):
     """
     beta = bperp / bc
     # P_perp = K * f * (w ** 2.) * pi / mu_0 * bc ** 2. * beta * (2. / beta * log(cosh(beta)) - tanh(beta))
-    P_perp = K * f * (w**2.0) * pi / mu_0 * bc**2.0 * beta * (2.0 / beta * logcosh(beta) - tanh(beta))
+    P_perp = K * f * (w ** 2.0) * pi / mu_0 * bc ** 2.0 * beta * (2.0 / beta * logcosh(beta) - tanh(beta))
 
     return P_perp
 
@@ -56,7 +56,48 @@ def norris_equation(f, I, Ic):
     :param Ic: critical current of the conductor.
     :return:
     """
-    return f * Ic**2 * mu_0 / pi * ((1.0 - I / Ic) * np.log(1.0 - I / Ic) + (I / Ic - I**2 / (2 * Ic**2)))
+    return f * Ic ** 2 * mu_0 / pi * ((1.0 - I / Ic) * np.log(1.0 - I / Ic) + (I / Ic - I ** 2 / (2 * Ic ** 2)))
+
+
+def cryostat_losses(Acr):
+    """
+    Calculating the cryostat losses according to doi: 10.1088/1742-6596/97/1/012318
+    :param Acr: the surface of the cryostat
+    :return: losses of the cryostat
+    """
+
+    k_th = 2.0 * 1e-3  # W/(mK)
+    d_th = 50.0  # mm
+    dT = 228.0  # K temperature difference between the maximum outside temperature (40C) and the working temp
+    # the windings considered to work at 65 K -> dT = 293 - 65 = 228
+    return k_th / d_th * Acr * dT
+
+
+def cryo_surface(r_in, r_ou, h):
+    """
+    It is assumed that the cryostat contains the low voltage and the high voltage windings.
+    :param r_in:radius of the inner surface
+    :param r_ou: height of the cryostat winding + end insulation
+    :return:
+    """
+
+    a_in = 2. * r_in * pi * h
+    a_ou = 2. * r_ou * pi * h
+
+    return a_in + a_ou + (r_ou ** 2. - r_in ** 2.) * pi
+
+
+def thermal_incomes(I1p, I2p):
+    """
+    Total current incomes through the current leads for 3 phase
+
+    :param I1p: current in the primary windings
+    :param I2p: current in the secondary windings
+    :return:
+    """
+    q_cl = 45.0  # W/kA
+
+    return 6. * q_cl * (I1p + I2p)
 
 
 def plot_pp_losses():
