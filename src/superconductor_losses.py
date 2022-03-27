@@ -100,6 +100,22 @@ def thermal_incomes(I1p, I2p):
     return 6. * q_cl * (I1p + I2p)
 
 
+def modified_tco_evaluation(C, p_ac, pcr, pcl, pfe, k1, k2, pp):
+    """
+    doi: 10.1088/1742-6596/97/1/012318
+    :param C: penalty factor for considering the losses, it is about 18 due to the applied reference.
+    :param p_ac: ac losses
+    :param pcr: cryostat losses
+    :param pcl: losses generated in the current lead
+    :param pp: product price
+    :param k1: capitalization of the core losses
+    :param k2: capitalization of the ac losses
+    :return:
+    """
+
+    return pp + k1 * pfe + k2 * (p_ac + pcl + pcr)
+
+
 def plot_pp_losses():
     """Plots the parallel and the perpendicular losses, the parameters are based on:
     N. Magnussona,*, A. Wolfbrandt. AC losses in high-temperature superconducting tapes exposed
