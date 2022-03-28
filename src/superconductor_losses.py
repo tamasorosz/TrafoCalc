@@ -18,9 +18,9 @@ def parallel_loss(f, C, ac, bpar, bp):
     :return:
     """
     if bpar < bp:
-        P_par = 2 * f * C * ac * bpar ** 3 / (3 * mu_0 * bp)
+        P_par = 2 * f * C * ac * bpar ** 3. / (3. * mu_0 * bp)
     else:
-        P_par = 2 * f * C * ac * bp / (3 * mu_0) * (3.0 * bpar - 2.0 * bp)
+        P_par = 2 * f * C * ac * bp / (3. * mu_0) * (3.0 * bpar - 2.0 * bp)
     return P_par
 
 
@@ -150,7 +150,7 @@ def plot_pp_losses():
 
     p.legend.location = "top_left"
 
-    output_file("logplot.html", title="log plot example")
+    output_file("logplot.png", title="log plot example")
 
     show(p)
 
@@ -177,9 +177,8 @@ def plot_self_field_losses():
 
     p.legend.location = "top_left"
 
-    output_file("logplot.html", title="log plot example")
-
-    show(p)
+    p.output_backend = "svg"
+    p.export_svgs(p, filename="plot.svg")
 
 
 if __name__ == "__main__":
