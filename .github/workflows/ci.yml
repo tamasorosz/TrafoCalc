@@ -62,7 +62,10 @@ jobs:
         if: ${{ failure() }}
       - uses: codecov/codecov-action@v2
         with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          version: "v0.1.15"
           files: ./coverage.xml # optional
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
+
