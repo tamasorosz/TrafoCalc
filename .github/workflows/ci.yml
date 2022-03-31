@@ -60,14 +60,6 @@ jobs:
           name: code-coverage-report
           path: htmlcov
         if: ${{ failure() }}
-      - uses: codecov/codecov-action@v2
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          files: ./coverage.xml # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: false # optional (default = false)
-          verbose: false # optional (default = false)
-
       - name: Upload coverage reports to Codecov
           run: |
             codecov
