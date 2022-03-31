@@ -1,6 +1,6 @@
 import numpy as np
 from bokeh.plotting import figure, output_file, show
-from numpy import cosh, log, pi, tanh
+from numpy import pi, tanh
 from scipy.constants import mu_0
 
 flux_dens = np.linspace(0.01, 1.0, 200)
