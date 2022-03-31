@@ -59,16 +59,16 @@ def norris_equation(f, I, Ic):
     return f * Ic ** 2 * mu_0 / pi * ((1.0 - I / Ic) * np.log(1.0 - I / Ic) + (I / Ic - I ** 2 / (2 * Ic ** 2)))
 
 
-def cryostat_losses(Acr):
+def cryostat_losses(Acr, dT=228.0):
     """
     Calculating the cryostat losses according to doi: 10.1088/1742-6596/97/1/012318
     :param Acr: the surface of the cryostat
+    :param dT: temperature difference between the maximum outside temperature (40C) and the working temp
     :return: losses of the cryostat
     """
 
     k_th = 2.0 * 1e-3  # W/(mK)
     d_th = 50.0  # mm
-    dT = 228.0  # K temperature difference between the maximum outside temperature (40C) and the working temp
     # the windings considered to work at 65 K -> dT = 293 - 65 = 228
     return k_th / d_th * Acr * dT
 
@@ -95,12 +95,12 @@ def thermal_incomes(I1p, I2p):
     :param I2p: current in the secondary windings
     :return:
     """
-    q_cl = 45.0  # W/kA
+    q_cl = 45.0 * 1e-3  # W/A
 
     return 6. * q_cl * (I1p + I2p)
 
 
-def modified_tco_evaluation(C, p_ac, pcr, pcl, pfe, k1, k2, pp):
+def modified_tco_evaluation(p_ac, pcr, pcl, pfe, k1, k2, pp, C=18.0):
     """
     doi: 10.1088/1742-6596/97/1/012318
     :param C: penalty factor for considering the losses, it is about 18 due to the applied reference.
@@ -110,10 +110,11 @@ def modified_tco_evaluation(C, p_ac, pcr, pcl, pfe, k1, k2, pp):
     :param pp: product price
     :param k1: capitalization of the core losses
     :param k2: capitalization of the ac losses
+    :param C: 18, factor to consider the thermal losses thorough the current leads
     :return:
     """
 
-    return pp + k1 * pfe + k2 * (p_ac + pcl + pcr)
+    return pp + k1 * pfe + k2 * C * (p_ac + pcl + pcr)
 
 
 def plot_pp_losses():

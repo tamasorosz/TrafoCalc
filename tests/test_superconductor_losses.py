@@ -1,5 +1,6 @@
 from unittest import TestCase
-from src.superconductor_losses import parallel_loss, perp_loss, norris_equation, cryostat_losses, cryo_surface
+from src.superconductor_losses import parallel_loss, perp_loss, norris_equation, cryostat_losses, cryo_surface, \
+    thermal_incomes, modified_tco_evaluation
 
 from math import pi
 
@@ -27,5 +28,13 @@ class TestLosses(TestCase):
         r_ou = 1.0 / pi
         h = 1.0
         a_cs = cryo_surface(r_in, r_ou, h)  # [m2]
+        P_cryo = cryostat_losses(a_cs)
+        P_thermal = thermal_incomes(100, 100)
 
         self.assertAlmostEqual(a_cs, 3.238, 2)
+        self.assertAlmostEqual(P_cryo, 0.029537, 2)
+        self.assertAlmostEqual(P_thermal, 54, 1)
+
+        tco = modified_tco_evaluation(1, 1, 1, 0, 0, 1, 0)
+
+        self.assertAlmostEqual(tco, 54, 1)
