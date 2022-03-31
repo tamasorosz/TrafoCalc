@@ -61,7 +61,7 @@ jobs:
           path: htmlcov
         if: ${{ failure() }}
       - name: Upload coverage reports to Codecov
-          run: |
-            codecov
-          env: # Or as an environment variable
-            super_secret: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          codecov
+        env:
+          super_secret: ${{ secrets.CODECOV_TOKEN }}
