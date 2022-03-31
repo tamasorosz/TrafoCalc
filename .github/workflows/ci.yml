@@ -63,5 +63,5 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           token: ${{secrets.CODECOV_TOKEN}}
-          files: ./coverage.xml # optional
+          files: ./coverage # optional
           name: codecov-umbrella # optional
