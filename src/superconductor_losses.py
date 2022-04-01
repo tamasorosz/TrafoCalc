@@ -1,9 +1,7 @@
 import numpy as np
-from bokeh.plotting import figure, output_file, show
 from numpy import pi, tanh
 from scipy.constants import mu_0
 
-flux_dens = np.linspace(0.01, 1.0, 200)
 
 
 def parallel_loss(f, C, ac, bpar, bp):
@@ -117,71 +115,3 @@ def modified_tco_evaluation(p_ac, pcr, pcl, pfe, k1, k2, pp, C=18.0):
     return pp + k1 * pfe + k2 * C * (p_ac + pcl + pcr)
 
 
-def plot_pp_losses():
-    """Plots the parallel and the perpendicular losses, the parameters are based on:
-    N. Magnussona,*, A. Wolfbrandt. AC losses in high-temperature superconducting tapes exposed
-    to longitudinal magnetic fields
-    """
-    p = figure(title="Losses", y_axis_type="log", x_range=(0.01, 1), y_range=(0.01, 30))
-    # background_fill_color="#fafafa")
-
-    p.line(
-        flux_dens,
-        perp_loss(1.35, 50, 4.29 * 1e-3, 0.011, flux_dens),
-        legend_label="perpendicular loss",
-        line_color="tomato",
-        line_dash="dashed",
-        line_width=2.5,
-    )
-
-    f = 50.0
-    c = (0.75,)
-    bp = 0.033
-    Ac = 0.21 * 4.29 * 1e-6
-
-    bpv = np.vectorize(parallel_loss)
-    p.line(
-        flux_dens,
-        bpv(f, c, Ac, flux_dens, bp),
-        legend_label="parallel losses",
-        line_dash="dotted",
-        line_color="indigo",
-        line_width=2.5,
-    )
-
-    p.legend.location = "top_left"
-
-    output_file("logplot.png", title="log plot example")
-
-    show(p)
-
-
-def plot_self_field_losses():
-    """Plots the parallel and the perpendicular losses, the parameters are based on:
-    N. Magnussona,*, A. Wolfbrandt. AC losses in high-temperature superconducting tapes exposed
-    to longitudinal magnetic fields
-    """
-
-    Ic = 115.0  # A
-    current = np.linspace(2.0, 114.9, 100)
-
-    p = figure(x_range=(0.01, 1), y_range=(0.01, 0.12), x_axis_label="Ic [A]", y_axis_label="P [W/m]")
-
-    p.line(
-        current / Ic,
-        norris_equation(50, current, Ic),
-        legend_label="self-field losses",
-        line_color="teal",
-        line_dash="dashed",
-        line_width=2.5,
-    )
-
-    p.legend.location = "top_left"
-
-    p.output_backend = "svg"
-    p.export_svgs(p, filename="plot.svg")
-
-
-if __name__ == "__main__":
-    plot_pp_losses()
-    plot_self_field_losses()
