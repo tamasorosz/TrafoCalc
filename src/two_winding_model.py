@@ -4,7 +4,9 @@ from math import pi
 
 from dataclasses_json import dataclass_json
 
-from src.base_functions import *
+from src.base_functions import turn_voltage, calc_inner_width, inner_winding_radius, outer_winding_radius, \
+    window_width, core_mass, core_loss_unit, short_circuit_impedance, capitalized_cost
+
 from src.models import MainResults, TransformerDesign, WindingDesign
 from src.transformer_fem_model import FemModel
 
@@ -147,7 +149,7 @@ class TwoWindingModel:
         self.results.feasible = True
 
     def fem_simulation(self):
-        if self.results.feasible != True:
+        if not self.results.feasible:
             raise ValueError("Invalid Transformer Geometry")
 
         # initializing the model
