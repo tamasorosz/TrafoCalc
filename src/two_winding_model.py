@@ -11,6 +11,7 @@ from src.models import MainResults, TransformerDesign, WindingDesign
 from src.transformer_fem_model import FemModel
 
 C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
+SC_WIN_MIN = 8.0  # [mm] sc_transformer winding minimum
 INFEASIBLE = -1
 CORE_BF = 1.2  # building factor of the core
 
@@ -83,8 +84,11 @@ class TwoWindingModel:
         )
 
         if is_sc:
-            self.lv_winding.calc_properties()
-            self.hv_winding.calc_properties()
+            if t_in < C_WIN_MIN or t_ou < C_WIN_MIN:
+                ###
+
+                self.lv_winding.calc_properties()
+                self.hv_winding.calc_properties()
         else:
             # if the resulting thickness of the winding is smaller than the required minimum the
             # solution is not feasible

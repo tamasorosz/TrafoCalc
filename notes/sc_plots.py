@@ -3,7 +3,7 @@ import numpy as np
 from src.superconductor_losses import perp_loss, parallel_loss, norris_equation
 from bokeh.plotting import figure, output_file, show
 
-flux_dens = np.linspace(0.01, 1.0, 200)
+flux_dens = np.linspace(0.01, .1, 200)
 
 """
 This file creates plots from the superconductor losses.
@@ -14,13 +14,19 @@ def plot_pp_losses():
     """Plots the parallel and the perpendicular losses, the parameters are based on:
     N. Magnussona,*, A. Wolfbrandt. AC losses in high-temperature superconducting tapes exposed
     to longitudinal magnetic fields
+
+    Bi-2223/Ag, HTS tape produced by American Superconductor. The cross-section was 0.21 mm × 4.29 mm
+    and the self-field critical current at 77 K, determined by the 1 μV/cm criterion, was 115 A.
+
+    The losses due to perpendicular magnetic fields follow (2) with Bc=11 mT and K=1.35.
+    Both the parallel and the longitudinal field losses follow (3), with B equal to B∥ or B=.
     """
     p = figure(title="Losses", y_axis_type="log", x_range=(0.01, 1), y_range=(0.01, 30))
     # background_fill_color="#fafafa")
 
     p.line(
         flux_dens,
-        perp_loss(1.35, 50, 4.29 * 1e-3, 0.011, flux_dens),
+        perp_loss(1.35, 50, 4.29 * 1e-3, 0.015, flux_dens),
         legend_label="perpendicular loss",
         line_color="tomato",
         line_dash="dashed",
@@ -29,7 +35,7 @@ def plot_pp_losses():
 
     f = 50.0
     c = (0.75,)
-    bp = 0.033
+    bp = 0.0344
     Ac = 0.21 * 4.29 * 1e-6
 
     bpv = np.vectorize(parallel_loss)

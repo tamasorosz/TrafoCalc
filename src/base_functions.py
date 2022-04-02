@@ -6,7 +6,7 @@ from scipy.constants import mu_0, pi
 C_RHO = 8.9 * 1e-6  # kg/mm3
 C_RHO_CU = 2.42  # resistivity constant in 75 C
 C_RHO_FE = 7.65 * 1e-6  # kg/mm3
-C_MU_0 = 4.0 * pi * 10**-7.0  # Vs/Am
+C_MU_0 = 4.0 * pi * 10 ** -7.0  # Vs/Am
 C_RHO_BSSCO = 6.4 * 1e-6  # kg/mm3  source: shorturl.at/rGIN7 -- sigmaaldrich.com
 
 INFEASIBLE = -1
@@ -17,7 +17,7 @@ RHO_CU = 0.0216  # 0.0216        # ohm * mm2 / m
 RHO_COPPER = 8960.0  # kg/m3
 
 
-def winding_mass(m: float, r_m: float, t: float, h: float, ff: float) -> typing.Any:
+def winding_mass(m: float, r_m: float, t: float, h: float, ff: float, material='Cu') -> typing.Any:
     """
     Winding mass in m phase.
 
@@ -30,7 +30,15 @@ def winding_mass(m: float, r_m: float, t: float, h: float, ff: float) -> typing.
 
     """
 
-    return m * r_m * 2.0 * pi * t * h * ff * C_RHO
+    density = C_RHO
+
+    if material == 'Cu':
+        density = C_RHO
+
+    if material == 'BSSCO':
+        density = C_RHO_BSSCO
+
+    return m * r_m * 2.0 * pi * t * h * ff * density
 
 
 def winding_dc_loss(mass: float, j: float) -> typing.Any:
@@ -41,7 +49,7 @@ def winding_dc_loss(mass: float, j: float) -> typing.Any:
     - j in [A/mm2] is the current density.
     """
 
-    dc_loss = C_RHO_CU * mass * j**2.0
+    dc_loss = C_RHO_CU * mass * j ** 2.0
 
     return dc_loss * 1e-3
 
@@ -72,7 +80,7 @@ def core_loss_unit(ind: float, m_c: float, f_bf: float) -> typing.Any:
     f = 0.377614241733 * 0.0417580576
     g = 0.13103679517 * 0.0417580576
 
-    return m_c * f_bf * (a + c * ind + d * ind**b + e * ind**3.0 + f * ind**4.0 + g * ind**5.0) * 10 ** (-3.0)
+    return m_c * f_bf * (a + c * ind + d * ind ** b + e * ind ** 3.0 + f * ind ** 4.0 + g * ind ** 5.0) * 10 ** (-3.0)
 
 
 def core_mass(r_c: float, ff_c: float, h: float, ei: float, s: float, m: float) -> typing.Any:
@@ -100,7 +108,7 @@ def core_mass(r_c: float, ff_c: float, h: float, ei: float, s: float, m: float) 
     """
     gamma = 1.025
 
-    a = r_c**2.0 * pi * ff_c * C_RHO_FE
+    a = r_c ** 2.0 * pi * ff_c * C_RHO_FE
 
     m_corner = a * (6.0 * r_c * gamma + 6.0 * r_c)
     m_column = a * 3 * (h + ei)
@@ -131,24 +139,24 @@ def turn_voltage(ind: float, r_c: float, ff_c: float, freq: float) -> typing.Any
     This function calculates the turn voltage from the core area, the frequency and the flux density in the core.
     [V]
     """
-    area = r_c**2.0 * pi * ff_c
+    area = r_c ** 2.0 * pi * ff_c
 
     return ind * area * 4.44 * 1e-6 * freq
 
 
 def short_circuit_impedance(
-    b_pow: float,
-    p_num: float,
-    freq: float,
-    alpha: float,
-    turn_v: float,
-    h: float,
-    s: float,
-    r_in: float,
-    t_in: float,
-    r_ou: float,
-    t_ou: float,
-    g: float,
+        b_pow: float,
+        p_num: float,
+        freq: float,
+        alpha: float,
+        turn_v: float,
+        h: float,
+        s: float,
+        r_in: float,
+        t_in: float,
+        r_ou: float,
+        t_ou: float,
+        g: float,
 ) -> typing.Any:
     """
     Short-circuit impedance calculation
@@ -165,7 +173,7 @@ def short_circuit_impedance(
     """
 
     p_pow = b_pow / p_num
-    imp_con = 4.0 * pi**2.0 * mu_0 * freq * p_pow / turn_v**2.0 / (h * (1 + alpha) / 2.0 + 0.32 * s)
+    imp_con = 4.0 * pi ** 2.0 * mu_0 * freq * p_pow / turn_v ** 2.0 / (h * (1 + alpha) / 2.0 + 0.32 * s)
     a = r_in * t_in / 3.0
     b = r_ou * t_ou / 3.0
     c = (r_in + t_in / 2.0 + g / 2.0) * g
@@ -250,7 +258,7 @@ def opt_win_eddy_loss(v_k: float, k: float) -> float:
 
     """
 
-    return v_k / (3.0 * v_k + 2.0 * k)*0.5
+    return v_k / (3.0 * v_k + 2.0 * k) * 0.5
 
 
 def sum_winding_loss(dc_loss: float, eddy_loss: float) -> float:
@@ -269,20 +277,20 @@ def phase_current(sb: float, ub: float, con_fact: float) -> typing.Any:
     :param con_fact: connection factor --- 1 for delta --- sqrt(3) for star connection --- sqrt(2)/2. for zig-zag
     :return:
     """
-    return sb * 1e3 / ub / 3.0**0.5 / con_fact
+    return sb * 1e3 / ub / 3.0 ** 0.5 / con_fact
 
 
 def capitalized_cost(
-    c_mass: float,
-    c_material_price: float,
-    w_mass_in: float,
-    w_c_in: float,
-    w_mass_ou: float,
-    w_c_out: float,
-    ll: float,
-    ll_cost: float,
-    nll: float,
-    nll_cost: float,
+        c_mass: float,
+        c_material_price: float,
+        w_mass_in: float,
+        w_c_in: float,
+        w_mass_ou: float,
+        w_c_out: float,
+        ll: float,
+        ll_cost: float,
+        nll: float,
+        nll_cost: float,
 ) -> float:
     """
     Objective function

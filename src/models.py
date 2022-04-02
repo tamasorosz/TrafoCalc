@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
 from src.base_functions import homogenous_insulation_ff, opt_win_eddy_loss, phase_current, winding_dc_loss, winding_mass
+from src.superconductor_losses import perp_loss, parallel_loss, norris_equation
 
 
 @dataclass_json
@@ -74,11 +75,23 @@ class WindingDesign:
 
         self.dc_loss = winding_dc_loss(self.mass, self.current_density)
         self.ac_loss = (
-            opt_win_eddy_loss(self.thickness * homogenous_insulation_ff(self.filling_factor / 100.0), self.thickness)
-            * self.dc_loss
+                opt_win_eddy_loss(self.thickness * homogenous_insulation_ff(self.filling_factor / 100.0),
+                                  self.thickness)
+                * self.dc_loss
         )
-
         return True
+
+    def calc_sc_properties(self, freq):
+        # geometry
+        self.mean_radius = self.inner_radius + self.thickness / 2.0
+        self.outer_radius = self.inner_radius + self.thickness
+        self.mass = winding_mass(3, self.mean_radius, self.thickness, self.winding_height, self.filling_factor / 100.0,
+                                 material='BSSCO')
+
+        self.dc_loss = 0.  # superconducting 'loss' assumed in the normal state
+
+        # the ac loss calculated for the assumed properties of
+        self.ac_loss = perp_loss(1.35, freq, 4.29 * 1e-3, 0.011)
 
 
 @dataclass_json
