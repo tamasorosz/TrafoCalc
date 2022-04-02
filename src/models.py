@@ -4,7 +4,7 @@ from dataclasses_json import dataclass_json
 
 from src.base_functions import homogenous_insulation_ff, opt_win_eddy_loss, phase_current, winding_dc_loss, winding_mass
 from src.superconductor_losses import perp_loss, parallel_loss, norris_equation
-
+from src.base_functions import C_RHO_BSSCO
 
 @dataclass_json
 @dataclass
@@ -88,10 +88,12 @@ class WindingDesign:
         self.mass = winding_mass(3, self.mean_radius, self.thickness, self.winding_height, self.filling_factor / 100.0,
                                  material='BSSCO')
 
+        ac = 0.31 * 4.1 * 1e-6 # m2
+        self.cable_length = self.mass/C_RHO_BSSCO/ac # m
         self.dc_loss = 0.  # superconducting 'loss' assumed in the normal state
 
         # the ac loss calculated for the assumed properties of
-        self.ac_loss = perp_loss(1.35, freq, 4.29 * 1e-3, 0.011)
+        self.ac_loss = perp_loss(1.35, freq, 4.29 * 1e-3, 0.011)*self.cable_length
 
 
 @dataclass_json
