@@ -85,8 +85,8 @@ class TwoWindingModel:
         )
 
         # calculate the phase quantities of the windings
-        self.input.required.lv.calculate_phase_quantities()
-        self.input.required.hv.calculate_phase_quantities()
+        self.input.required.lv.calculate_phase_quantities(self.input.required.power)
+        self.input.required.hv.calculate_phase_quantities(self.input.required.power)
 
         if is_sc:
             if t_in < C_WIN_MIN or t_ou < C_WIN_MIN:
