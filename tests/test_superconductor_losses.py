@@ -1,6 +1,6 @@
 from unittest import TestCase
 from src.superconductor_losses import parallel_loss, perp_loss, norris_equation, cryostat_losses, cryo_surface, \
-    thermal_incomes, modified_tco_evaluation
+    thermal_incomes, modified_tco_evaluation, cooler_cost
 
 from math import pi
 
@@ -39,3 +39,13 @@ class TestLosses(TestCase):
         tco = modified_tco_evaluation(1, 1, 1, 0, 0, 1, 0)
 
         self.assertAlmostEqual(tco, 54, 1)
+
+    def test_cooler_cost(self):
+        p_loss_1 = 100.  # W
+        p_loss_2 = 1000.  # W
+
+        c1 = cooler_cost(p_loss_1)
+        c2 = cooler_cost(p_loss_2)
+
+        self.assertAlmostEqual(c1, 24984.95, 1)
+        self.assertAlmostEqual(c2, 92827.91, 1)

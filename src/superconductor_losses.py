@@ -123,6 +123,8 @@ def modified_tco_evaluation(p_ac, pcr, pcl, pfe, k1, k2, pp, C=18.0):
 
     return pp + k1 * pfe + k2 * C * (p_ac + pcl + pcr)
 
+
 def cooler_cost(cooling_power):
-    """doi:10.1088/1757-899X/101/1/012001 """
-    return 1.81*cooling_power**0.57
+    """Gives back the approximative price of a cooler with a given loss,
+       doi:10.1088/1757-899X/101/1/012001 """
+    return 1.81 * cooling_power ** 0.57 * 1e3
