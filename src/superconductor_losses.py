@@ -118,6 +118,8 @@ def modified_tco_evaluation(p_ac, pcr, pcl, pfe, k1, k2, pp, C=18.0):
     :param k1: capitalization of the core losses
     :param k2: capitalization of the ac losses
     :param C: 18, factor to consider the thermal losses thorough the current leads
+              the wors coolers efficiency is around 5% while the best coolers efficiency is around 15%
+              doi:10.1088/1757-899X/101/1/012001, so the C should be between 20 and 12.
     :return:
     """
 
