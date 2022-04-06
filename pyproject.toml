@@ -1,3 +1,4 @@
+# Main package description
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -28,13 +29,21 @@ strict = false
 ignore_missing_imports = true
 
 [tool.poetry]
-name = "Transformer-calculations-with-the-2-winding-model"
-version = "0.1.0"
-description = "Two-winding transformer-based optimization of conventional and superconductor-based transformers."
+name = "TrafoCalc"
+version = "2022.1.1"
+description = "Python project with teaching and scientific projects for Transformer Design and Optimization."
 authors = [
-    "Tamás Orosz <orosz.tamas@yahoo.com>",
+    "Tamás Orosz <orosz.tamas@yahoo.com>"
 ]
 license = "Apache-2.0"
+packages = [
+    { include = "src" },
+    { include = "src/**/*.py" },
+]
+readme = "README.md"
+homepage = "https://github.com/tamasorosz/TrafoCalc"
+repository = "https://github.com/tamasorosz/TrafoCalc"
+keywords = ["scientific", "engineering", "fem", "transformers", 'optimization']
 
 [tool.poetry.dependencies]
 python = "3.8.10"
@@ -51,7 +60,7 @@ seaborn = "^0.11.2"
 
 [tool.poetry.dev-dependencies]
 black = "*"
-coverage = {extras = ["toml"], version = "^6.3.2"}
+coverage = { extras = ["toml"], version = "^6.3.2" }
 gitlint = "*"
 isort = "*"
 language-formatters-pre-commit-hooks = "*"
