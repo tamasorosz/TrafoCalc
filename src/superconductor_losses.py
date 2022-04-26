@@ -123,7 +123,7 @@ def modified_tco_evaluation(p_ac, pcr, pcl, pfe, k1, k2, pp, C=18.0):
     :return:
     """
 
-    return pp + k1 * pfe + k2 * C * (p_ac + pcl + pcr)
+    return pp + k1 * pfe + k2 * C * (p_ac + pcl + pcr) + cooler_cost(p_ac + pcl + pcr)
 
 
 def cooler_cost(cooling_power):
