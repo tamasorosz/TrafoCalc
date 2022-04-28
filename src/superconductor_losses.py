@@ -2,13 +2,15 @@ import numpy as np
 from numpy import pi, tanh
 from scipy.constants import mu_0
 
-# BSCCO cable from Magnussons' paper
-f = 50.0
-c = 0.75
-bp = 0.033
-Ac = 0.31 * 4.29 * 1e-6
 
-bpar = 68. * 1e-3  # mT
+# BSCCO cable from Magnussons' paper
+# ----------------------------------
+# f = 50.0
+# c = 0.75
+# bp = 0.033
+# Ac = 0.31 * 4.29 * 1e-6
+# Magnetic field's  typical value in a small transformer'S winding (630 kVA)
+# bpar = 68. * 1e-3  # mT
 
 
 def parallel_loss(bpar, f, C=0.77, ac=0.31 * 4.1 * 1e-6, bp=34.4 * 1e-3):

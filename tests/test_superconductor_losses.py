@@ -24,6 +24,16 @@ class TestLosses(TestCase):
         # norris equation
         self.assertAlmostEqual(norris_equation(50, 50, 115.), 0.0047, 4)
 
+
+    def test_losses_second_case_small_field(self):
+        bpar = 20.0 * 1e-3  # mT
+
+        # parallel losses
+        self.assertAlmostEqual(parallel_loss(50, bpar), 0.0535, 3)
+        # perpendicular losses
+        self.assertAlmostEqual(perp_loss(50, 20. * 1e-3), 0.1625, 1)
+
+
     def test_cryostat_losses(self):
         r_in = 0.5 / pi
         r_ou = 1.0 / pi
