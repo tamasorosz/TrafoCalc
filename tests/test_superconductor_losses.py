@@ -38,7 +38,7 @@ class TestLosses(TestCase):
 
         tco = modified_tco_evaluation(1, 1, 1, 0, 0, 1, 0)
 
-        self.assertAlmostEqual(tco, 54, 1)
+        self.assertAlmostEqual(tco, 3439.615, 1)
 
     def test_cooler_cost(self):
         p_loss_1 = 100.  # W
