@@ -9,7 +9,7 @@ from src.base_functions import turn_voltage, calc_inner_width, inner_winding_rad
 
 from src.models import MainResults, TransformerDesign, WindingDesign
 from src.transformer_fem_model import FemModel
-from src.superconductor_losses import cryostat_losses, modified_tco_evaluation, cryo_surface, thermal_incomes
+from src.superconductor_losses import cryostat_losses, sc_load_loss, cryo_surface, thermal_incomes
 
 C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
 SC_WIN_MIN = 8.0  # [mm] sc_transformer winding minimum
@@ -169,9 +169,9 @@ class TwoWindingModel:
                                 self.input.costs.core_cost * self.results.core_mass
             cooling_cost = 1.
             product_price = active_part_price*1.8 + cooling_cost
-            self.results.capitalized_cost = modified_tco_evaluation(self.results.load_loss, cryo_loss, thermal_loss,
-                                                                    self.results.core_loss, self.input.costs.nll_cost,
-                                                                    self.input.costs.ll_cost, product_price)
+            #self.results.capitalized_cost = modified_tco_evaluation(self.results.load_loss, cryo_loss, thermal_loss,
+            #                                                        self.results.core_loss, self.input.costs.nll_cost,
+            #                                                        self.input.costs.ll_cost, product_price)
 
         self.results.feasible = True
 

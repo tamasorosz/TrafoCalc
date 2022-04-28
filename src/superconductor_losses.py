@@ -109,26 +109,45 @@ def thermal_incomes(I1p, I2p):
     return 6. * q_cl * (I1p + I2p)
 
 
-def modified_tco_evaluation(p_ac, pcr, pcl, pfe, k1, k2, pp, C=18.0):
+def sc_load_loss(p_ac, pcr, pcl, C=18.0):
     """
+    The cooling cost in sc transofmrers is relatively high, therefore the cooling cost is penílized by a cooling factor.
     doi: 10.1088/1742-6596/97/1/012318
+
     :param C: penalty factor for considering the losses, it is about 18 due to the applied reference.
+              18, factor to consider the thermal losses thorough the current leads
+              the wors coolers efficiency is around 5% while the best coolers efficiency is around 15%
+              doi:10.1088/1757-899X/101/1/012001, so the C should be between 20 and 12.
     :param p_ac: ac losses
     :param pcr: cryostat losses
     :param pcl: losses generated in the current lead
-    :param pp: product price
-    :param k1: capitalization of the core losses
-    :param k2: capitalization of the ac losses
-    :param C: 18, factor to consider the thermal losses thorough the current leads
-              the wors coolers efficiency is around 5% while the best coolers efficiency is around 15%
-              doi:10.1088/1757-899X/101/1/012001, so the C should be between 20 and 12.
     :return:
     """
 
-    return pp + k1 * pfe + k2 * C * (p_ac + pcl + pcr) + cooler_cost(p_ac + pcl + pcr)
+    return C * (p_ac + pcr + pcl)
+
+
+# def modified_tco_evaluation(p_ac, pcr, pcl, pfe, k1, k2, pp, C=18.0):
+#     """
+#     doi: 10.1088/1742-6596/97/1/012318
+#     :param C: penalty factor for considering the losses, it is about 18 due to the applied reference.
+#     :param p_ac: ac losses
+#     :param pcr: cryostat losses
+#     :param pcl: losses generated in the current lead
+#     :param pp: product price
+#     :param k1: capitalization of the core losses
+#     :param k2: capitalization of the ac losses
+#     :param C: 18, factor to consider the thermal losses thorough the current leads
+#               the wors coolers efficiency is around 5% while the best coolers efficiency is around 15%
+#               doi:10.1088/1757-899X/101/1/012001, so the C should be between 20 and 12.
+#     :return:
+#     """
+#
+#     return pp + k1 * pfe + k2 * C * (p_ac + pcl + pcr) + cooler_cost(p_ac + pcl + pcr)
 
 
 def cooler_cost(cooling_power):
     """Gives back the approximative price of a cooler with a given loss,
        doi:10.1088/1757-899X/101/1/012001 """
     return 1.81 * cooling_power ** 0.57 * 1e3
+

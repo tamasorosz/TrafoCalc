@@ -291,10 +291,13 @@ def capitalized_cost(
         ll_cost: float,
         nll: float,
         nll_cost: float,
+        alpha=1.0
 ) -> float:
     """
     Objective function
     Simple capitalized cost calculation, only the active part with filling factors
+    :param alpha: the ratio of the total cost and the cost of the active part of the transformer
     """
 
-    return c_mass * c_material_price + w_mass_in * w_c_in + w_mass_ou * w_c_out + ll * ll_cost + nll * nll_cost
+    return alpha * (
+                c_mass * c_material_price + w_mass_in * w_c_in + w_mass_ou * w_c_out) + ll * ll_cost + nll * nll_cost
