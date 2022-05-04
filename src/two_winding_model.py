@@ -213,12 +213,16 @@ class TwoWindingModel:
         u_b = self.input.required.hv.line_voltage  # voltage --- kV
         s_b = self.input.required.power / 1000.0  # nominal power  --- MVA
         z_b = u_b ** 2.0 / s_b  # base impedance
-        i_b = self.input.required.power / u_b / 1.73
+        i_b = self.input.required.power / u_b / 3.**0.5
 
         omega = 2.0 * pi * self.input.required.freq
         L = 2 * solution.volume_integrals()["Wm"] / i_b ** 2.0
-        self.results.fem_based_sci = omega * L / z_b * 100.0  # the short-circuit impedance in [%] values
+        print(solution.volume_integrals()["Wm"])
+        print('L:', L)
+        print('zb, ib:', z_b, i_b)
 
+        self.results.fem_based_sci = omega * L / z_b * 100.0  # the short-circuit impedance in [%] values
+        print(self.results.fem_based_sci)
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
         for i in range(
                 int(self.input.required.ei / 2.0), int(self.hv_winding.winding_height + self.input.required.ei / 2.0),

@@ -1,0 +1,40 @@
+{
+  "description": "31.5 MVA Transformer from Kulkarni Transformer Engineering book ",
+  "required": {
+    "power": 31500,
+    "freq": 50,
+    "sci_req": 14.5,
+    "drop_tol": 5.0,
+    "hv": {
+      "connection": "y",
+      "line_voltage": 132.0,
+      "filling_factor": 57.0
+    },
+    "lv": {
+      "connection": "d",
+      "line_voltage": 33.0,
+      "filling_factor": 76.5
+    },
+    "min_main_gap": 24.0,
+    "min_core_gap": 23.0,
+    "ei": 300.0,
+    "phase_distance": 50.0,
+    "alpha": 1.0,
+    "core_fillingf": 87.0
+  },
+  "costs": {
+    "ll_cost": 0.0,
+    "nll_cost": 0.0,
+    "lv_cost": 0.0,
+    "hv_cost": 0.0,
+    "core_cost": 0.0
+  },
+  "design_params": {
+    "rc": 280,
+    "bc": 1.6,
+    "j_in": 2.0,
+    "j_ou": 1.95,
+    "h_in": 1260.0,
+    "m_gap": 50.0
+  }
+}

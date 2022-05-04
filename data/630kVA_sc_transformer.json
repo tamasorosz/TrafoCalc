@@ -15,7 +15,7 @@
       "line_voltage": 10.5,
       "filling_factor": 50.0
     },
-    "min_main_gap": 38.0,
+    "min_main_gap": 30.0,
     "min_core_gap": 46.0,
     "ei": 467.0,
     "phase_distance": 30.0,

@@ -16,7 +16,7 @@ trafo_model.calculate(is_sc=True)
 # FEM calculation
 trafo_model.fem_simulation()
 
-print(trafo_model.hv_winding.thickness)
-print(trafo_model.lv_winding.thickness)
+print(trafo_model.hv_winding)
+print(trafo_model.lv_winding)
 print(trafo_model.results)
 print('analytical sci:', trafo_model.results.sci)
