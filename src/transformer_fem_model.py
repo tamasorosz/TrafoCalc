@@ -14,7 +14,7 @@ class FemModel:
 
         self.magnetic = self.problem.field("magnetic")
         self.magnetic.analysis_type = "steadystate"
-        self.magnetic.number_of_refinements = 2
+        self.magnetic.number_of_refinements = 1
         self.magnetic.polynomial_order = 2
         self.magnetic.adaptivity_type = "disabled"
         self.magnetic.solver = "linear"

@@ -3,7 +3,7 @@
   "required": {
     "power": 1250,
     "freq": 50,
-    "sci_req": 5.8,
+    "sci_req": 2.45,
     "drop_tol": 5.0,
     "hv": {
       "connection": "y",
@@ -16,17 +16,17 @@
       "filling_factor": 100.0
     },
     "min_main_gap": 34.5,
-    "min_core_gap": 50.0,
+    "min_core_gap": 46.0,
     "ei": 467.0,
-    "phase_distance": 50.0,
+    "phase_distance": 70.0,
     "alpha": 1.036,
-    "core_fillingf": 94.8
+    "core_fillingf": 88.0
   },
   "design_params": {
     "rc": 155,
     "bc": 1.5,
-    "j_in": 3.79,
-    "j_ou": 3.15,
+    "j_in": 4.06,
+    "j_ou": 6.2,
     "h_in": 342.5,
     "m_gap": 34.5
   },
