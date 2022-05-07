@@ -14,9 +14,9 @@ class FemModel:
 
         self.magnetic = self.problem.field("magnetic")
         self.magnetic.analysis_type = "steadystate"
-        self.magnetic.number_of_refinements = 2
+        self.magnetic.number_of_refinements = 1
         self.magnetic.polynomial_order = 2
-        self.magnetic.adaptivity_type = "h-adaptivity"
+        self.magnetic.adaptivity_type = "disabled"
         self.magnetic.solver = "linear"
 
         # boundaries
@@ -27,6 +27,22 @@ class FemModel:
             "Air",
             {
                 "magnetic_permeability": 1,
+                "magnetic_conductivity": 0,
+                "magnetic_remanence": 0,
+                "magnetic_remanence_angle": 0,
+                "magnetic_velocity_x": 0,
+                "magnetic_velocity_y": 0,
+                "magnetic_velocity_angular": 0,
+                "magnetic_current_density_external_real": 0,
+                "magnetic_total_current_prescribed": 0,
+                "magnetic_total_current_real": 0,
+            },
+        )
+
+        self.magnetic.add_material(
+            "Core",
+            {
+                "magnetic_permeability": 50000,
                 "magnetic_conductivity": 0,
                 "magnetic_remanence": 0,
                 "magnetic_remanence_angle": 0,

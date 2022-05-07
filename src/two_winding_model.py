@@ -184,14 +184,14 @@ class TwoWindingModel:
         # windings
         simulation.create_winding(
             self.lv_winding.inner_radius,
-            self.input.required.ei / 2.0,
+            self.input.required.ei / 2.5,
             self.lv_winding.thickness,
             self.lv_winding.winding_height,
             "lv",
             self.lv_winding.filling_factor / 100.0,
-            self.lv_winding.current_density * 2.0 ** 0.5,
+            self.lv_winding.current_density,
         )
-        # #
+        #
         simulation.create_winding(
             self.hv_winding.inner_radius,
             self.input.required.ei / 2.0,
@@ -199,7 +199,7 @@ class TwoWindingModel:
             self.hv_winding.winding_height,
             "hv",
             self.hv_winding.filling_factor / 100.0,
-            -self.hv_winding.current_density * 2.0 ** 0.5,
+            -self.hv_winding.current_density,
         )
 
         computation = simulation.problem.computation()
@@ -217,7 +217,7 @@ class TwoWindingModel:
 
         omega = 2.0 * pi * self.input.required.freq
         L = 2 * solution.volume_integrals()["Wm"] / i_b ** 2.0
-        print(solution.volume_integrals()["Wm"])
+        print('Magnetic Energy',solution.volume_integrals()["Wm"])
         print('L:', L)
         print('zb, ib:', z_b, i_b)
 

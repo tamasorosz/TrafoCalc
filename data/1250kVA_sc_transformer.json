@@ -3,30 +3,30 @@
   "required": {
     "power": 1250,
     "freq": 50,
-    "sci_req": 5.4,
+    "sci_req": 5.8,
     "drop_tol": 5.0,
     "hv": {
       "connection": "y",
-      "line_voltage": 0.4,
-      "filling_factor": 100.0
+      "line_voltage": 10.5,
+      "filling_factor": 11.5
     },
     "lv": {
       "connection": "y",
-      "line_voltage": 10.5,
-      "filling_factor": 100.0
+      "line_voltage": 0.4,
+      "filling_factor": 8.7
     },
     "min_main_gap": 34.5,
     "min_core_gap": 50.0,
-    "ei": 467.0,
+    "ei": 460.0,
     "phase_distance": 30.0,
-    "alpha": 1.036,
-    "core_fillingf": 88.0
+    "alpha": 1.03,
+    "core_fillingf": 89.0
   },
   "design_params": {
     "rc": 155,
-    "bc": 1.5,
-    "j_in": 4.1,
-    "j_ou": 6.2,
+    "bc": 1.55,
+    "j_in": 44.92,
+    "j_ou": 53.385,
     "h_in": 342.5,
     "m_gap": 34.5
   },
