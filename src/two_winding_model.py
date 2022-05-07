@@ -173,28 +173,36 @@ class TwoWindingModel:
         # initializing the model
         simulation = FemModel()
 
-        # creating the core window and the two windings
-        simulation.create_rectangle(
-            self.input.design_params.rc, 0, self.results.window_width, self.results.wh, {"magnetic": "A = 0"}
-        )
+        # # creating the core window and the two windings
+        simulation.create_rectangle(self.input.design_params.rc, self.input.design_params.rc, self.results.window_width,
+                                    self.results.wh, None)
 
         # label for the air/oil region in the transformer
-        simulation.geo.add_label((self.input.design_params.rc + 10) * 1e-3, 10 * 1e-3, materials={"magnetic": "Air"})
+        simulation.geo.add_label((self.input.design_params.rc + 20) * 1e-3, (self.input.design_params.rc + 10) * 1e-3,
+                                 materials={"magnetic": "Air"})
+
+        # core
+        simulation.create_rectangle(0, 0, self.results.window_width + 2 * self.input.design_params.rc,
+                                    self.results.wh + 2 * self.input.design_params.rc,
+                                    {"magnetic": "A = 0"})
+
+        # label for the air/oil region in the transformer
+        simulation.geo.add_label(0.01, 1e-3, materials={"magnetic": "Core"})
 
         # windings
         simulation.create_winding(
             self.lv_winding.inner_radius,
-            self.input.required.ei / 2.5,
+            self.input.required.ei / 2.0 + self.input.design_params.rc,
             self.lv_winding.thickness,
             self.lv_winding.winding_height,
             "lv",
             self.lv_winding.filling_factor / 100.0,
             self.lv_winding.current_density,
         )
-        #
+
         simulation.create_winding(
             self.hv_winding.inner_radius,
-            self.input.required.ei / 2.0,
+            self.input.required.ei / 2.0 + self.input.design_params.rc,
             self.hv_winding.thickness,
             self.hv_winding.winding_height,
             "hv",
@@ -213,11 +221,11 @@ class TwoWindingModel:
         u_b = self.input.required.hv.line_voltage  # voltage --- kV
         s_b = self.input.required.power / 1000.0  # nominal power  --- MVA
         z_b = u_b ** 2.0 / s_b  # base impedance
-        i_b = self.input.required.power / u_b / 3.**0.5
+        i_b = self.input.required.power / u_b / 3. ** 0.5
 
         omega = 2.0 * pi * self.input.required.freq
         L = 2 * solution.volume_integrals()["Wm"] / i_b ** 2.0
-        print('Magnetic Energy',solution.volume_integrals()["Wm"])
+        print('Magnetic Energy', solution.volume_integrals()["Wm"])
         print('L:', L)
         print('zb, ib:', z_b, i_b)
 

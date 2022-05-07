@@ -23,7 +23,8 @@ class TestGeoCreation(TestCase):
         model.create_winding(10, 10, 20, 100, "lv", 0.7, 3.0)
 
     def test_fem_simulation(self):
-        # 1250 kVA transformer
+        # 31.5 MVA transformer
+        # source: https://www.ee.iitb.ac.in/~fclab/FEM/FEM1.pdf
         simulation = FemModel()
 
         # airgap
@@ -33,10 +34,10 @@ class TestGeoCreation(TestCase):
         # label for the air/oil region in the transformer
         simulation.geo.add_label(0.280, 0.545, materials={"magnetic": "Air"})
 
-        # # core
+        # core
         simulation.create_rectangle(0, 0, 1097, 2880, {"magnetic": "A = 0"})
 
-        # # label for the air/oil region in the transformer
+        # label for the air/oil region in the transformer
         simulation.geo.add_label(0.01, 1e-3, materials={"magnetic": "Core"})
 
         # windings
