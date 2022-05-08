@@ -37,36 +37,36 @@ class TwoWindingModel:
         ph_power = self.input.required.power / 3.0  # [kVA]
 
         # 2) turn voltage
-        self.results.turn_voltage = round(turn_voltage(
+        self.results.turn_voltage = turn_voltage(
             self.input.design_params.bc,
             self.input.design_params.rc,
             self.input.required.core_fillingf / 100.0,
             self.input.required.freq,
-        ), 2)
+        )
 
         # 3) main parameters for the inner winding
-        t_in = round(calc_inner_width(
+        t_in = calc_inner_width(
             ph_power,
             self.input.design_params.h_in,
             self.input.required.lv.filling_factor / 100.0,
             self.input.design_params.j_in,
             self.results.turn_voltage,
-        ), 1)
+        )
 
-        r_in = round(inner_winding_radius(self.input.design_params.rc, self.input.required.min_core_gap, t_in), 1)
+        r_in = inner_winding_radius(self.input.design_params.rc, self.input.required.min_core_gap, t_in)
 
         # 4/ outer winding parameters
-        h_ou = round(self.input.design_params.h_in * self.input.required.alpha, 1)
-        t_ou = round(calc_inner_width(
+        h_ou = self.input.design_params.h_in * self.input.required.alpha
+        t_ou = calc_inner_width(
             ph_power,
             h_ou,
             self.input.required.hv.filling_factor / 100.0,
             self.input.design_params.j_ou,
             self.results.turn_voltage,
-        ), 1)
+        )
 
         # outer winding radius
-        r_ou = round(outer_winding_radius(r_in, t_in, self.input.design_params.m_gap, t_ou), 1)
+        r_ou = outer_winding_radius(r_in, t_in, self.input.design_params.m_gap, t_ou)
 
         # calculating the detailed parameters of the winding
         self.lv_winding = WindingDesign(

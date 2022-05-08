@@ -38,7 +38,7 @@ class TestFunctions(TestCase):
         t = 37.0  # [mm]
         j = 3.02  # [A/mm2]
 
-        assert round(winding_dc_loss(winding_mass(m, r_m, t, h, ff), j), 3) == 17.991  # [W]
+        assert round(winding_dc_loss(winding_mass(m, r_m, t, h, ff), j), 3) == 18.  # [kW]
 
     # ----------------------------------------------------------------------
     def test_core_loss_unit(self):
@@ -102,7 +102,7 @@ class TestFunctions(TestCase):
         turn_v = 43.015
 
         assert round(short_circuit_impedance(b_pow, p_num, freq, alpha, turn_v, h, s, r_in, t_in, r_ou, t_ou, g),
-                     3) == 0.085
+                     3) == 8.51
 
     def test_inner_winding_radius(self):
         g_core = 17.0
@@ -170,5 +170,5 @@ class TestFunctions(TestCase):
                     ),
                     3,
                 )
-                == 19.534
+                == 19.544
         )

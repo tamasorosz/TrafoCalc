@@ -16,6 +16,8 @@ C_WIN_MIN = 10.0  # minimal width for the windings
 RHO_CU = 0.0216  # 0.0216        # ohm * mm2 / m
 RHO_COPPER = 8960.0  # kg/m3
 
+PRECISION = 1  # all of the values rounded to .1 decimals, except the turn voltage, due to the manufcturing precision
+
 
 def winding_mass(m: float, r_m: float, t: float, h: float, ff: float, material='Cu') -> typing.Any:
     """
@@ -38,7 +40,7 @@ def winding_mass(m: float, r_m: float, t: float, h: float, ff: float, material='
     if material == 'BSSCO':
         density = C_RHO_BSSCO
 
-    return m * r_m * 2.0 * pi * t * h * ff * density
+    return round(m * r_m * 2.0 * pi * t * h * ff * density, PRECISION)
 
 
 def winding_dc_loss(mass: float, j: float) -> typing.Any:
@@ -51,7 +53,7 @@ def winding_dc_loss(mass: float, j: float) -> typing.Any:
 
     dc_loss = C_RHO_CU * mass * j ** 2.0
 
-    return dc_loss * 1e-3
+    return round(dc_loss * 1e-3, 1)
 
 
 def core_loss_unit(ind: float, m_c: float, f_bf: float) -> typing.Any:
@@ -80,7 +82,8 @@ def core_loss_unit(ind: float, m_c: float, f_bf: float) -> typing.Any:
     f = 0.377614241733 * 0.0417580576
     g = 0.13103679517 * 0.0417580576
 
-    return m_c * f_bf * (a + c * ind + d * ind ** b + e * ind ** 3.0 + f * ind ** 4.0 + g * ind ** 5.0) * 10 ** (-3.0)
+    return round(
+        m_c * f_bf * (a + c * ind + d * ind ** b + e * ind ** 3.0 + f * ind ** 4.0 + g * ind ** 5.0) * 10 ** (-3.0), 1)
 
 
 def core_mass(r_c: float, ff_c: float, h: float, ei: float, s: float, m: float) -> typing.Any:
@@ -114,7 +117,7 @@ def core_mass(r_c: float, ff_c: float, h: float, ei: float, s: float, m: float) 
     m_column = a * 3 * (h + ei)
     m_yoke = a * (s * 8.0 + m * 4.0)
 
-    return m_column + m_yoke + m_corner
+    return round(m_column + m_yoke + m_corner, 1)
 
 
 def window_width(g_core: float, t_in: float, t_out: float, g: float, t_r: float, g_r: float) -> float:
@@ -131,7 +134,7 @@ def window_width(g_core: float, t_in: float, t_out: float, g: float, t_r: float,
     g is considered as a phase distance at the end of the windings
     """
 
-    return g_core + t_in + t_out + g + t_r + g_r + g
+    return round(g_core + t_in + t_out + g + t_r + g_r + g, 1)
 
 
 def turn_voltage(ind: float, r_c: float, ff_c: float, freq: float) -> typing.Any:
@@ -141,7 +144,7 @@ def turn_voltage(ind: float, r_c: float, ff_c: float, freq: float) -> typing.Any
     """
     area = r_c ** 2.0 * pi * ff_c
 
-    return ind * area * 4.44 * 1e-6 * freq
+    return round(ind * area * 4.44 * 1e-6 * freq, PRECISION + 1)
 
 
 def short_circuit_impedance(
@@ -178,7 +181,7 @@ def short_circuit_impedance(
     b = r_ou * t_ou / 3.0
     c = (r_in + t_in / 2.0 + g / 2.0) * g
 
-    return imp_con * (a + b + c)
+    return round(imp_con * (a + b + c)*100, PRECISION+1)
 
 
 def inner_winding_radius(r_c: float, g_core: float, t_in: float) -> float:
@@ -190,7 +193,7 @@ def inner_winding_radius(r_c: float, g_core: float, t_in: float) -> float:
     Core || Inner Main || Regulating || Outer Main
 
     """
-    return r_c + g_core + t_in / 2.0
+    return round(r_c + g_core + t_in / 2.0, PRECISION)
 
 
 def outer_winding_radius(r_in: float, t_in: float, g: float, t_out: float) -> float:
@@ -201,7 +204,7 @@ def outer_winding_radius(r_in: float, t_in: float, g: float, t_out: float) -> fl
     Core || Inner Main || Outer Main || Regulating
 
     """
-    return r_in + t_in / 2.0 + g + t_out / 2.0
+    return round(r_in + t_in / 2.0 + g + t_out / 2.0, PRECISION)
 
 
 def winding_power(width: float, height: float, ff_w: float, j_: float, u_t: float) -> float:
@@ -213,7 +216,7 @@ def winding_power(width: float, height: float, ff_w: float, j_: float, u_t: floa
     x ff_w  - filling factor [-]
     """
 
-    return width * height * u_t * ff_w * j_ * 1e-3  # kVA
+    return round(width * height * u_t * ff_w * j_ * 1e-3, PRECISION)  # kVA
 
 
 def calc_inner_width(s_p: float, h_: float, ff_w: float, j_: float, u_t: float) -> float:
@@ -226,7 +229,7 @@ def calc_inner_width(s_p: float, h_: float, ff_w: float, j_: float, u_t: float) 
     j_    - current density [A/mm2]
     """
 
-    return s_p / h_ / ff_w / j_ / u_t * 1e3  # mm
+    return round(s_p / h_ / ff_w / j_ / u_t * 1e3, PRECISION)  # mm
 
 
 def calculate_turn_num(win_voltage: float, turn_vol: float) -> float:
@@ -235,7 +238,7 @@ def calculate_turn_num(win_voltage: float, turn_vol: float) -> float:
     turn_voltage in [V]
     """
 
-    return round(win_voltage / turn_vol * 1e3, 1)
+    return round(win_voltage / turn_vol * 1e3, PRECISION)
 
 
 def homogenous_insulation_ff(ff: float) -> typing.Any:
@@ -300,4 +303,4 @@ def capitalized_cost(
     """
 
     return alpha * (
-                c_mass * c_material_price + w_mass_in * w_c_in + w_mass_ou * w_c_out) + ll * ll_cost + nll * nll_cost
+            c_mass * c_material_price + w_mass_in * w_c_in + w_mass_ou * w_c_out) + ll * ll_cost + nll * nll_cost

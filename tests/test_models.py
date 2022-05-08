@@ -27,7 +27,7 @@ class TestWindingModel(TestCase):
 
         self.assertAlmostEqual(winding.mean_radius, 247.5, 2)
         self.assertAlmostEqual(winding.outer_radius, 265, 2)
-        self.assertAlmostEqual(winding.mass, 855.225, 2)
+        self.assertAlmostEqual(winding.mass, 855.2, 2)
         self.assertAlmostEqual(winding.dc_loss, 18.876, 2)
         self.assertAlmostEqual(winding.ac_loss, 1.59, 2)
 
