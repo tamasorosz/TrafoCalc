@@ -65,19 +65,19 @@ class TwoWindingModel:
             self.results.turn_voltage,
         )
 
-        # outer winding radius
+        # outer winding radius (MEAN)
         r_ou = outer_winding_radius(r_in, t_in, self.input.design_params.m_gap, t_ou)
 
         # calculating the detailed parameters of the winding
         self.lv_winding = WindingDesign(
-            inner_radius=r_in - t_in / 2.0,
+            inner_radius=round(r_in - t_in / 2.0, 1),
             thickness=t_in,
             winding_height=self.input.design_params.h_in,
             current_density=self.input.design_params.j_in,
             filling_factor=self.input.required.lv.filling_factor,
         )
         self.hv_winding = WindingDesign(
-            inner_radius=r_ou - t_ou / 2.0,
+            inner_radius=round(r_ou - t_ou / 2.0, 1),
             thickness=t_ou,
             winding_height=h_ou,
             current_density=self.input.design_params.j_ou,
@@ -226,11 +226,10 @@ class TwoWindingModel:
         omega = 2.0 * pi * self.input.required.freq
         L = 2 * solution.volume_integrals()["Wm"] / i_b ** 2.0
         print('Magnetic Energy', solution.volume_integrals()["Wm"])
-        print('L:', L)
-        print('zb, ib:', z_b, i_b)
+        print('zb, ib:', z_b, 'ohm', i_b, 'A')
 
         self.results.fem_based_sci = omega * L / z_b * 100.0  # the short-circuit impedance in [%] values
-        print(self.results.fem_based_sci)
+        print('SCI:', round(self.results.fem_based_sci, 2), '[%]')
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
         for i in range(
                 int(self.input.required.ei / 2.0), int(self.hv_winding.winding_height + self.input.required.ei / 2.0),
@@ -246,4 +245,5 @@ class TwoWindingModel:
                                           (self.hv_winding.winding_height + self.input.required.ei / 2.0) * 1e-3)
             self.results.fem_brad = max(abs(point["Brr"]), self.results.fem_brad)
 
-        print(self.results.fem_bax, self.results.fem_brad)
+        print('Bax =', round(self.results.fem_bax * 100, 2), 'mT', 'Brad =', round(self.results.fem_brad * 100, 2),
+              'mT')

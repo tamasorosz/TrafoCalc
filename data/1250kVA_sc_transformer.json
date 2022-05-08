@@ -8,7 +8,7 @@
     "hv": {
       "connection": "y",
       "line_voltage": 10.5,
-      "filling_factor": 11.5
+      "filling_factor": 11.6
     },
     "lv": {
       "connection": "y",
@@ -19,14 +19,14 @@
     "min_core_gap": 50.0,
     "ei": 481.0,
     "phase_distance": 30.0,
-    "alpha": 1.03,
+    "alpha": 1.04,
     "core_fillingf": 92.0
   },
   "design_params": {
     "rc": 155,
     "bc": 1.5,
     "j_in": 44.92,
-    "j_ou": 53.385,
+    "j_ou": 53.45,
     "h_in": 342.5,
     "m_gap": 34.5
   },

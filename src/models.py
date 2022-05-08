@@ -67,6 +67,7 @@ class WindingDesign:
     ac_loss: float = field(default=0.0)
     outer_radius: float = field(default=0.0)
     cable_length: float = field(default=0.0)
+    amper_turns: float = field(default=0.0)
 
     def calc_properties(self):
         # geometry
@@ -81,6 +82,8 @@ class WindingDesign:
                                   self.thickness)
                 * self.dc_loss
         )
+        self.amper_turns = round(
+            self.thickness * self.filling_factor / 100.0 * self.winding_height * self.current_density, 1)
         return True
 
     def calc_sc_properties(self, freq):
@@ -96,6 +99,9 @@ class WindingDesign:
 
         # the ac loss calculated for the assumed properties of
         self.ac_loss = perp_loss(1.35, freq, 4.29 * 1e-3, 0.011) * self.cable_length
+
+        self.amper_turns = round(
+            self.thickness * self.filling_factor / 100.0 * self.winding_height * self.current_density, 1)
 
 
 @dataclass_json

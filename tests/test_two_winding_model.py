@@ -46,4 +46,3 @@ class TestConvTransformerModel(TestCase):
         self.assertAlmostEqual(trafo_model.results.fem_based_sci, 7.9, 1)
 
         del trafo_model
-
