@@ -51,7 +51,6 @@ def perp_loss(f, bperp, K=1.35, w=4.1 * 1e-3, bc=15. * 1e-3):
     :return:
     """
     beta = bperp / bc
-    # P_perp = K * f * (w ** 2.) * pi / mu_0 * bc ** 2. * beta * (2. / beta * log(cosh(beta)) - tanh(beta))
     P_perp = K * f * (w ** 2.0) * pi / mu_0 * bc ** 2.0 * beta * (2.0 / beta * logcosh(beta) - tanh(beta))
 
     return P_perp
@@ -68,18 +67,31 @@ def norris_equation(f, I, Ic):
     return f * Ic ** 2 * mu_0 / pi * ((1.0 - I / Ic) * np.log(1.0 - I / Ic) + (I / Ic - I ** 2 / (2 * Ic ** 2)))
 
 
+def magnusson_ac_loss(b_ax, b_rad, f, I, Ic=170):
+    """
+
+    :param b_ax: parallel component of the magnetic field
+    :param b_rad: radial component of the magnetic field
+    :param f: network frequency
+    :param I: current
+    :param Ic: critical current
+    :return:
+    """
+    return parallel_loss(b_ax, 50.) + perp_loss(50., b_rad) + norris_equation(f, I, Ic)
+
+
 def cryostat_losses(Acr, dT=228.0):
     """
     Calculating the cryostat losses according to doi: 10.1088/1742-6596/97/1/012318
-    :param Acr: the surface of the cryostat
+    :param Acr: the surface of the cryostat # m2
     :param dT: temperature difference between the maximum outside temperature (40C) and the working temp
     :return: losses of the cryostat
     """
 
     k_th = 2.0 * 1e-3  # W/(mK)
-    d_th = 50.0  # mm
+    d_th = 50.0  # mm - thermal insulation thickness
     # the windings considered to work at 65 K -> dT = 293 - 65 = 228
-    return k_th / d_th * Acr * dT
+    return k_th / d_th * Acr * 1e-6 * dT
 
 
 def cryo_surface(r_in, r_ou, h):
@@ -150,4 +162,3 @@ def cooler_cost(cooling_power):
     """Gives back the approximative price of a cooler with a given loss,
        doi:10.1088/1757-899X/101/1/012001 """
     return 1.81 * cooling_power ** 0.57 * 1e3
-

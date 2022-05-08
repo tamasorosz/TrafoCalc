@@ -93,8 +93,8 @@ class WindingDesign:
         self.mass = winding_mass(3, self.mean_radius, self.thickness, self.winding_height, self.filling_factor / 100.0,
                                  material='BSSCO')
 
-        ac = 0.31 * 4.1 * 1e-6  # m2
-        self.cable_length = self.mass / C_RHO_BSSCO / ac  # m
+        ac = 0.31 * 4.1  # mm2
+        self.cable_length = round(self.mass / C_RHO_BSSCO / ac *1e-3, 2) # m
         self.dc_loss = 0.  # superconducting 'loss' assumed in the normal state
 
         # the ac loss calculated for the assumed properties of

@@ -226,7 +226,7 @@ class TwoWindingModel:
         omega = 2.0 * pi * self.input.required.freq
         L = 2 * solution.volume_integrals()["Wm"] / i_b ** 2.0
         print('Magnetic Energy', solution.volume_integrals()["Wm"])
-        print('zb, ib:', z_b, 'ohm', i_b, 'A')
+        print('zb, ib:', round(z_b, 2), 'ohm', round(i_b, 2), 'A')
 
         self.results.fem_based_sci = omega * L / z_b * 100.0  # the short-circuit impedance in [%] values
         print('SCI:', round(self.results.fem_based_sci, 2), '[%]')
