@@ -17,14 +17,14 @@
     },
     "min_main_gap": 34.5,
     "min_core_gap": 50.0,
-    "ei": 460.0,
+    "ei": 481.0,
     "phase_distance": 30.0,
     "alpha": 1.03,
-    "core_fillingf": 89.0
+    "core_fillingf": 92.0
   },
   "design_params": {
     "rc": 155,
-    "bc": 1.55,
+    "bc": 1.5,
     "j_in": 44.92,
     "j_ou": 53.385,
     "h_in": 342.5,

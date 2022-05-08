@@ -32,7 +32,7 @@ class TestConvTransformerModel(TestCase):
 
         # losses
         self.assertAlmostEqual(trafo_model.results.core_loss, 7.7, 1)
-        self.assertAlmostEqual(trafo_model.hv_winding.mass, 1585.5, 0)
+        self.assertAlmostEqual(trafo_model.hv_winding.mass, 1586., 0)
 
         self.assertAlmostEqual(trafo_model.results.load_loss, 48.035, 0)
         self.assertAlmostEqual(trafo_model.results.sci * 100, 7.5, 1)
@@ -43,7 +43,7 @@ class TestConvTransformerModel(TestCase):
         # FEM calculation
         trafo_model.fem_simulation()
 
-        self.assertAlmostEqual(trafo_model.results.fem_based_sci, 7.79, 1)
+        self.assertAlmostEqual(trafo_model.results.fem_based_sci, 7.9, 1)
 
         del trafo_model
 
