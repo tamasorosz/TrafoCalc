@@ -21,14 +21,15 @@ class TestWindingModel(TestCase):
         self.assertAlmostEqual(winding.ph_voltage, 12.716, 2)
 
     def test_calc_properties(self):
-        winding = WindingDesign(winding_height=1100, inner_radius=230, thickness=35, filling_factor=53.5, current_density=3.02)
+        winding = WindingDesign(winding_height=1100, inner_radius=230, thickness=35, filling_factor=53.5,
+                                current_density=3.02)
 
         winding.calc_properties()
 
         self.assertAlmostEqual(winding.mean_radius, 247.5, 2)
         self.assertAlmostEqual(winding.outer_radius, 265, 2)
         self.assertAlmostEqual(winding.mass, 855.2, 2)
-        self.assertAlmostEqual(winding.dc_loss, 18.876, 2)
+        self.assertAlmostEqual(winding.dc_loss, 18.9, 2)
         self.assertAlmostEqual(winding.ac_loss, 1.59, 2)
 
 
