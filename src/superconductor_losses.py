@@ -25,7 +25,7 @@ def parallel_loss(bpar, f, C=0.77, ac=0.31 * 4.1 * 1e-6, bp=34.4 * 1e-3):
     :param bp: is the full penetration field, it is fitted on experimental data
     :return:
     """
-    if bpar < bp:
+    if bpar <= bp:
         P_par = 2 * f * C * ac * bpar ** 3. / (3. * mu_0 * bp)
     else:
         P_par = 2 * f * C * ac * bp / (3. * mu_0) * (3.0 * bpar - 2.0 * bp)
