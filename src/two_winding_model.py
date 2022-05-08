@@ -232,7 +232,8 @@ class TwoWindingModel:
         print('SCI:', round(self.results.fem_based_sci, 2), '[%]')
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
         for i in range(
-                int(self.input.required.ei / 2.0), int(self.hv_winding.winding_height + self.input.required.ei / 2.0),
+                int(self.input.design_params.rc + self.input.required.ei / 2.0),
+                int(self.input.design_params.rc + self.hv_winding.winding_height + self.input.required.ei / 2.0),
                 10
         ):
             point = solution.local_values(self.hv_winding.inner_radius * 1e-3, i * 1e-3)
@@ -242,8 +243,9 @@ class TwoWindingModel:
         for i in range(int(self.hv_winding.inner_radius), int(self.hv_winding.inner_radius + self.hv_winding.thickness),
                        3):
             point = solution.local_values(i * 1e-3,
-                                          (self.hv_winding.winding_height + self.input.required.ei / 2.0) * 1e-3)
+                                          (
+                                                  self.hv_winding.winding_height + self.input.required.ei / 2.0 + self.input.design_params.rc) * 1e-3)
             self.results.fem_brad = max(abs(point["Brr"]), self.results.fem_brad)
 
-        print('Bax =', round(self.results.fem_bax * 100, 2), 'mT', 'Brad =', round(self.results.fem_brad * 100, 2),
+        print('Bax =', round(self.results.fem_bax * 1000, 2), 'mT', 'Brad =', round(self.results.fem_brad * 1000, 2),
               'mT')
