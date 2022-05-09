@@ -236,7 +236,7 @@ class TwoWindingModel:
         for i in range(
                 int(self.input.design_params.rc + self.input.required.ei / 2.0),
                 int(self.input.design_params.rc + self.hv_winding.winding_height + self.input.required.ei / 2.0),
-                int(self.hv_winding.winding_height / 15)
+                int(self.hv_winding.winding_height / 20)
         ):
             # point = solution.local_values(self.hv_winding.inner_radius * 1e-3, i * 1e-3)
             # self.results.fem_bax = max(abs(point["Brz"]), self.results.fem_bax)
@@ -251,8 +251,16 @@ class TwoWindingModel:
                 max_rad = max(abs(point["Brr"]), max_rad)
                 max_ax = max(abs(point["Brz"]), max_ax)
 
+            # max values along the hv winding
             self.results.fem_brad.append(max_rad)
             self.results.fem_bax.append(max_ax)
 
-        print('Bax [mT] =', len(self.results.fem_bax), self.results.fem_bax)
-        print('Brad [mT] =', len(self.results.fem_brad), self.results.fem_brad)
+        # create a common list from bax and brad values
+        self.results.br_bax = list(zip(self.results.fem_bax, self.results.fem_brad))
+        # maximum values
+        self.results.fem_brad = max(self.results.fem_brad)
+        self.results.fem_bax = max(self.results.fem_bax)
+
+        print('Bax [mT] =', self.results.fem_bax*1e3)
+        print('Brad [mT] =',self.results.fem_brad*1e3)
+        print('Values along the outer winding:', list(self.results.br_bax))

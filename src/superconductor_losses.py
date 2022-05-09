@@ -76,7 +76,28 @@ def magnusson_ac_loss(b_ax, b_rad, f, I, Ic=170):
     :param Ic: critical current
     :return: The result is in W/m, which can estimate the losses.
     """
+
     return parallel_loss(b_ax, f) + perp_loss(f, b_rad) + norris_equation(f, I, Ic)
+
+
+def supra_winding_ac_loss(b_list: list, f, I, Ic=170):
+    """
+
+    :param b: (bax, brad) list of b pairs
+    :param f: frequency
+    :param I: current
+    :param Ic:
+    :return:
+    """
+    pax = 0
+    prad = 0
+    for elem in b_list:
+        pax += parallel_loss(elem[0], f)
+        prad += perp_loss(f, elem[1])
+        print(elem[0] * 1e3, elem[1] * 1e3, pax, prad)
+
+    #print(len(b_list), p)
+    return (pax + prad) / len(b_list) + norris_equation(f, I, Ic)
 
 
 def cryostat_losses(Acr, dT=228.0):

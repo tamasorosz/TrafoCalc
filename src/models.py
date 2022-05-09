@@ -162,3 +162,4 @@ class MainResults:
     fem_based_sci: float = field(default=0.0)
     fem_bax: float = field(default=0.0)
     fem_brad: float = field(default=0.0)
+    fem_bax_brad:list = field(default=0.0)
