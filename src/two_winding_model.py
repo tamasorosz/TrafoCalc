@@ -231,21 +231,28 @@ class TwoWindingModel:
         self.results.fem_based_sci = omega * L / z_b * 100.0  # the short-circuit impedance in [%] values
         print('SCI:', round(self.results.fem_based_sci, 2), '[%]')
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
+        self.results.fem_bax = []
+        self.results.fem_brad = []
         for i in range(
                 int(self.input.design_params.rc + self.input.required.ei / 2.0),
                 int(self.input.design_params.rc + self.hv_winding.winding_height + self.input.required.ei / 2.0),
-                10
+                int(self.hv_winding.winding_height / 15)
         ):
-            point = solution.local_values(self.hv_winding.inner_radius * 1e-3, i * 1e-3)
-            self.results.fem_bax = max(abs(point["Brz"]), self.results.fem_bax)
+            # point = solution.local_values(self.hv_winding.inner_radius * 1e-3, i * 1e-3)
+            # self.results.fem_bax = max(abs(point["Brz"]), self.results.fem_bax)
+            # self.results.fem_bax.append(abs(point["Brz"]))
+            max_rad = 0.
+            max_ax = 0.
 
-        # iterates over the top of the hv winding
-        for i in range(int(self.hv_winding.inner_radius), int(self.hv_winding.inner_radius + self.hv_winding.thickness),
-                       3):
-            point = solution.local_values(i * 1e-3,
-                                          (
-                                                  self.hv_winding.winding_height + self.input.required.ei / 2.0 + self.input.design_params.rc) * 1e-3)
-            self.results.fem_brad = max(abs(point["Brr"]), self.results.fem_brad)
+            # iterates over the winding in the radial direction and stores the max value
+            for j in range(int(self.hv_winding.inner_radius),
+                           int(self.hv_winding.inner_radius + self.hv_winding.thickness), 3):
+                point = solution.local_values(j * 1e-3, i * 1e-3)
+                max_rad = max(abs(point["Brr"]), max_rad)
+                max_ax = max(abs(point["Brz"]), max_ax)
 
-        print('Bax =', round(self.results.fem_bax * 1000, 2), 'mT', 'Brad =', round(self.results.fem_brad * 1000, 2),
-              'mT')
+            self.results.fem_brad.append(max_rad)
+            self.results.fem_bax.append(max_ax)
+
+        print('Bax [mT] =', len(self.results.fem_bax), self.results.fem_bax)
+        print('Brad [mT] =', len(self.results.fem_brad), self.results.fem_brad)

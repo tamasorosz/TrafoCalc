@@ -69,15 +69,14 @@ def norris_equation(f, I, Ic):
 
 def magnusson_ac_loss(b_ax, b_rad, f, I, Ic=170):
     """
-
     :param b_ax: parallel component of the magnetic field
     :param b_rad: radial component of the magnetic field
     :param f: network frequency
     :param I: current
     :param Ic: critical current
-    :return:
+    :return: The result is in W/m, which can estimate the losses.
     """
-    return parallel_loss(b_ax, 50.) + perp_loss(50., b_rad) + norris_equation(f, I, Ic)
+    return parallel_loss(b_ax, f) + perp_loss(f, b_rad) + norris_equation(f, I, Ic)
 
 
 def cryostat_losses(Acr, dT=228.0):
