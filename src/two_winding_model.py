@@ -166,7 +166,7 @@ class TwoWindingModel:
 
         self.results.feasible = True
 
-    def fem_simulation(self):
+    def fem_simulation(self, detailed_output=True):
         if not self.results.feasible:
             raise ValueError("Invalid Transformer Geometry")
 
@@ -231,16 +231,16 @@ class TwoWindingModel:
         self.results.fem_based_sci = omega * L / z_b * 100.0  # the short-circuit impedance in [%] values
         print('SCI:', round(self.results.fem_based_sci, 2), '[%]')
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
-        self.results.fem_bax = []
-        self.results.fem_brad = []
+
+        # iterates over on horizontal slices in the hv winding and the lv winding to collect the required flux data
+        self.results.fem_bax_hv = []
+        self.results.fem_brad_hv = []
+
         for i in range(
                 int(self.input.design_params.rc + self.input.required.ei / 2.0),
                 int(self.input.design_params.rc + self.hv_winding.winding_height + self.input.required.ei / 2.0),
                 int(self.hv_winding.winding_height / 20)
         ):
-            # point = solution.local_values(self.hv_winding.inner_radius * 1e-3, i * 1e-3)
-            # self.results.fem_bax = max(abs(point["Brz"]), self.results.fem_bax)
-            # self.results.fem_bax.append(abs(point["Brz"]))
             max_rad = 0.
             max_ax = 0.
 
@@ -252,15 +252,51 @@ class TwoWindingModel:
                 max_ax = max(abs(point["Brz"]), max_ax)
 
             # max values along the hv winding
-            self.results.fem_brad.append(max_rad)
-            self.results.fem_bax.append(max_ax)
+            self.results.fem_brad_hv.append(max_rad)
+            self.results.fem_bax_hv.append(max_ax)
 
         # create a common list from bax and brad values
-        self.results.br_bax = list(zip(self.results.fem_bax, self.results.fem_brad))
-        # maximum values
-        self.results.fem_brad = max(self.results.fem_brad)
-        self.results.fem_bax = max(self.results.fem_bax)
+        self.results.br_bax_hv = list(zip(self.results.fem_bax_hv, self.results.fem_brad_hv))
 
-        print('Bax [mT] =', self.results.fem_bax*1e3)
-        print('Brad [mT] =',self.results.fem_brad*1e3)
-        print('Values along the outer winding:', list(self.results.br_bax))
+        # collecting the critical points from the lv winding
+        self.results.fem_bax_lv = []
+        self.results.fem_brad_lv = []
+
+        for i in range(
+                int(self.input.design_params.rc + self.input.required.ei / 2.0),
+                int(self.input.design_params.rc + self.lv_winding.winding_height + self.input.required.ei / 2.0),
+                int(self.lv_winding.winding_height / 20)
+        ):
+            max_rad = 0.
+            max_ax = 0.
+
+            # iterates over the winding in the radial direction and stores the max value
+            for j in range(int(self.lv_winding.inner_radius),
+                           int(self.lv_winding.inner_radius + self.lv_winding.thickness), 3):
+                point = solution.local_values(j * 1e-3, i * 1e-3)
+                max_rad = max(abs(point["Brr"]), max_rad)
+                max_ax = max(abs(point["Brz"]), max_ax)
+
+            # max values along the hv winding
+            self.results.fem_brad_lv.append(max_rad)
+            self.results.fem_bax_lv.append(max_ax)
+
+        # create a common list from bax and brad values
+        self.results.br_bax_lv = list(zip(self.results.fem_bax_hv, self.results.fem_brad_hv))
+
+        # maximum radial and axial values in the hv winding
+        self.results.fem_brad_hv = max(self.results.fem_brad_hv)
+        self.results.fem_bax_hv = max(self.results.fem_bax_hv)
+        # lv
+        self.results.fem_brad_lv = max(self.results.fem_brad_lv)
+        self.results.fem_bax_lv = max(self.results.fem_bax_lv)
+
+        print('Bax  [HV] =', round(self.results.fem_bax_hv * 1e3, 2), '[mT]')
+        print('Brad [HV] =', round(self.results.fem_brad_hv * 1e3, 2), '[mT]')
+
+        print('Bax  [LV] =', round(self.results.fem_bax_lv * 1e3, 2), '[mT]')
+        print('Brad [Lv] =', round(self.results.fem_brad_lv * 1e3, 2), '[mT]')
+
+        if detailed_output:
+            print('Values along the hv winding:', list(self.results.br_bax_hv))
+            print('Values along the lv winding:', list(self.results.br_bax_hv))
