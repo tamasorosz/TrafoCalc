@@ -109,9 +109,9 @@ def cryostat_losses(Acr, dT=228.0):
     """
 
     k_th = 2.0 * 1e-3  # W/(mK)
-    d_th = 50.0  # mm - thermal insulation thickness
+    d_th = 50.0 * 1e-3  # mm - thermal insulation thickness
     # the windings considered to work at 65 K -> dT = 293 - 65 = 228
-    return k_th / d_th * Acr * 1e-6 * dT
+    return round(k_th / d_th * Acr * 1e-6 * dT, 2)
 
 
 def cryo_surface(r_in, r_ou, h):
