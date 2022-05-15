@@ -82,6 +82,7 @@ def magnusson_ac_loss(b_ax, b_rad, f, I, Ic=170):
 
 def supra_winding_ac_loss(b_list: list, f, I, Ic=170, kappa=1.2):
     """
+    This calculation is based on the ac loss calculation of the superconducting winding by the Magnusson formula.
 
     :param b: (bax, brad) list of b pairs
     :param f: frequency
@@ -137,7 +138,7 @@ def thermal_incomes(I1p, I2p):
     """
     q_cl = 45.0 * 1e-3  # W/A
 
-    return 6. * q_cl * (I1p + I2p)
+    return round(6. * q_cl * (I1p + I2p), 2)
 
 
 def sc_load_loss(p_ac, pcr, pcl, C=18.0):
