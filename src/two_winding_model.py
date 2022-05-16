@@ -282,7 +282,7 @@ class TwoWindingModel:
             self.results.fem_bax_lv.append(max_ax)
 
         # create a common list from bax and brad values
-        self.results.br_bax_lv = list(zip(self.results.fem_bax_hv, self.results.fem_brad_hv))
+        self.results.br_bax_lv = list(zip(self.results.fem_bax_lv, self.results.fem_brad_lv))
 
         # maximum radial and axial values in the hv winding
         self.results.fem_brad_hv = max(self.results.fem_brad_hv)
@@ -299,4 +299,4 @@ class TwoWindingModel:
 
         if detailed_output:
             print('Values along the hv winding:', list(self.results.br_bax_hv))
-            print('Values along the lv winding:', list(self.results.br_bax_hv))
+            print('Values along the lv winding:', list(self.results.br_bax_lv))

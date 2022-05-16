@@ -159,8 +159,17 @@ def sc_load_loss(p_ac, pcr, pcl, C=18.0):
     return C * (p_ac + pcr + pcl)
 
 
-
 def cooler_cost(cooling_power):
     """Gives back the approximative price of a cooler with a given loss,
        doi:10.1088/1757-899X/101/1/012001 """
     return 1.81 * cooling_power ** 0.57 * 1e3
+
+
+class ScLossWang:
+    """Perpendicular component of the hysteric losses: doi.org/10.1007/s11460-009-0010-5"""
+
+    def __init__(self):
+        return
+
+    def hysteric_loss(self):
+        perp_loss()
