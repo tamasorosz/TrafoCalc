@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import pi, tanh
 from scipy.constants import mu_0
-
+from src.base_functions import C_RHO_CU, C_RHO
 
 # BSCCO cable from Magnussons' paper
 # ----------------------------------
@@ -164,12 +164,13 @@ def cooler_cost(cooling_power):
        doi:10.1088/1757-899X/101/1/012001 """
     return 1.81 * cooling_power ** 0.57 * 1e3
 
+def eddy_loss(i, t=0.31*1e-6, w=4.29*1e-6, f=50, I_c=115):
+    """
 
-class ScLossWang:
-    """Perpendicular component of the hysteric losses: doi.org/10.1007/s11460-009-0010-5"""
-
-    def __init__(self):
-        return
-
-    def hysteric_loss(self):
-        perp_loss()
+    :param t: thickness of the conductor
+    :param w: width of the conductor
+    :param f: Hz
+    :param Ic: A
+    :return:
+    """
+    return 4*mu_0**2./pi*t*w*f**2/C_RHO*I_c**2
