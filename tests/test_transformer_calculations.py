@@ -22,15 +22,17 @@ from src.base_functions import (
 class TestFunctions(TestCase):
     def test_winding_mass(self):
         # reference: Karsai et al, Nagytranszformátorok - Hu example page 86. (example 3.1) 6.3 MVA transformer
+        # the mass corrigated due to the high thickness of the coils
         m = 3.0  # phase
         r_m = 437.0 / 2.0  # [mm]
         ff = 0.5  # [-]
         h = 1202.0  # [mm]
         t = 37.0  # [mm]
-        assert round(winding_mass(m, r_m, t, h, ff), 1) == 815.1  # kg
+        assert round(winding_mass(m, r_m, t, h, ff), 1) == 849.6  # 815.1  kg
 
     def test_winding_dc_loss(self):
         # reference: Karsai et al, Nagytranszformátorok-Hu example page 86.
+        # the mass of the winding corrigated due to the high thickness
         m = 3.0
         r_m = 437.0 / 2.0  # [mm]
         ff = 0.5  # [-]
@@ -38,7 +40,7 @@ class TestFunctions(TestCase):
         t = 37.0  # [mm]
         j = 3.02  # [A/mm2]
 
-        assert round(winding_dc_loss(winding_mass(m, r_m, t, h, ff), j), 3) == 18.  # [kW]
+        assert round(winding_dc_loss(winding_mass(m, r_m, t, h, ff), j), 3) == 18.8  # [kW]
 
     # ----------------------------------------------------------------------
     def test_core_loss_unit(self):

@@ -40,7 +40,7 @@ def winding_mass(m: float, r_m: float, t: float, h: float, ff: float, material='
     if material == 'BSSCO':
         density = C_RHO_BSSCO
 
-    return round(m * r_m * 2.0 * pi * t * h * ff * density, PRECISION)
+    return round(m * (r_m + t/4) * 2.0 * pi * t * h * ff * density, PRECISION)
 
 
 def winding_dc_loss(mass: float, j: float) -> typing.Any:
