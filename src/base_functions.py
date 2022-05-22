@@ -1,6 +1,7 @@
 import typing
 
 from scipy.constants import mu_0, pi
+from scipy.interpolate import interp1d
 
 """ This module contains the basic calculations for a two winding transformer design and optimization."""
 C_RHO = 8.9 * 1e-6  # kg/mm3
@@ -40,7 +41,7 @@ def winding_mass(m: float, r_m: float, t: float, h: float, ff: float, material='
     if material == 'BSSCO':
         density = C_RHO_BSSCO
 
-    return round(m * (r_m + t/4) * 2.0 * pi * t * h * ff * density, PRECISION)
+    return round(m * (r_m + t / 4) * 2.0 * pi * t * h * ff * density, PRECISION)
 
 
 def winding_dc_loss(mass: float, j: float) -> typing.Any:
@@ -181,7 +182,7 @@ def short_circuit_impedance(
     b = r_ou * t_ou / 3.0
     c = (r_in + t_in / 2.0 + g / 2.0) * g
 
-    return round(imp_con * (a + b + c)*100, PRECISION+1)
+    return round(imp_con * (a + b + c) * 100, PRECISION + 1)
 
 
 def inner_winding_radius(r_c: float, g_core: float, t_in: float) -> float:
@@ -281,6 +282,29 @@ def phase_current(sb: float, ub: float, con_fact: float) -> typing.Any:
     :return:
     """
     return sb * 1e3 / ub / 3.0 ** 0.5 / con_fact
+
+
+def sc_factor(x, r):
+    """
+    Fits the sc factor to the implemented impedance values.
+    :param x: the imaginary component of the impedance
+    :param r: the real component of the impedance
+    :return:
+    """
+
+    f_x = [2.0, 3.0, 4.5, 7.0, 10.0, 15.0, 20.0, 40.0, 100.0]
+    f_y = [1.8, 2.0, 2.2, 2.4, 2.5, 2.57, 2.63, 2.7, 2.8]
+    f = interp1d(f_x, f_y)
+    return round(float(f(x / r)), 2)
+
+
+def sc_current(i_n, eps_z) -> float:
+    """
+    Returns the short circuit factor
+    :return: do
+    """
+
+    return 2 * 1.41 * i_n / eps_z
 
 
 def capitalized_cost(

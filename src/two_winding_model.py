@@ -247,8 +247,9 @@ class TwoWindingModel:
 
             # iterates over the winding in the radial direction and stores the max value
             for j in range(int(self.hv_winding.inner_radius),
-                           int(self.hv_winding.inner_radius + self.hv_winding.thickness), 3):
+                           int(self.hv_winding.inner_radius + self.hv_winding.thickness), 1):
                 point = solution.local_values(j * 1e-3, i * 1e-3)
+
                 max_rad = max(abs(point["Brr"]), max_rad)
                 max_ax = max(abs(point["Brz"]), max_ax)
 
@@ -275,7 +276,7 @@ class TwoWindingModel:
 
             # iterates over the winding in the radial direction and stores the max value
             for j in range(int(self.lv_winding.inner_radius),
-                           int(self.lv_winding.inner_radius + self.lv_winding.thickness), 4):
+                           int(self.lv_winding.inner_radius + self.lv_winding.thickness), 5):
                 point = solution.local_values(j * 1e-3, i * 1e-3)
                 max_rad = max(abs(point["Brr"]), max_rad)
                 max_ax = max(abs(point["Brz"]), max_ax)

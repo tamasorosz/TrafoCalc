@@ -16,6 +16,7 @@ from src.base_functions import (
     winding_mass,
     winding_power,
     window_width,
+    sc_factor
 )
 
 
@@ -174,3 +175,7 @@ class TestFunctions(TestCase):
                 )
                 == 19.544
         )
+
+    def test_sc_factor(self):
+
+        self.assertAlmostEqual(sc_factor(15,1), 2.57, 2)
