@@ -307,6 +307,23 @@ def sc_current(i_n, eps_z, x, r) -> float:
     return round(sc_factor(x, r) * 1.41 * i_n / eps_z, 0)
 
 
+def maximal_stress(n, i_max, lk, ls, a_w):
+    """
+    Calculates the maximal force and the maximal value of the hoop stress
+
+    :param n: number of turns
+    :param i_max: peak value of the short circuit current
+    :param lk: perpendicular length of the main gap between the windings
+    :param ls: the main gap distance between the windings
+    :param a_w: the area of the winding
+    :return:
+    """
+
+    f_r_max = mu_0 / 2.0 * (n * i_max) ** 2 * lk * ls
+    p_max = f_r_max / (2 * pi * n * a_w)  # N/cm^2
+    return f_r_max, p_max
+
+
 def capitalized_cost(
         c_mass: float,
         c_material_price: float,

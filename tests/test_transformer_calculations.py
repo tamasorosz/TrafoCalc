@@ -17,7 +17,8 @@ from src.base_functions import (
     winding_power,
     window_width,
     sc_factor,
-    sc_current
+    sc_current,
+    maximal_stress
 )
 
 
@@ -185,3 +186,9 @@ class TestFunctions(TestCase):
         # because the kappa is not rounded
 
         self.assertAlmostEqual(sc_current(120, 0.09, 0.09, 0.05), 3234)
+
+    def test_hoop_stress(self):
+        """Test example from karsai: Nagytranszformátorok p 135, bit lower than the given """
+        f, p = maximal_stress(1000, 3470, 0.8352, 1.488, 0.352)
+        self.assertAlmostEqual(f/1e6, 9.4, 1)
+        self.assertAlmostEqual(p, 4251.18, 1)
