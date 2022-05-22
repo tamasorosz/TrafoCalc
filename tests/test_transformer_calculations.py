@@ -16,7 +16,8 @@ from src.base_functions import (
     winding_mass,
     winding_power,
     window_width,
-    sc_factor
+    sc_factor,
+    sc_current
 )
 
 
@@ -177,5 +178,10 @@ class TestFunctions(TestCase):
         )
 
     def test_sc_factor(self):
+        self.assertAlmostEqual(sc_factor(15, 1), 2.57, 2)
 
-        self.assertAlmostEqual(sc_factor(15,1), 2.57, 2)
+    def test_sc_current(self):
+        # test example from karsai: Nagytranszformátorok p 135, bit lower than the given,
+        # because the kappa is not rounded
+
+        self.assertAlmostEqual(sc_current(120, 0.09, 0.09, 0.05), 3234)

@@ -292,19 +292,19 @@ def sc_factor(x, r):
     :return:
     """
 
-    f_x = [2.0, 3.0, 4.5, 7.0, 10.0, 15.0, 20.0, 40.0, 100.0]
-    f_y = [1.8, 2.0, 2.2, 2.4, 2.5, 2.57, 2.63, 2.7, 2.8]
+    f_x = [1.0, 2.0, 3.0, 4.5, 7.0, 10.0, 15.0, 20.0, 40.0, 100.0]
+    f_y = [1.42, 1.8, 2.0, 2.2, 2.4, 2.5, 2.57, 2.63, 2.7, 2.8]
     f = interp1d(f_x, f_y)
     return round(float(f(x / r)), 2)
 
 
-def sc_current(i_n, eps_z) -> float:
+def sc_current(i_n, eps_z, x, r) -> float:
     """
     Returns the short circuit factor
     :return: do
     """
 
-    return 2 * 1.41 * i_n / eps_z
+    return round(sc_factor(x, r) * 1.41 * i_n / eps_z, 0)
 
 
 def capitalized_cost(
