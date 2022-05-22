@@ -25,6 +25,7 @@ class TestConvTransformerModel(TestCase):
         self.assertAlmostEqual(trafo_model.results.turn_voltage, 46.27, 1)
         self.assertAlmostEqual(trafo_model.lv_winding.thickness, 35.0, 0)
         self.assertAlmostEqual(trafo_model.hv_winding.thickness, 44.0, 0)
+        self.assertAlmostEqual(trafo_model.hv_winding.amper_turns, 72064.8, 1)
 
         # core window geometry
         self.assertAlmostEqual(trafo_model.results.window_width, 199, 0)
@@ -41,7 +42,7 @@ class TestConvTransformerModel(TestCase):
         print(trafo_model)
 
         # FEM calculation
-        trafo_model.fem_simulation()
+        trafo_model.fem_simulation(detailed_output=False)
 
         self.assertAlmostEqual(trafo_model.results.fem_based_sci, 7.9, 1)
 

@@ -10,6 +10,7 @@ from src.base_functions import turn_voltage, calc_inner_width, inner_winding_rad
 from src.models import MainResults, TransformerDesign, WindingDesign
 from src.transformer_fem_model import FemModel
 from src.superconductor_losses import cryostat_losses, sc_load_loss, cryo_surface, thermal_incomes, cooler_cost
+from src.diagrams import plot_winding_flux
 
 C_WIN_MIN = 10.0  # [mm] technological limit for the thickness of the windings, it should be larger than 10 mm-s
 SC_WIN_MIN = 8.0  # [mm] sc_transformer winding minimum
@@ -239,7 +240,7 @@ class TwoWindingModel:
         i = int(self.input.design_params.rc + self.input.required.ei / 2.0)
         hv_top = int(self.input.design_params.rc + self.hv_winding.winding_height + self.input.required.ei / 2.0)
         dz = int(self.hv_winding.winding_height / 20)
-        while i <= hv_top + dz:
+        while i <= hv_top + dz / 2:
 
             max_rad = 0.
             max_ax = 0.
@@ -265,9 +266,9 @@ class TwoWindingModel:
         self.results.fem_brad_lv = []
 
         i = self.input.design_params.rc + self.input.required.ei / 2.0
-        lv_top = int(self.input.design_params.rc + self.hv_winding.winding_height + self.input.required.ei / 2.0)
+        lv_top = int(self.input.design_params.rc + self.lv_winding.winding_height + self.input.required.ei / 2.0)
         dz = self.lv_winding.winding_height / 20
-        while i <= lv_top + dz:
+        while i <= lv_top + dz / 2:
 
             max_rad = 0.
             max_ax = 0.
@@ -302,5 +303,7 @@ class TwoWindingModel:
         print('Brad [Lv] =', round(self.results.fem_brad_lv * 1e3, 2), '[mT]')
 
         if detailed_output:
-            print('Values along the hv winding:', list(self.results.br_bax_hv))
-            print('Values along the lv winding:', list(self.results.br_bax_lv))
+            # print('Values along the hv winding:', list(self.results.br_bax_hv))
+            # print('Values along the lv winding:', list(self.results.br_bax_lv))
+            plot_winding_flux(self.results.br_bax_lv, 0, self.lv_winding.winding_height, label='LV')
+            plot_winding_flux(self.results.br_bax_hv, 0, self.hv_winding.winding_height, label='HV')
