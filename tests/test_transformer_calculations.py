@@ -175,7 +175,7 @@ class TestFunctions(TestCase):
                     ),
                     3,
                 )
-                == 19.544
+                == 20.413
         )
 
     def test_sc_factor(self):
