@@ -122,8 +122,8 @@ class TwoWindingModel:
         )
         self.results.core_loss = core_loss_unit(self.input.design_params.bc, self.results.core_mass, CORE_BF)
 
-        self.results.load_loss = (
-                self.lv_winding.ac_loss + self.lv_winding.dc_loss + self.hv_winding.ac_loss + self.hv_winding.dc_loss
+        self.results.load_loss = round(
+            self.lv_winding.ac_loss + self.lv_winding.dc_loss + self.hv_winding.ac_loss + self.hv_winding.dc_loss, 2
         )
 
         # short circuit impedance calculation with analytical formulas
@@ -229,8 +229,8 @@ class TwoWindingModel:
         print('Magnetic Energy', solution.volume_integrals()["Wm"])
         print('zb, ib:', round(z_b, 2), 'ohm', round(i_b, 2), 'A')
 
-        self.results.fem_based_sci = omega * L / z_b * 100.0  # the short-circuit impedance in [%] values
-        print('SCI:', round(self.results.fem_based_sci, 2), '[%]')
+        self.results.fem_based_sci = round(omega * L / z_b * 100.0, 2)  # the short-circuit impedance in [%] values
+        print('SCI:', self.results.fem_based_sci, '[%]')
         # axial and radial components of the magnetic flux densities along the inner radius of the hv winding
 
         # iterates over on horizontal slices in the hv winding and the lv winding to collect the required flux data
@@ -254,8 +254,8 @@ class TwoWindingModel:
                 max_ax = max(abs(point["Brz"]), max_ax)
 
             # max values along the hv winding
-            self.results.fem_brad_hv.append(max_rad)
-            self.results.fem_bax_hv.append(max_ax)
+            self.results.fem_brad_hv.append(round(max_rad * 1e3, 2))
+            self.results.fem_bax_hv.append(round(max_ax * 1e3, 2))
 
             i += dz
 
@@ -282,8 +282,8 @@ class TwoWindingModel:
                 max_ax = max(abs(point["Brz"]), max_ax)
 
             # max values along the hv winding
-            self.results.fem_brad_lv.append(max_rad)
-            self.results.fem_bax_lv.append(max_ax)
+            self.results.fem_brad_lv.append(round(max_rad * 1e3, 2))
+            self.results.fem_bax_lv.append(round(max_ax * 1e3, 2))
 
             i += dz
 
@@ -297,11 +297,11 @@ class TwoWindingModel:
         self.results.fem_brad_lv = max(self.results.fem_brad_lv)
         self.results.fem_bax_lv = max(self.results.fem_bax_lv)
 
-        print('Bax  [HV] =', round(self.results.fem_bax_hv * 1e3, 2), '[mT]')
-        print('Brad [HV] =', round(self.results.fem_brad_hv * 1e3, 2), '[mT]')
+        print('Bax  [HV] =', self.results.fem_bax_hv, '[mT]')
+        print('Brad [HV] =', self.results.fem_brad_hv, '[mT]')
 
-        print('Bax  [LV] =', round(self.results.fem_bax_lv * 1e3, 2), '[mT]')
-        print('Brad [Lv] =', round(self.results.fem_brad_lv * 1e3, 2), '[mT]')
+        print('Bax  [LV] =', self.results.fem_bax_lv, '[mT]')
+        print('Brad [Lv] =', self.results.fem_brad_lv, '[mT]')
 
         if detailed_output:
             # print('Values along the hv winding:', list(self.results.br_bax_hv))

@@ -25,18 +25,18 @@ class TestConvTransformerModel(TestCase):
         self.assertAlmostEqual(trafo_model.results.turn_voltage, 46.64, 1)
         self.assertAlmostEqual(trafo_model.lv_winding.thickness, 35.0, 0)
         self.assertAlmostEqual(trafo_model.hv_winding.thickness, 43.4, 0)
-        self.assertAlmostEqual(trafo_model.hv_winding.amper_turns, 72064.8, 1)
+        self.assertAlmostEqual(trafo_model.hv_winding.amper_turns, 71406.8, 0)
 
         # core window geometry
-        self.assertAlmostEqual(trafo_model.results.window_width, 199, 0)
-        self.assertAlmostEqual(trafo_model.results.core_mass, 7301.5, 0)
+        self.assertAlmostEqual(trafo_model.results.window_width, 198.4, 0)
+        self.assertAlmostEqual(trafo_model.results.core_mass, 7751.0, 0)
 
         # losses
-        self.assertAlmostEqual(trafo_model.results.core_loss, 7.7, 1)
-        self.assertAlmostEqual(trafo_model.hv_winding.mass, 1586., 0)
+        self.assertAlmostEqual(trafo_model.results.core_loss, 8.2, 1)
+        self.assertAlmostEqual(trafo_model.hv_winding.mass, 1620., 0)
 
-        self.assertAlmostEqual(trafo_model.results.load_loss, 48.035, 0)
-        self.assertAlmostEqual(trafo_model.results.sci, 7.5, 1)
+        self.assertAlmostEqual(trafo_model.results.load_loss, 49.18, 0)
+        self.assertAlmostEqual(trafo_model.results.sci, 7.5, 0)
 
         self.assertAlmostEqual(trafo_model.results.capitalized_cost, 0, 0)
         print(trafo_model)
@@ -44,6 +44,6 @@ class TestConvTransformerModel(TestCase):
         # FEM calculation
         trafo_model.fem_simulation(detailed_output=False)
 
-        self.assertAlmostEqual(trafo_model.results.fem_based_sci, 7.9, 1)
+        self.assertAlmostEqual(trafo_model.results.fem_based_sci, 7.56, 1)
 
         del trafo_model
