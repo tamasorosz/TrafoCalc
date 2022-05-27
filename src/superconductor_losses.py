@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import pi, tanh
 from scipy.constants import mu_0
-from src.base_functions import C_RHO_CU, C_RHO
+from src.base_functions import C_RHO
 
 # BSCCO cable from Magnussons' paper
 # ----------------------------------

@@ -19,7 +19,6 @@ def plot_winding_flux(fluxes: list, z_min, z_max, label='HV', dev=False):
     data = pd.DataFrame(fluxes, z, columns=["Axial Flux", "Radial Flux"])
     fig, axes = plt.subplots(2, 1)
     fig.suptitle('Flux distribution in {} winding'.format(label))
-    avg = data["Axial Flux"].mean()
     ## axial flux
     sns.lineplot(ax=axes[1], data=data["Axial Flux"], linewidth=2.5, palette=sns.color_palette("mako_r", 10),
                  legend="full")
