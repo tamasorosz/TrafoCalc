@@ -31,10 +31,10 @@
     "m_gap": 50.0
   },
   "costs": {
-    "ll_cost": 0.0,
-    "nll_cost": 0.0,
-    "lv_cost": 0.0,
-    "hv_cost": 0.0,
-    "core_cost": 0.0
+    "ll_cost": 6000.0,
+    "nll_cost": 7100.0,
+    "lv_cost": 10.0,
+    "hv_cost": 9.5,
+    "core_cost": 3.5
   }
 }

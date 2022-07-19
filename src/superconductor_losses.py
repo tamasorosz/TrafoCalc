@@ -143,7 +143,7 @@ def thermal_incomes(I1p, I2p):
 
 def sc_load_loss(p_ac, pcr, pcl, C=18.0):
     """
-    The cooling cost in sc transofmrers is relatively high, therefore the cooling cost is penílized by a cooling factor.
+    The cooling cost in sc transformers is relatively high, therefore the cooling cost is penalized by a cooling factor.
     doi: 10.1088/1742-6596/97/1/012318
 
     :param C: penalty factor for considering the losses, it is about 18 due to the applied reference.
@@ -166,7 +166,6 @@ def cooler_cost(cooling_power):
 
 def eddy_loss(i, t=0.31*1e-6, w=4.29*1e-6, f=50, I_c=115):
     """
-
     :param t: thickness of the conductor
     :param w: width of the conductor
     :param f: Hz
