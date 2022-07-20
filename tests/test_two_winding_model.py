@@ -38,7 +38,7 @@ class TestConvTransformerModel(TestCase):
         self.assertAlmostEqual(trafo_model.results.load_loss, 49.18, 0)
         self.assertAlmostEqual(trafo_model.results.sci, 7.5, 0)
 
-        self.assertAlmostEqual(trafo_model.results.capitalized_cost, 0, 0)
+        self.assertAlmostEqual(trafo_model.results.capitalized_cost, 161503, 0)
         print(trafo_model)
 
         # FEM calculation
