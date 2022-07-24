@@ -6,6 +6,7 @@ from artap.problem import Problem
 
 from importlib_resources import files
 from src.two_winding_model import TransformerDesign, TwoWindingModel
+from src.models import IndependentVariables
 
 
 class TransformerOptimizationProblem(Problem):
@@ -43,6 +44,8 @@ class TransformerOptimizationProblem(Problem):
 
         try:
             transformer = TransformerDesign.from_dict(self.transformer_data)
+            transformer.design_params = IndependentVariables(rc=x[0], bc=x[1], j_in=x[2], j_ou=x[3], h_in=x[4],
+                                                             m_gap=x[5])
 
             trafo_model = TwoWindingModel(input=transformer)
             trafo_model.calculate(is_sc=False)
@@ -68,8 +71,8 @@ if __name__ == "__main__":
     # Perform the optimization iterating over 100 times on 100 individuals.
     problem = TransformerOptimizationProblem()
     algorithm = NSGAII(problem)
-    algorithm.options["max_population_number"] = 3
-    algorithm.options["max_population_size"] = 2
+    algorithm.options["max_population_number"] = 25
+    algorithm.options["max_population_size"] = 25
     try:
         algorithm.run()
         res = problem.individuals[-1]
