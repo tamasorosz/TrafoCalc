@@ -134,6 +134,18 @@ class TransformerRequirements:
     alpha: float  # the ratio of the HV/LV windings
     core_fillingf: float  # % value of the steel sheets in the stacked core
 
+    def check_sci_requrements(self, sci):
+        if sci < self.sci_req * (1. + self.drop_tol / 100):
+            if sci > self.sci_req * (1. - self.drop_tol / 100):
+                print("FEASIBLE SOLUTION")
+                return True
+            else:
+                print("INFEASIBLE SOLUTION")
+                return False
+        else:
+            print("INFEASIBLE SOLUTION")
+            return False
+
 
 @dataclass_json
 @dataclass

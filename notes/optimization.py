@@ -53,6 +53,9 @@ class TransformerOptimizationProblem(Problem):
             # FEM calculation
             trafo_model.fem_simulation(detailed_output=False)
 
+            if not transformer.required.check_sci_requrements(trafo_model.results.fem_based_sci):
+                return [inf]
+
             # f1 and the modified f2 and f3 measures needs only one evaluation
             res = trafo_model.results.capitalized_cost
 
@@ -71,11 +74,12 @@ if __name__ == "__main__":
     # Perform the optimization iterating over 100 times on 100 individuals.
     problem = TransformerOptimizationProblem()
     algorithm = NSGAII(problem)
-    algorithm.options["max_population_number"] = 25
-    algorithm.options["max_population_size"] = 25
+    algorithm.options["max_population_number"] = 30
+    algorithm.options["max_population_size"] = 30
     try:
         algorithm.run()
         res = problem.individuals[-1]
+        print("OPTIMIZATION RESULT:")
         print(res.vector)
         print(res.costs)
     except KeyboardInterrupt:

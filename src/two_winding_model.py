@@ -164,7 +164,7 @@ class TwoWindingModel:
             self.results.core_loss,
             self.input.costs.nll_cost,
         )
-
+        self.results.copper_mass = self.lv_winding.mass + self.hv_winding.mass
         self.results.feasible = True
 
     def fem_simulation(self, detailed_output=True):
