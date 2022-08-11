@@ -1,5 +1,5 @@
 {
-  "description": "10 MVA Transformer from Karsai, Large Power Transformers  book (Hun)",
+  "description": "10 MVA Transformer from Kulkarni's book Transformer Engineering",
   "required": {
     "power": 10000,
     "freq": 50,
