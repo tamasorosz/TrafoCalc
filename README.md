@@ -19,12 +19,33 @@ calculation of the short circuit impedance of a power transformer. The proposed 
 the principles of transformer design, or transformer professionals. Because, all of the proposed calculations validated
 by measurements.
 
+## Installation
+The project uses python3.8.10 and poetry for package management.
+You can install this python version by pyenv then you can install the selected package by simply the following command:
+
+> poetry install
+
+or the implemented transformer optimization packages accessible via the pip package:
+
+> pip install trafocalc
+
 ## Quickstart
 
 The `\notes` library contains many sample designs in jupyter notebooks, which can be a good starting point to use this
 package.
 
-## References
+## Publications and Example Calculations
 
-[1] `Orosz, T., Borbély, B., Tamus, Z. Ádám  
+You can find the detailed description of the transformer optimization functions and example calculation in the
+following paper:
+
+```
+Orosz, Tamás
+FEM-Based Power Transformer Model for Superconducting and Conventional Power Transformer Optimization"
+Energies 2022, 15(17), 6177; https://doi.org/10.3390/en15176177 
+```
+
+## Additional References
+
+[2] `Orosz, T., Borbély, B., Tamus, Z. Ádám  
 Performance Comparison of Multi Design Method and Meta-Heuristic Methods for Optimal Preliminary Design of Core-Form Power Transformers , Periodica Polytechnica Electrical Engineering and Computer Science, 61(1), pp. 69–76, 2017. https://doi.org/10.3311/PPee.10207`
