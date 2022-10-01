@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 
 from src.base_functions import homogenous_insulation_ff, opt_win_eddy_loss, phase_current, winding_dc_loss, winding_mass
-from src.superconductor_losses import perp_loss, parallel_loss, norris_equation
+from src.superconductor_losses import perp_loss
 from src.base_functions import C_RHO_BSSCO
 
 
