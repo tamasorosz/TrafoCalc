@@ -5,6 +5,7 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/tamasorosz/TrafoCalc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tamasorosz/TrafoCalc/context:python)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/tamasorosz/TrafoCalc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tamasorosz/TrafoCalc/alerts/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftamasorosz%2FTrafoCalc.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftamasorosz%2FTrafoCalc?ref=badge_shield)
 
 ## Goal of the Project
 
@@ -49,3 +50,7 @@ Energies 2022, 15(17), 6177; https://doi.org/10.3390/en15176177
 
 [2] `Orosz, T., Borbély, B., Tamus, Z. Ádám  
 Performance Comparison of Multi Design Method and Meta-Heuristic Methods for Optimal Preliminary Design of Core-Form Power Transformers , Periodica Polytechnica Electrical Engineering and Computer Science, 61(1), pp. 69–76, 2017. https://doi.org/10.3311/PPee.10207`
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftamasorosz%2FTrafoCalc.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftamasorosz%2FTrafoCalc?ref=badge_large)
