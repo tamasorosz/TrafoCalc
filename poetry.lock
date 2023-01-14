@@ -1101,7 +1101,7 @@ dill = ">=0.3.5.1"
 
 [[package]]
 name = "mutmut"
-version = "2.4.1"
+version = "2.4.2"
 description = "mutation testing for Python 3"
 category = "dev"
 optional = false
@@ -3306,7 +3306,7 @@ multiprocess = [
     {file = "multiprocess-0.70.13.tar.gz", hash = "sha256:2e096dd618a84d15aa369a9cf6695815e5539f853dc8fa4f4b9153b11b1d0b32"},
 ]
 mutmut = [
-    {file = "mutmut-2.4.1.tar.gz", hash = "sha256:a7c2fe0445711ade40b8ddfeb9c8f7d8b3a8e0c05bd58a4b746c1d627039356e"},
+    {file = "mutmut-2.4.2.tar.gz", hash = "sha256:fb79411983a55de9f0271c1a3fa31be85ae30f33ade1ab04630f4c7e2dee65a7"},
 ]
 mypy = [
     {file = "mypy-0.981-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:4bc460e43b7785f78862dab78674e62ec3cd523485baecfdf81a555ed29ecfa0"},
@@ -3685,7 +3685,6 @@ pytz = [
     {file = "pytz-2022.2.1-py2.py3-none-any.whl", hash = "sha256:220f481bdafa09c3955dfbdddb7b57780e9a94f5127e35456a48589b9e0c0197"},
     {file = "pytz-2022.2.1.tar.gz", hash = "sha256:cea221417204f2d1a2aa03ddae3e867921971d0d76f14d87abb4414415bbdcf5"},
 ]
-
 pywin32 = [
     {file = "pywin32-304-cp310-cp310-win32.whl", hash = "sha256:3c7bacf5e24298c86314f03fa20e16558a4e4138fc34615d7de4070c23e65af3"},
     {file = "pywin32-304-cp310-cp310-win_amd64.whl", hash = "sha256:4f32145913a2447736dad62495199a8e280a77a0ca662daa2332acf849f0be48"},
